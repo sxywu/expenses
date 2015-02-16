@@ -9,6 +9,13 @@ var CHANGE_EVENT = 'change';
 
 var _categories = [];
 
+function addCategory(category) {
+  _categories.push({
+    id: 'category/' + _categories.length,
+    name: category.name
+  });
+}
+
 var CategoryStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT);
@@ -28,7 +35,16 @@ var CategoryStore = assign({}, EventEmitter.prototype, {
 });
 
 CategoryStore.dispatchToken = AppDispatcher.register((action) => {
-  console.log(action);
+  switch (action.actionType) {
+    case Constants.ADD_CATEGORY:
+      addCategory(action.data);
+      break;
+
+    default:
+      return true;
+  };
+
+  CategoryStore.emitChange();
 });
 
 module.exports = CategoryStore;
