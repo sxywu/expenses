@@ -5,7 +5,9 @@
     "flux": "^2.0.1",
     "react": "^0.12.0",
     "d3": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "keymirror": "~0.1.0",
+    "object-assign": "^1.0.0"
   },
   "devDependencies": {
     "browserify": "^6.2.0",
@@ -21,7 +23,7 @@
   },
   "browserify": {
     "transform": [
-      "reactify",
+      ["reactify", {"es6": true}],
       "envify"
     ]
   },
