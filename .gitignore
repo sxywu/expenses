@@ -1,3 +1,5 @@
 node_modules/*
 
 scripts/bundle.js
+
+scripts/.bundle.js

@@ -1,8 +1,8 @@
 var React = require('react');
 // components
-var AddCategoryComponent = require('./components/AddCategory.jsx');
+var ExpenseApp = require('./components/ExpenseApp.jsx');
 
 React.render(
-  <AddCategoryComponent />,
+  <ExpenseApp />,
   document.getElementById('main')
 );
