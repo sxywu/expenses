@@ -1,6 +1,8 @@
 var React = require('react');
+// components
+var AddCategoryComponent = require('./components/AddCategory.jsx');
 
 React.render(
-  <h1>Hello World!</h1>,
+  <AddCategoryComponent />,
   document.getElementById('main')
 );
