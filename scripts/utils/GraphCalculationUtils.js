@@ -19,6 +19,15 @@ GraphCalculationUtils.calculateCategories = () => {
       size: 10 // 10 for now
     }
   });
-}
+};
+
+var force = d3.layout.force()
+  .size([500, 500]);
+GraphCalculationUtils.positionGraph = (categories) => {
+  force.nodes(categories);
+  force.start();
+  _.each(_.range(1000), () => force.tick());
+  force.stop();
+};
 
 module.exports = GraphCalculationUtils;

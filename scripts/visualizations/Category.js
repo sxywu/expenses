@@ -25,7 +25,7 @@ CategoryVisualization.exit = () => {
 }
 
 CategoryVisualization.position = (selection) => {
-  selection.attr('transform', 'translate(50, 50)');
+  selection.attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }
 
 module.exports = CategoryVisualization;
