@@ -13,6 +13,7 @@ GraphCalculationUtils.calculateCategories = () => {
   var categories = CategoryStore.getAll();
   return _.map(categories, (category) => {
     return {
+      id: category.id,
       name: category.name,
       fill: colorScale(category.name),
       size: 10 // 10 for now
