@@ -8,6 +8,8 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
+// store information about the graph
+// such as pan/zoom level or position of nodes
 var GraphStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT);
