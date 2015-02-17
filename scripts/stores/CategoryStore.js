@@ -7,7 +7,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _categories = [];
+var _categories = localStorage.categories ? JSON.parse(localStorage.categories) : [];
 
 function addCategory(category) {
   _categories.push({
@@ -45,6 +45,8 @@ CategoryStore.dispatchToken = AppDispatcher.register((action) => {
   };
 
   CategoryStore.emitChange();
+  // lazily storing it in localStorage...
+  localStorage.categories = JSON.stringify(_categories);
 });
 
 module.exports = CategoryStore;
