@@ -8,7 +8,8 @@ var CategoryComponent = require('./Category.jsx');
 var GraphComponent = React.createClass({
   getInitialState() {
     return {
-      categories: []
+      categories: [],
+      expenses: []
     }
   },
   componentDidMount() {
