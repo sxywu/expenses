@@ -5,6 +5,7 @@ var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
 var CategoryComponent = require('./Category.jsx');
+var ExpenseComponent = require('./Expense.jsx');
 
 var GraphComponent = React.createClass({
   getInitialState() {
@@ -36,10 +37,14 @@ var GraphComponent = React.createClass({
     var categories = this.state.categories && _.map(this.state.categories, (category) => {
       return (<CategoryComponent key={category.id} data={category} />);
     });
+    var expenses = this.state.expenses && _.map(this.state.expenses, (expense) => {
+      return (<ExpenseComponent key={expense.id} data={expense} />);
+    });
     return (
       <svg style={svgStyle}>
         <g className="graph">
           {categories}
+          {expenses}
         </g>
       </svg>
     );
