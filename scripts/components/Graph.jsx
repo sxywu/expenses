@@ -24,10 +24,12 @@ var GraphComponent = React.createClass({
   },
   _onChange() {
     var categories = GraphCalculationUtils.calculateCategories();
-    GraphCalculationUtils.positionGraph(categories);
+    var expenses = GraphCalculationUtils.calculateExpenses();
+    GraphCalculationUtils.positionGraph(categories, expenses);
     console.log(categories);
+    console.log(expenses);
 
-    this.setState({categories});
+    this.setState({categories, expenses});
   },
   render() {
     var svgStyle = {width: 1000, height: 1000};

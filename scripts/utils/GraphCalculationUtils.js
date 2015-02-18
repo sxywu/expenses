@@ -31,11 +31,22 @@ GraphCalculationUtils.calculateCategories = () => {
   });
 };
 
+GraphCalculationUtils.calculateExpenses = () => {
+  var expenses = ExpenseStore.getAll();
+  return _.map(expenses, (expense) => {
+    return {
+      id: expense.id,
+      name: expense.name,
+      size: expense.amount * 5
+    };
+  });
+};
+
 var force = d3.layout.force()
   .charge((d) => -Math.pow(d.size, 2) / 4)
   .size([500, 500]);
-GraphCalculationUtils.positionGraph = (categories) => {
-  force.nodes(categories);
+GraphCalculationUtils.positionGraph = (categories, expenses) => {
+  force.nodes(_.union(categories, expenses));
   force.start();
   _.each(_.range(1000), () => force.tick());
   force.stop();
