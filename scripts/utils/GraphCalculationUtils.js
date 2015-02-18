@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var d3 = require('d3/d3');
 var CategoryStore = require('../stores/CategoryStore');
+var ExpenseStore = require('../stores/ExpenseStore');
 
 var GraphCalculationUtils = {};
 
@@ -12,11 +13,20 @@ var colorScale = d3.scale.category10();
 GraphCalculationUtils.calculateCategories = () => {
   var categories = CategoryStore.getAll();
   return _.map(categories, (category) => {
+    var expenses = ExpenseStore.getAll();
+    // to get the size of the category, get all the expenses
+    // that are in the category, and add um their amounts
+    var size = _.chain(expenses)
+      .filter((expense) => _.contains(expense.categories, category.id))
+      .reduce((memo, expense) => {
+        return memo + expense.amount;
+      }, 0).value();
+
     return {
       id: category.id,
       name: category.name,
       fill: colorScale(category.name),
-      size: 10 // 10 for now
+      size: size * 10 || 10 // default to 10 if size is 0
     }
   });
 };

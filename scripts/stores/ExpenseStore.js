@@ -14,9 +14,8 @@ function addExpense(expense) {
     id: 'expense/' + _expenses.length,
     name: expense.name,
     amount: expense.amount,
-    category: ['category/1']
+    categories: ['category/1']
   });
-  debugger
 }
 
 var ExpenseStore = assign({}, EventEmitter.prototype, {
