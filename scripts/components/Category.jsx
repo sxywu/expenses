@@ -6,11 +6,11 @@ var CategoryComponent = React.createClass({
     // wrap element in d3
     this.d3Wrapper = d3.select(this.getDOMNode());
     this.d3Wrapper.datum(this.props.data)
-      .call(CategoryVisualization.position)
       .call(CategoryVisualization.enter);
   },
   componentDidUpate() {
-
+    this.d3Wrapper.datum(this.props.data)
+      .call(CategoryVisualization.update);
   },
   componentWillUnMount() {
 
@@ -19,6 +19,7 @@ var CategoryComponent = React.createClass({
     return (
       <g className="category">
         <circle />
+        <text />
       </g>
     );
   }

@@ -1,31 +1,47 @@
 var d3 = require('d3/d3');
 
 var CategoryVisualization = {};
+var duration = 500;
 
 CategoryVisualization.enter = (selection) => {
   selection.select('circle')
+    .attr('cx', 0)
+    .attr('cy', 0)
     .attr('r', 0)
-    .attr('fill', (d) => d.fill)
     .attr('fill-opacity', .5)
-    .attr('stroke', (d) => d.fill)
     .attr('stroke-width', 0);
+
+  selection.select('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', '.35em')
+    .attr('opacity', 0);
   
+  selection
+    .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
+
   selection.call(CategoryVisualization.update);
 }
 
 CategoryVisualization.update = (selection) => {
   selection.select('circle')
-    .transition().duration(500)
+    .transition().duration(duration)
     .attr('r', (d) => d.size)
+    .attr('fill', (d) => d.fill)
+    .attr('stroke', (d) => d.fill)
     .attr('stroke-width', 2);
+
+  selection.select('text')
+    .transition().duration(duration)
+    .attr('opacity', 1)
+    .text((d) => d.name);
+
+  selection
+    .transition().duration(duration)
+    .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }
 
 CategoryVisualization.exit = () => {
 
-}
-
-CategoryVisualization.position = (selection) => {
-  selection.attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }
 
 module.exports = CategoryVisualization;
