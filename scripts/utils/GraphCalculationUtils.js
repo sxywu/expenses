@@ -42,12 +42,35 @@ GraphCalculationUtils.calculateExpenses = () => {
   });
 };
 
+/** Takes the categories and expenses to be rendered (nodes)
+* and calculates the links between them
+* @param {Array} categories As returned by calculateCategories
+* @param {Array} expenses As returned by calculateExpenses
+* @return {Array} links between expenses and categories
+*/
+GraphCalculationUtils.calculateLinks = (categories, expenses) => {
+  var links = [];
+  _.each(expenses, (expense) => {
+    // for each of the expenses, link it to the categories it belongs to
+    var source = expense;
+    _.each(ExpenseStore.get(expense.id).categories, (categoryId) => {
+      var target = _.find(categories, (category) => category.id === categoryId);
+      if (target) {
+        links.push({source, target});
+      }
+    });
+  });
+
+  return links;
+};
+
 var force = d3.layout.force()
-  .charge((d) => -Math.pow(d.size, 2) / 4)
+  .charge((d) => -Math.pow(d.size, 2))
   .size([500, 500]);
-GraphCalculationUtils.positionGraph = (categories, expenses) => {
-  force.nodes(_.union(categories, expenses));
-  force.start();
+GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
+  force.nodes(_.union(categories, expenses))
+    .links(links)
+    .start();
   _.each(_.range(1000), () => force.tick());
   force.stop();
 };
