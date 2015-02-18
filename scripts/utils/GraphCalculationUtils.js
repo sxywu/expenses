@@ -26,12 +26,13 @@ GraphCalculationUtils.calculateCategories = () => {
       id: category.id,
       name: category.name,
       fill: colorScale(category.name),
-      size: size * 10 || 10 // default to 10 if size is 0
+      size: size * 5 || 10 // default to 10 if size is 0
     }
   });
 };
 
 var force = d3.layout.force()
+  .charge((d) => -Math.pow(d.size, 2) / 4)
   .size([500, 500]);
 GraphCalculationUtils.positionGraph = (categories) => {
   force.nodes(categories);
