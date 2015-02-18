@@ -5,6 +5,8 @@ var AddCategoryComponent = require('./AddCategory.jsx');
 var AddExpenseComponent = require('./AddExpense.jsx');
 var GraphComponent = require('./Graph.jsx');
 
+// notes: how to stagger transitions?
+// eventually use immutable diff?
 var ExpenseApp = React.createClass({
   getInitialState() {
     return {

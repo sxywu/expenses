@@ -1,7 +1,7 @@
 var d3 = require('d3/d3');
 
 var CategoryVisualization = {};
-var duration = 500;
+var duration = 750;
 
 CategoryVisualization.enter = (selection) => {
   selection.select('circle')

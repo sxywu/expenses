@@ -65,6 +65,7 @@ GraphCalculationUtils.calculateLinks = (categories, expenses) => {
 };
 
 var force = d3.layout.force()
+  .linkDistance(75)
   .charge((d) => -Math.pow(d.size, 2))
   .size([500, 500]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
