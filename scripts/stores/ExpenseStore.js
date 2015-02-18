@@ -14,7 +14,8 @@ function addExpense(expense) {
     id: 'expense/' + _expenses.length,
     name: expense.name,
     amount: expense.amount,
-    categories: ['category/1']
+    categories: ['category/1'],
+    timestamp: new Date()
   });
 }
 
