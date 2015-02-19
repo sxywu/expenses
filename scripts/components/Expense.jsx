@@ -8,6 +8,14 @@ var ExpenseComponent = React.createClass({
     this.d3Wrapper.datum(this.props.data)
       .call(ExpenseVisualization.enter);
   },
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.data.update) {
+      this.d3Wrapper.datum(nextProps.data)
+        .call(ExpenseVisualization.update);
+      return false;
+    }
+    return true;
+  },
   componentDidUpate() {
     this.d3Wrapper.datum(this.props.data)
       .call(ExpenseVisualization.update);

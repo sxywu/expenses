@@ -8,6 +8,14 @@ var CategoryComponent = React.createClass({
     this.d3Wrapper.datum(this.props.data)
       .call(CategoryVisualization.enter);
   },
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.data.update) {
+      this.d3Wrapper.datum(nextProps.data)
+        .call(CategoryVisualization.update);
+      return false;
+    }
+    return true;
+  },
   componentDidUpate() {
     this.d3Wrapper.datum(this.props.data)
       .call(CategoryVisualization.update);
