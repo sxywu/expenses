@@ -64,16 +64,43 @@ GraphCalculationUtils.calculateLinks = (categories, expenses) => {
   return links;
 };
 
+GraphCalculationUtils.calculateUpdate = (prev, next) => {
+  _.each(next.categories, (category) => {
+    var prevCategory = _.find(prev.categories, (prevCategory) => prevCategory.id === category.id);
+    if (prevCategory) {
+      delete prevCategory.update;
+      // if there was previously the same category, and some update has happened
+      category.update = !_.isEqual(prevCategory, category);
+    }
+  });
+  _.each(next.expenses, (expense) => {
+    var prevExpense = _.find(prev.expenses, (prevExpense) => prevExpense.id === expense.id);
+    if (prevExpense) {
+      delete prevExpense.update;
+      expense.update = !_.isEqual(prevExpense, expense);
+    }
+  });
+}
+
 var force = d3.layout.force()
   .linkDistance(75)
   .charge((d) => -Math.pow(d.size, 2))
   .size([500, 500]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
-  force.nodes(_.union(categories, expenses))
+  var nodes = _.union(categories, expenses);
+  force.nodes(nodes)
     .links(links)
     .start();
   _.each(_.range(1000), () => force.tick());
   force.stop();
+  _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
 };
+
+function cleanNodeAfterForceCalculation(node) {
+  delete node.index;
+  delete node.px;
+  delete node.py;
+  delete node.weight;
+}
 
 module.exports = GraphCalculationUtils;
