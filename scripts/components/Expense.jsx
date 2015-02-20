@@ -6,7 +6,7 @@ var ExpenseComponent = React.createClass({
     // wrap element in d3
     this.d3Wrapper = d3.select(this.getDOMNode());
     this.d3Wrapper.datum(this.props.data)
-      .call(ExpenseVisualization.drag, this.onDrag)
+      .call(ExpenseVisualization.drag, this.onDrag, this.afterDrag)
       .call(ExpenseVisualization.enter);
   },
   shouldComponentUpdate(nextProps) {
@@ -29,6 +29,9 @@ var ExpenseComponent = React.createClass({
       $merge: {update: true, drag: true, x, y}
     });
     this.props.onDrag(expense);
+  },
+  afterDrag() {
+    this.props.afterDrag(this.props.data);
   },
   render() {
     return (

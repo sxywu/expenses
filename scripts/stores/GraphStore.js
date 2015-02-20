@@ -8,6 +8,16 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
+var positions = {};
+
+function savePosition(node) {
+  positions[node.id] = {x: node.x, y: node.y};
+}
+
+function savePositions(nodes) {
+  _.each(nodes, (node) => savePosition(node));
+}
+
 // store information about the graph
 // such as pan/zoom level or position of nodes
 var GraphStore = assign({}, EventEmitter.prototype, {
@@ -19,11 +29,23 @@ var GraphStore = assign({}, EventEmitter.prototype, {
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
+  },
+  getPositions() {
+    return positions;
   }
 });
 
 GraphStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
+    case Constants.SAVE_POSITIONS:
+      savePositions(action.data.categories);
+      savePositions(action.data.expenses);
+      break;
+
+    case Constants.SAVE_POSITION:
+      savePosition(action.data);
+      break;
+
     default:
       return true;
   };

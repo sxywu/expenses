@@ -2,6 +2,7 @@ var _ = require('lodash');
 var d3 = require('d3/d3');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
+var GraphStore = require('../stores/GraphStore');
 
 var GraphCalculationUtils = {};
 
@@ -87,7 +88,16 @@ var force = d3.layout.force()
   .charge((d) => -Math.pow(d.size, 2))
   .size([500, 500]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
+  var positions = GraphStore.getPositions();
+  // first apply any positions that have been saved
   var nodes = _.union(categories, expenses);
+  _.each(nodes, (node) => {
+    if (!positions[node.id]) return;
+    node.fixed = true;
+    node.x = positions[node.id].x;
+    node.y = positions[node.id].y;
+  });
+
   force.nodes(nodes)
     .links(links)
     .start();

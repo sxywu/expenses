@@ -15,6 +15,20 @@ var ViewActionCreators = {
       actionType: Constants.ADD_EXPENSE,
       data: data
     });
+  },
+
+  savePositions(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.SAVE_POSITIONS,
+      data: data
+    });
+  },
+
+  savePosition(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.SAVE_POSITION,
+      data: data
+    });
   }
 };
 
