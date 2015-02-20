@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var ViewActionCreators = require('../actions/ViewActionCreators');
 
 var AddExpense = React.createClass({

@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 // components
 var ExpenseApp = require('./components/ExpenseApp.jsx');
 

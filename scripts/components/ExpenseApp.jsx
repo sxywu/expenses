@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var AddCategoryComponent = require('./AddCategory.jsx');

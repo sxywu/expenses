@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var CategoryVisualization = require('../visualizations/Category');
 
 var CategoryComponent = React.createClass({
