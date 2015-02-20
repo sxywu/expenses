@@ -37,13 +37,29 @@ var GraphComponent = React.createClass({
   },
 
   onDragExpense(expense) {
+    // first replace the dragged expense in expenses array
     var expenses = _.map(this.state.expenses, (exp) => {
       if (exp.id === expense.id) return expense;
       return exp;
     });
+    // then go through links and update any sides
+    // that point to the expense
+    var links = _.map(this.state.links, (link) => {
+      if (link.source.id === expense.id) {
+        return React.addons.update(link, {
+          $merge: {source: expense}
+        });
+      }
+      if (link.target.id === expense.id) {
+        return React.addons.update(link, {
+          $merge: {target: expense}
+        });
+      }
+      return link;
+    });
 
     var state = React.addons.update(this.state, {
-      $merge: {expenses}
+      $merge: {expenses, links}
     });
     this.setState(state);
   },
