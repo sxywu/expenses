@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var ExpenseVisualization = require('../visualizations/Expense');
 
 var ExpenseComponent = React.createClass({
@@ -6,6 +6,7 @@ var ExpenseComponent = React.createClass({
     // wrap element in d3
     this.d3Wrapper = d3.select(this.getDOMNode());
     this.d3Wrapper.datum(this.props.data)
+      .call(ExpenseVisualization.drag, this.onDrag)
       .call(ExpenseVisualization.enter);
   },
   shouldComponentUpdate(nextProps) {
@@ -22,6 +23,12 @@ var ExpenseComponent = React.createClass({
   },
   componentWillUnMount() {
 
+  },
+  onDrag(x, y) {
+    var expense = React.addons.update(this.props.data, {
+      $merge: {update: true, drag: true, x, y}
+    });
+    this.props.onDrag(expense);
   },
   render() {
     return (

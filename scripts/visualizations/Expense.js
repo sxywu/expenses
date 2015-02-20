@@ -41,12 +41,22 @@ ExpenseVisualization.update = (selection) => {
     .text((d) => d.name);
 
   selection
-    .transition().duration(duration)
-    .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
+    .transition().duration((d) => {
+      return d.drag ? 0 : duration;
+    }).attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }
 
 ExpenseVisualization.exit = () => {
 
+}
+
+ExpenseVisualization.drag = (selection, onDrag) => {
+  var drag = d3.behavior.drag()
+    .on('drag', () => {
+      onDrag(d3.event.x, d3.event.y);
+    });
+
+  selection.call(drag);
 }
 
 module.exports = ExpenseVisualization;

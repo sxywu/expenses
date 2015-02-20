@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var _ = require('lodash');
 
 var CategoryStore = require('../stores/CategoryStore');
@@ -35,6 +35,19 @@ var GraphComponent = React.createClass({
     GraphCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
   },
+
+  onDragExpense(expense) {
+    var expenses = _.map(this.state.expenses, (exp) => {
+      if (exp.id === expense.id) return expense;
+      return exp;
+    });
+
+    var state = React.addons.update(this.state, {
+      $merge: {expenses}
+    });
+    this.setState(state);
+  },
+
   render() {
     var svgStyle = {width: 1000, height: 1000};
     var links = this.state.links && _.map(this.state.links, (link) => {
@@ -45,7 +58,7 @@ var GraphComponent = React.createClass({
       return (<CategoryComponent key={category.id} data={category} />);
     });
     var expenses = this.state.expenses && _.map(this.state.expenses, (expense) => {
-      return (<ExpenseComponent key={expense.id} data={expense} />);
+      return (<ExpenseComponent key={expense.id} data={expense} onDrag={this.onDragExpense} />);
     });
     return (
       <svg style={svgStyle}>
