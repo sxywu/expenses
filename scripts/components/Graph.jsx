@@ -1,6 +1,7 @@
 var React = require('react/addons');
 var _ = require('lodash');
 
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ViewActionCreators = require('../actions/ViewActionCreators');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
@@ -24,6 +25,14 @@ var GraphComponent = React.createClass({
     GraphStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
   },
+  componentDidUpdate() {
+    this.callViewActionCreators(() => {
+      ViewActionCreators.savePositions({
+        categories: this.state.categories,
+        expenses: this.state.expenses
+      });
+    });
+  },
   componentWillUnMount() {
     CategoryStore.removeChangeListener(this._onChange);
     ExpenseStore.removeChangeListener(this._onChange);
@@ -38,10 +47,17 @@ var GraphComponent = React.createClass({
     var state = {categories, expenses, links};
     GraphCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
-
-    // ViewActionCreators.savePositions({categories, expenses});
   },
-
+  // probably should be abstracted out somewhere
+  callViewActionCreators(callback) {
+    setTimeout(() => {
+      if (AppDispatcher.isDispatching()) {
+        this.callViewActionCreators(callback);
+      } else {
+        callback();
+      }
+    }, 500);
+  },
   findOverlappingCategory(expense) {
     return _.find(this.state.categories, (category) => {
       var x1 = category.x - category.size;
