@@ -14,9 +14,25 @@ function addExpense(expense) {
     id: 'expense/' + _expenses.length,
     name: expense.name,
     amount: expense.amount,
-    categories: ['category/1'],
+    categories: [],
     timestamp: new Date()
   });
+}
+
+function addExpenseToCategory(expense, category) {
+  var expense = _.find(_expenses, (exp) => exp.id === expense.id);
+  // if expense is already in there, then we should just remove it
+  var expenseExists = false;
+  expense.categories = _.filter(expense.categories, (categoryId) => {
+    if (categoryId === category.id) {
+      expenseExists = true;
+      return false;
+    }
+    return true;
+  });
+  if (!expenseExists) {
+    expense.categories.push(category.id)
+  }
 }
 
 var ExpenseStore = assign({}, EventEmitter.prototype, {
@@ -41,6 +57,10 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
     case Constants.ADD_EXPENSE:
       addExpense(action.data);
+      break;
+
+    case Constants.ADD_EXPENSE_TO_CATEGORY:
+      addExpenseToCategory(action.data.expense, action.data.category);
       break;
 
     default:

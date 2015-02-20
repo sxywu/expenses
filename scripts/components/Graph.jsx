@@ -42,6 +42,18 @@ var GraphComponent = React.createClass({
     // ViewActionCreators.savePositions({categories, expenses});
   },
 
+  findOverlappingCategory(expense) {
+    return _.find(this.state.categories, (category) => {
+      var x1 = category.x - category.size;
+      var y1 = category.y - category.size;
+      var x2 = category.x + category.size;
+      var y2 = category.y + category.size;
+
+      return x1 < expense.x && expense.x < x2 &&
+             y1 < expense.y && expense.y < y2;
+    });
+  },
+
   onDragExpense(expense) {
     // first replace the dragged expense in expenses array
     var expenses = _.map(this.state.expenses, (exp) => {
@@ -71,6 +83,10 @@ var GraphComponent = React.createClass({
   },
 
   afterDragExpense(expense) {
+    var category = this.findOverlappingCategory(expense);
+    if (category) {
+      ViewActionCreators.addExpenseToCategory({expense, category});
+    }
     ViewActionCreators.savePosition(expense);
   },
 

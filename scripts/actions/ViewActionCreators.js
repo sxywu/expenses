@@ -29,6 +29,13 @@ var ViewActionCreators = {
       actionType: Constants.SAVE_POSITION,
       data: data
     });
+  },
+
+  addExpenseToCategory(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.ADD_EXPENSE_TO_CATEGORY,
+      data: data
+    });
   }
 };
 
