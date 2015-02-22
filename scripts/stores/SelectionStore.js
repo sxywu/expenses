@@ -28,7 +28,6 @@ SelectionStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
     case Constants.SELECT_NODE:
       _selection = action.data;
-      console.log(_selection);
       break;
 
     default:

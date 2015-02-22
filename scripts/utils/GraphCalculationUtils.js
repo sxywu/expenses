@@ -26,7 +26,7 @@ GraphCalculationUtils.calculateCategory = (category) => {
     id: category.id,
     name: category.name,
     fill: colorScale(category.name),
-    total: total.toFixed(2),
+    total: total,
     size: total * 5 || 10 // default to 10 if size is 0
   }
 };
