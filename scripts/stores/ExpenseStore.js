@@ -15,8 +15,12 @@ _.each(_expenses, (expense) => {
 });
 
 function addExpense(expense) {
+  var id = _.chain(_expenses)
+    .map((expense) => parseInt(expense.id.split('/')[1]))
+    .max().value();
+  id += 1;
   _expenses.push({
-    id: 'expense/' + _expenses.length,
+    id: 'expense/' + id,
     name: expense.name,
     amount: expense.amount,
     categories: [],
