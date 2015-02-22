@@ -6,7 +6,7 @@ var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var LabelComponent = require('./Label.jsx');
 
-var dateFormat = d3.time.format('%x')
+var dateFormat = d3.time.format('%x');
 var CategoryDetail = React.createClass({
   render() {
     var category = CategoryStore.get(this.props.data.id);
