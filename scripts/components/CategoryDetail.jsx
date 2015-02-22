@@ -11,7 +11,7 @@ var CategoryDetail = React.createClass({
 
     return (
       <div className="CategoryDetail">
-        <h4><LabelComponent data={category} /></h4>
+        <h4><LabelComponent data={category} /> ${category.total}</h4>
       </div>
     );
   }
