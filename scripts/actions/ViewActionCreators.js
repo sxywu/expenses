@@ -36,6 +36,13 @@ var ViewActionCreators = {
       actionType: Constants.ADD_EXPENSE_TO_CATEGORY,
       data: data
     });
+  },
+
+  selectNode(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.SELECT_NODE,
+      data: data
+    });
   }
 };
 

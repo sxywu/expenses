@@ -1,13 +1,12 @@
 var React = require('react/addons');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
-var AddCategoryComponent = require('./AddCategory.jsx');
-var AddExpenseComponent = require('./AddExpense.jsx');
+var PanelComponent = require('./Panel.jsx');
 var GraphComponent = require('./Graph.jsx');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
-// todo: diffs, drag, instructions
+// todo: instructions
 var ExpenseApp = React.createClass({
   getInitialState() {
     return {
@@ -18,8 +17,7 @@ var ExpenseApp = React.createClass({
   render() {
     return (
       <div>
-        <AddCategoryComponent />
-        <AddExpenseComponent />
+        <PanelComponent />
         <GraphComponent />
       </div>
     );
