@@ -103,7 +103,7 @@ var GraphComponent = React.createClass({
     if (category) {
       ViewActionCreators.addExpenseToCategory({expense, category});
     }
-    ViewActionCreators.savePosition(expense);
+    ViewActionCreators.afterDragExpense(expense);
   },
 
   render() {

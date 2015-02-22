@@ -93,7 +93,7 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
   _.each(nodes, (node) => {
     if (!positions[node.id]) return;
-    node.fixed = true;
+    node.fixed = positions[node.id].fixed;
     node.x = positions[node.id].x;
     node.y = positions[node.id].y;
   });

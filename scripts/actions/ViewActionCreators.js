@@ -24,9 +24,9 @@ var ViewActionCreators = {
     });
   },
 
-  savePosition(data) {
+  afterDragExpense(data) {
     AppDispatcher.dispatch({
-      actionType: Constants.SAVE_POSITION,
+      actionType: Constants.AFTER_DRAG_EXPENSE,
       data: data
     });
   },

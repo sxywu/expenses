@@ -1,3 +1,4 @@
+var React = require('react');
 var _ = require('lodash');
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
@@ -10,8 +11,13 @@ var CHANGE_EVENT = 'change';
 
 var positions = {};
 
-function savePosition(node) {
-  positions[node.id] = {x: node.x, y: node.y};
+function savePosition(node, fixed) {
+  positions[node.id] = React.addons.update(positions[node.id] || {}, {
+    $merge: {x: node.x, y: node.y}
+  });
+  if (fixed) {
+    positions[node.id].fixed = true;
+  }
 }
 
 function savePositions(nodes) {
@@ -40,10 +46,10 @@ GraphStore.dispatchToken = AppDispatcher.register((action) => {
     case Constants.SAVE_POSITIONS:
       savePositions(action.data.categories);
       savePositions(action.data.expenses);
-      break;
+      return true;
 
-    case Constants.SAVE_POSITION:
-      savePosition(action.data);
+    case Constants.AFTER_DRAG_EXPENSE:
+      savePosition(action.data, true);
       break;
 
     default:
