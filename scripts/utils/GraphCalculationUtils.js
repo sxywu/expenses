@@ -38,7 +38,7 @@ GraphCalculationUtils.calculateExpenses = () => {
     return {
       id: expense.id,
       name: expense.name,
-      size: expense.amount * 5
+      size: 15
     };
   });
 };
