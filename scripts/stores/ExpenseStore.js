@@ -8,6 +8,11 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _expenses = localStorage.expenses ? JSON.parse(localStorage.expenses) : [];
+_.each(_expenses, (expense) => {
+  // when we first get the expenses from localStorage
+  // go through and convert timestamp string to Date obj
+  expense.timestamp = new Date(expense.timestamp);
+});
 
 function addExpense(expense) {
   _expenses.push({

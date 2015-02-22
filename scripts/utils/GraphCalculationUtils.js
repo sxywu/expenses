@@ -32,12 +32,13 @@ GraphCalculationUtils.calculateCategories = () => {
   });
 };
 
+var dateFormat = d3.time.format('%m/%d');
 GraphCalculationUtils.calculateExpenses = () => {
   var expenses = ExpenseStore.getAll();
   return _.map(expenses, (expense) => {
     return {
       id: expense.id,
-      name: expense.name,
+      name: expense.name + ' (' + dateFormat(expense.timestamp) + ')',
       size: 15
     };
   });
