@@ -9,7 +9,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var positions = {};
+var positions = localStorage.positions ? JSON.parse(localStorage.positions) : {};
 
 function savePosition(node, fixed) {
   positions[node.id] = React.addons.update(positions[node.id] || {}, {
@@ -57,6 +57,8 @@ GraphStore.dispatchToken = AppDispatcher.register((action) => {
   };
 
   GraphStore.emitChange();
+  // lazily storing it in localStorage...
+  localStorage.positions = JSON.stringify(positions);
 });
 
 module.exports = GraphStore; 
