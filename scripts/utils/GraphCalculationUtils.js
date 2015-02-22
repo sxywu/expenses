@@ -11,24 +11,29 @@ var GraphCalculationUtils = {};
 * @return {Array} Array of renderable category objects
 */
 var colorScale = d3.scale.category10();
+GraphCalculationUtils.calculateCategory = (category) => {
+  // (I really shouldn't be getting all expenses every time...)
+  var expenses = ExpenseStore.getAll();
+  // to get the size of the category, get all the expenses
+  // that are in the category, and add um their amounts
+  var total = _.chain(expenses)
+    .filter((expense) => _.contains(expense.categories, category.id))
+    .reduce((memo, expense) => {
+      return memo + expense.amount;
+    }, 0).value();
+
+  return {
+    id: category.id,
+    name: category.name,
+    fill: colorScale(category.name),
+    total: total,
+    size: total * 5 || 10 // default to 10 if size is 0
+  }
+};
 GraphCalculationUtils.calculateCategories = () => {
   var categories = CategoryStore.getAll();
   return _.map(categories, (category) => {
-    var expenses = ExpenseStore.getAll();
-    // to get the size of the category, get all the expenses
-    // that are in the category, and add um their amounts
-    var size = _.chain(expenses)
-      .filter((expense) => _.contains(expense.categories, category.id))
-      .reduce((memo, expense) => {
-        return memo + expense.amount;
-      }, 0).value();
-
-    return {
-      id: category.id,
-      name: category.name,
-      fill: colorScale(category.name),
-      size: size * 5 || 10 // default to 10 if size is 0
-    }
+    return GraphCalculationUtils.calculateCategory(category);
   });
 };
 

@@ -7,10 +7,11 @@ var LabelComponent = require('./Label.jsx');
 var CategoryDetail = React.createClass({
   render() {
     var category = CategoryStore.get(this.props.data.id);
+    category = GraphCalculationUtils.calculateCategory(category);
 
     return (
       <div className="CategoryDetail">
-        {category.name}
+        <h4><LabelComponent data={category} /></h4>
       </div>
     );
   }
