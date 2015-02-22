@@ -24,6 +24,10 @@ function savePositions(nodes) {
   _.each(nodes, (node) => savePosition(node));
 }
 
+function deletePosition(id) {
+  delete positions[id];
+}
+
 // store information about the graph
 // such as pan/zoom level or position of nodes
 var GraphStore = assign({}, EventEmitter.prototype, {
@@ -43,6 +47,10 @@ var GraphStore = assign({}, EventEmitter.prototype, {
 
 GraphStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
+    case Constants.DELETE_EXPENSE:
+      deletePosition(action.data);
+      break;
+
     case Constants.SAVE_POSITIONS:
       savePositions(action.data.categories);
       savePositions(action.data.expenses);

@@ -26,8 +26,14 @@ var ExpenseDetail = React.createClass({
         <div>
           Categories: {categories}
         </div>
+        <a className="action" onClick={this.deleteExpense}>
+          Delete
+        </a>
       </div>
     );
+  },
+  deleteExpense() {
+    ViewActionCreators.deleteExpense(this.props.data.id);
   }
 });
 

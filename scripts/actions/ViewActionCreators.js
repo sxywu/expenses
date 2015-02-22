@@ -17,6 +17,13 @@ var ViewActionCreators = {
     });
   },
 
+  deleteExpense(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.DELETE_EXPENSE,
+      data: data
+    });
+  },
+
   savePositions(data) {
     AppDispatcher.dispatch({
       actionType: Constants.SAVE_POSITIONS,

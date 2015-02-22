@@ -24,6 +24,10 @@ function addExpense(expense) {
   });
 }
 
+function deleteExpense(expenseId) {
+  _expenses = _.filter(_expenses, (expense) => expense.id !== expenseId);
+}
+
 function addExpenseToCategory(expense, category) {
   var expense = _.find(_expenses, (exp) => exp.id === expense.id);
   // if expense is already in there, then we should just remove it
@@ -62,6 +66,10 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
     case Constants.ADD_EXPENSE:
       addExpense(action.data);
+      break;
+
+    case Constants.DELETE_EXPENSE:
+      deleteExpense(action.data);
       break;
 
     case Constants.ADD_EXPENSE_TO_CATEGORY:
