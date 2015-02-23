@@ -10,10 +10,18 @@ var CHANGE_EVENT = 'change';
 var _categories = localStorage.categories ? JSON.parse(localStorage.categories) : [];
 
 function addCategory(category) {
+  var id = _.chain(_categories)
+    .map((category) => parseInt(category.id.split('/')[1]))
+    .max().value();
+  id += 1;
   _categories.push({
-    id: 'category/' + _categories.length,
+    id: 'category/' + id,
     name: category.name
   });
+}
+
+function deleteCategory(categoryId) {
+  _categories = _.filter(_categories, (category) => category.id !== categoryId);
 }
 
 var CategoryStore = assign({}, EventEmitter.prototype, {
@@ -38,6 +46,10 @@ CategoryStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
     case Constants.ADD_CATEGORY:
       addCategory(action.data);
+      break;
+
+    case Constants.DELETE_CATEGORY:
+      deleteCategory(action.data);
       break;
 
     default:

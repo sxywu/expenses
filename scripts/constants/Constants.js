@@ -4,6 +4,7 @@ module.exports = keyMirror({
 
   ADD_CATEGORY: null,
   ADD_EXPENSE: null,
+  DELETE_CATEGORY: null,
   DELETE_EXPENSE: null,
   SAVE_POSITIONS: null,
   AFTER_DRAG_EXPENSE: null,

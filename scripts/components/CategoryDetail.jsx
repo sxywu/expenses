@@ -32,8 +32,15 @@ var CategoryDetail = React.createClass({
             {expenses}
           </tbody>
         </table>
+        <a className="action" onClick={this.deleteCategory}>
+          Delete
+        </a>
       </div>
     );
+  },
+  deleteCategory() {
+    ViewActionCreators.deleteCategory(this.props.data.id);
+    ViewActionCreators.unselectNode();
   }
 });
 

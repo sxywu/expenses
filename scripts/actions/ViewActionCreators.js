@@ -17,6 +17,13 @@ var ViewActionCreators = {
     });
   },
 
+  deleteCategory(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.DELETE_CATEGORY,
+      data: data
+    });
+  },
+
   deleteExpense(data) {
     AppDispatcher.dispatch({
       actionType: Constants.DELETE_EXPENSE,
