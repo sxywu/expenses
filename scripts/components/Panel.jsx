@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var cx = React.addons.classSet;
 var SelectionStore = require('../stores/SelectionStore');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
@@ -9,11 +10,12 @@ var ExpenseDetailComponent = require('./ExpenseDetail.jsx');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
-// todo: instructions
+// todo: directions
 var ExpenseApp = React.createClass({
   getInitialState() {
     return {
-      selection: SelectionStore.getSelection()
+      selection: SelectionStore.getSelection(),
+      panelBody: "directions"
     }
   },
   componentDidMount() {
@@ -24,17 +26,14 @@ var ExpenseApp = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
-    var selection = SelectionStore.getSelection();
-    this.setState({selection});
+    var state = React.addons.update(this.state, {
+      $merge: {selection: SelectionStore.getSelection()}
+    });
+    this.setState(state);
   },
   render() {
-    var header = (
-      <div className="header">
-        <span className="glyphicon glyphicon-plus-sign" />
-        <span className="glyphicon glyphicon-info-sign" />
-        <span className="glyphicon glyphicon-cog" />
-      </div>
-    );
+    
+    
     var detailComponent = null;
     if (this.state.selection && this.state.selection.type === 'category') {
       detailComponent = (<CategoryDetailComponent data={this.state.selection} />);
@@ -43,13 +42,44 @@ var ExpenseApp = React.createClass({
     }
     
     return (
-      <div>
-        {header}
+      <div className="Panel">
+        {this.renderHeader()}
         <AddCategoryComponent />
         <AddExpenseComponent />
         {detailComponent}
       </div>
     );
+  },
+  renderHeader() {
+    var addClasses = cx({
+      "glyphicon": true,
+      "glyphicon-plus-sign": true,
+      "selected": this.state.panelBody === 'add'
+    });
+    var directionClasses = cx({
+      "glyphicon": true,
+      "glyphicon-info-sign": true,
+      "selected": this.state.panelBody === 'directions'
+    });
+    var settingClasses = cx({
+      "glyphicon": true,
+      "glyphicon-cog": true,
+      "selected": this.state.panelBody === 'settings'
+    });
+
+    return (
+      <div className="Panel-header">
+        <span className={addClasses} onClick={this.clickHeaderIcon.bind(this, 'add')} />
+        <span className={directionClasses} onClick={this.clickHeaderIcon.bind(this, 'directions')} />
+        <span className={settingClasses} onClick={this.clickHeaderIcon.bind(this, 'settings')} />
+      </div>
+    );
+  },
+  clickHeaderIcon(icon) {
+    var state = React.addons.update(this.state, {
+      $merge: {panelBody: icon}
+    });
+    this.setState(state);
   }
 });
 
