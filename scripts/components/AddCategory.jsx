@@ -11,7 +11,7 @@ var AddCategory = React.createClass({
     return (
       <div className="AddCategory">
         <input className="input-sm" placeholder="name"
-          onChange={this.onChange} />
+          value={this.state.name} onChange={this.onChange} />
         <div className="btn btn-sm btn-success" onClick={this.addCategory}
           disabled={!this.state.name} >
           Add
@@ -29,6 +29,7 @@ var AddCategory = React.createClass({
     ViewActionCreators.addCategory({
       name: this.state.name
     });
+    this.setState({name: ''});
   }
 });
 
