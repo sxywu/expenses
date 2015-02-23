@@ -42,6 +42,7 @@ var GraphComponent = React.createClass({
     var categories = GraphCalculationUtils.calculateCategories();
     var expenses = GraphCalculationUtils.calculateExpenses();
     var links = GraphCalculationUtils.calculateLinks(categories, expenses);
+    GraphCalculationUtils.calculateSizes(categories);
     GraphCalculationUtils.positionGraph(categories, expenses, links);
 
     var state = {categories, expenses, links};

@@ -26,8 +26,7 @@ GraphCalculationUtils.calculateCategory = (category) => {
     id: category.id,
     name: category.name,
     fill: colorScale(category.name),
-    total: total,
-    size: total * 5 || 10 // default to 10 if size is 0
+    total: total
   }
 };
 GraphCalculationUtils.calculateCategories = () => {
@@ -70,6 +69,18 @@ GraphCalculationUtils.calculateLinks = (categories, expenses) => {
 
   return links;
 };
+
+var categoryScale = d3.scale.linear().range([7.5, 100]);
+GraphCalculationUtils.calculateSizes = (categories) => {
+  var min = _.min(categories, (category) => category.total).total;
+  var max = _.max(categories, (category) => category.total).total;
+  max = Math.max(max, 100);
+
+  categoryScale.domain([min, max]);
+  _.each(categories, (category) => {
+    category.size = categoryScale(category.total);
+  });
+}
 
 GraphCalculationUtils.calculateUpdate = (prev, next) => {
   _.each(next.categories, (category) => {
