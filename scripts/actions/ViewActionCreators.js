@@ -50,6 +50,13 @@ var ViewActionCreators = {
       actionType: Constants.SELECT_NODE,
       data: data
     });
+  },
+
+  unselectNode(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.UNSELECT_NODE,
+      data: data
+    });
   }
 };
 

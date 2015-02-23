@@ -29,9 +29,9 @@ var ExpenseApp = React.createClass({
   },
   render() {
     var detailComponent = null;
-    if (this.state.selection.type === 'category') {
+    if (this.state.selection && this.state.selection.type === 'category') {
       detailComponent = (<CategoryDetailComponent data={this.state.selection} />);
-    } else if (this.state.selection.type === 'expense') {
+    } else if (this.state.selection && this.state.selection.type === 'expense') {
       detailComponent = (<ExpenseDetailComponent data={this.state.selection} />);
     }
     

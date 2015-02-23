@@ -30,6 +30,10 @@ SelectionStore.dispatchToken = AppDispatcher.register((action) => {
       _selection = action.data;
       break;
 
+    case Constants.UNSELECT_NODE:
+      _selection = null;
+      break;
+      
     default:
       return true;
   };

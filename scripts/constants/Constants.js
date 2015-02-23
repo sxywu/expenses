@@ -8,6 +8,7 @@ module.exports = keyMirror({
   SAVE_POSITIONS: null,
   AFTER_DRAG_EXPENSE: null,
   ADD_EXPENSE_TO_CATEGORY: null,
-  SELECT_NODE: null
+  SELECT_NODE: null,
+  UNSELECT_NODE: null
 
 });
