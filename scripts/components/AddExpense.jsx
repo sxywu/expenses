@@ -15,16 +15,24 @@ var AddExpense = React.createClass({
   render() {
     return (
       <div className="AddExpense">
-        <input className="input-sm" placeholder="name"
-          value={this.state.name} onChange={this.onChangeName} />
-        <input className="input-sm" placeholder="amount"
-          value={this.state.amount} onChange={this.onChangeAmount} />
+        <input className="input-sm" placeholder="name" value={this.state.name}
+          onChange={this.onChangeName} onKeyDown={this.onKeyDown} />
+        <input className="input-sm" placeholder="amount" value={this.state.amount}
+          onChange={this.onChangeAmount} onKeyDown={this.onKeyDown} />
         <div className="btn btn-sm btn-success" onClick={this.addExpense}
           disabled={!this.state.name || !this.state.amount} >
           Add
         </div>
       </div>
     );
+  },
+  onKeyDown(e) {
+    // if user hits enter, add expense
+    var ENTER_KEY = 13;
+    if (e.keyCode === ENTER_KEY) {
+      this.addExpense();
+      return;
+    }
   },
   onChangeName(e) {
     var state = React.addons.update(this.state, {
@@ -42,11 +50,13 @@ var AddExpense = React.createClass({
     }
   },
   addExpense() {
-    ViewActionCreators.addExpense({
-      name: this.state.name,
-      amount: Number(this.state.amount)
-    });
-    this.setState(this.clearState());
+    if (this.state.name && this.state.amount) {
+      ViewActionCreators.addExpense({
+        name: this.state.name,
+        amount: Number(this.state.amount)
+      });
+      this.setState(this.clearState());
+    }
   }
 });
 
