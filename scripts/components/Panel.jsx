@@ -28,6 +28,13 @@ var ExpenseApp = React.createClass({
     this.setState({selection});
   },
   render() {
+    var header = (
+      <div className="header">
+        <span className="glyphicon glyphicon-plus-sign" />
+        <span className="glyphicon glyphicon-info-sign" />
+        <span className="glyphicon glyphicon-cog" />
+      </div>
+    );
     var detailComponent = null;
     if (this.state.selection && this.state.selection.type === 'category') {
       detailComponent = (<CategoryDetailComponent data={this.state.selection} />);
@@ -37,6 +44,7 @@ var ExpenseApp = React.createClass({
     
     return (
       <div>
+        {header}
         <AddCategoryComponent />
         <AddExpenseComponent />
         {detailComponent}

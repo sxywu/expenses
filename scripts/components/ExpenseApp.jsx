@@ -6,7 +6,7 @@ var GraphComponent = require('./Graph.jsx');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
-// todo: instructions
+// todo: instructions, selection/highlight, positioning, direction on drag
 var ExpenseApp = React.createClass({
   getInitialState() {
     return {
