@@ -7,7 +7,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _selection = localStorage.selection;
+var _selection = localStorage.selection && JSON.parse(localStorage.selection);
 
 var SelectionStore = assign({}, EventEmitter.prototype, {
   emitChange() {

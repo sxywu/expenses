@@ -26,27 +26,22 @@ var ExpenseApp = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
+    var selection = SelectionStore.getSelection();
+    var merge = {selection}
+    if (selection) {
+      // if selection exists, set header icon to null
+      merge.panelBody = null;
+    }
     var state = React.addons.update(this.state, {
-      $merge: {selection: SelectionStore.getSelection()}
+      $merge: merge
     });
     this.setState(state);
   },
   render() {
-    
-    
-    var detailComponent = null;
-    if (this.state.selection && this.state.selection.type === 'category') {
-      detailComponent = (<CategoryDetailComponent data={this.state.selection} />);
-    } else if (this.state.selection && this.state.selection.type === 'expense') {
-      detailComponent = (<ExpenseDetailComponent data={this.state.selection} />);
-    }
-    
     return (
       <div className="Panel">
         {this.renderHeader()}
-        <AddCategoryComponent />
-        <AddExpenseComponent />
-        {detailComponent}
+        {this.renderBody()}
       </div>
     );
   },
@@ -75,9 +70,37 @@ var ExpenseApp = React.createClass({
       </div>
     );
   },
+  renderBody() {
+    var body = null;
+    if (this.state.panelBody) {
+      if (this.state.panelBody === 'add') {
+        body = (
+          <div className="Panel-body-add">
+            <h4>Add Category</h4>
+            <AddCategoryComponent />
+            <h4>Add Expense</h4>
+            <AddExpenseComponent />
+          </div>
+        );
+      }
+    } else if (this.state.selection) {
+      // if no category or expense is selected, then default to one of the header icons
+      if (this.state.selection.type === 'category') {
+        body = (<CategoryDetailComponent data={this.state.selection} />);
+      } else if (this.state.selection.type === 'expense') {
+        body = (<ExpenseDetailComponent data={this.state.selection} />);
+      }
+    }
+
+    return (
+      <div className="Panel-body">
+        {body}
+      </div>
+    );
+  },
   clickHeaderIcon(icon) {
     var state = React.addons.update(this.state, {
-      $merge: {panelBody: icon}
+      $merge: {panelBody: icon, selection: null}
     });
     this.setState(state);
   }
