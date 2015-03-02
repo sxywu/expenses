@@ -8,6 +8,12 @@ var LabelComponent = require('./Label.jsx');
 
 var dateFormat = d3.time.format('%x');
 var CategoryDetail = React.createClass({
+  componentDidMount() {
+    window.addEventListener('keypress', this.windowKeyPress);
+  },
+  componentWillUnMount() {
+    window.removeEventListener('keypress', this.windowKeyPress);
+  },
   render() {
     var category = CategoryStore.get(this.props.data.id);
     category = GraphCalculationUtils.calculateCategory(category);
@@ -37,6 +43,15 @@ var CategoryDetail = React.createClass({
         </a>
       </div>
     );
+  },
+  windowKeyPress(e) {
+    e.stopPropagation();
+
+    var CHAR_D = 100;
+    var pressedKey = e.keyCode;
+    if (pressedKey === CHAR_D) {
+      this.deleteCategory();
+    }
   },
   deleteCategory() {
     ViewActionCreators.deleteCategory(this.props.data.id);
