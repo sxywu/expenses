@@ -8,23 +8,24 @@ var AddCategory = React.createClass({
     }
   },
   render() {
+    var disabled = !this.state.name;
     return (
       <div className="AddCategory">
         <input className="input-sm" placeholder="name" value={this.state.name}
-          onChange={this.onChange} onKeyDown={this.onKeyDown} />
-        <div className="btn btn-sm btn-success" onClick={this.addCategory}
-          disabled={!this.state.name} >
+          onChange={this.onChange} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
+        <button className="btn btn-sm btn-success" onClick={this.addCategory} disabled={disabled} >
           Add
-        </div>
+        </button>
       </div>
     );
   },
+  onKeyPress(e) {
+    e.stopPropagation();
+  },
   onKeyDown(e) {
-    // if user hits enter, add expense
-    var ENTER_KEY = 13;
-    if (e.keyCode === ENTER_KEY) {
-      this.addCategory();
-      return;
+    var ESC_KEY = 27;
+    if (e.keyCode === ESC_KEY) {
+      e.target.blur();
     }
   },
   onChange(e) {
