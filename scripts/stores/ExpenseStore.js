@@ -35,25 +35,27 @@ function deleteExpense(expenseId) {
   _expenses = _.filter(_expenses, (expense) => expense.id !== expenseId);
 }
 
-function addExpenseToCategory(expense, category) {
+function addExpenseToCategory(expense, categories) {
   var expense = _.find(_expenses, (exp) => exp.id === expense.id);
   // if expense is already in there, then we should just remove it
-  var expenseExists = false;
-  expense.categories = _.reject(expense.categories, (categoryId) => {
-    expenseExists = (categoryId === category.id);
-    return expenseExists;
+  _.each(categories, (removeCategoryId) => {
+    var expenseExists = false;
+    expense.categories = _.reject(expense.categories, (categoryId) => {
+      expenseExists = (categoryId === removeCategoryId);
+      return expenseExists;
+    });
+    // if it doesn't exist, then add it in
+    if (!expenseExists) {
+      expense.categories.push(removeCategoryId)
+    }
   });
-  // if it doesn't exist, then add it in
-  if (!expenseExists) {
-    expense.categories.push(category.id)
-  }
 }
 
-function removeDeletedCategory(categoryId) {
+function removeDeletedCategory(removeCategoryId) {
   _.each(_expenses, (expense) => {
-    expense.categories = _.reject(expense.categories, (category) => {
+    expense.categories = _.reject(expense.categories, (categoryId) => {
       // if the category id matches, then remove that category
-      return category === categoryId;
+      return removeCategoryId === categoryId;
     });
   });
 }
@@ -87,7 +89,7 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
       break;
 
     case Constants.ADD_EXPENSE_TO_CATEGORY:
-      addExpenseToCategory(action.data.expense, action.data.category);
+      addExpenseToCategory(action.data.expense, action.data.categories);
       break;
 
     case Constants.DELETE_CATEGORY:

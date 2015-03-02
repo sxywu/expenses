@@ -11,6 +11,8 @@ var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 var LinkComponent = require('./Link.jsx');
 
+var overlappedCategories = [];
+
 var GraphComponent = React.createClass({
   getInitialState() {
     return {
@@ -72,7 +74,12 @@ var GraphComponent = React.createClass({
   },
 
   onDragExpense(expense) {
-    // first replace the dragged expense in expenses array
+    var category = this.findOverlappingCategory(expense);
+    if (category) {
+      overlappedCategories.push(category.id);
+    }
+
+    // replace the dragged expense in expenses array
     var expenses = _.map(this.state.expenses, (exp) => {
       if (exp.id === expense.id) return expense;
       return exp;
@@ -100,9 +107,11 @@ var GraphComponent = React.createClass({
   },
 
   afterDragExpense(expense) {
-    var category = this.findOverlappingCategory(expense);
-    if (category) {
-      ViewActionCreators.addExpenseToCategory({expense, category});
+    var categories = _.uniq(overlappedCategories);
+    if (categories.length) {
+      ViewActionCreators.addExpenseToCategory({expense, categories});
+      // then clean overlapped categories for next drag
+      overlappedCategories = [];
     }
     ViewActionCreators.afterDragExpense(expense);
   },
