@@ -63,9 +63,10 @@ var ExpenseApp = React.createClass({
       "selected": this.state.panelBody === 'settings'
     });
 
+    // take out settings for now, can't remember what i was gonna do with it...
+    // <span className={settingClasses} onClick={this.clickHeaderIcon.bind(this, 'settings')} />
     return (
       <div className="Panel-header">
-        <span className={settingClasses} onClick={this.clickHeaderIcon.bind(this, 'settings')} />
         <span className={addClasses} onClick={this.clickHeaderIcon.bind(this, 'add')} />
         <span className={directionClasses} onClick={this.clickHeaderIcon.bind(this, 'directions')} />
       </div>
@@ -109,9 +110,11 @@ var ExpenseApp = React.createClass({
       this.clickHeaderIcon('add');
     } else if (pressedKey === CHAR_I) {
       this.clickHeaderIcon('directions');
-    } else if (pressedKey === CHAR_S) {
-      this.clickHeaderIcon('settings');
-    }
+    } 
+    // take out settings for now
+    // else if (pressedKey === CHAR_S) {
+    //   this.clickHeaderIcon('settings');
+    // }
   },
   clickHeaderIcon(icon) {
     var state = React.addons.update(this.state, {
