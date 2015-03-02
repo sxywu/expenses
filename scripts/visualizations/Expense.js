@@ -29,7 +29,10 @@ ExpenseVisualization.enter = (selection) => {
 
 ExpenseVisualization.update = (selection) => {
   selection.select('rect')
-    .transition().duration(duration)
+    .classed({
+      'selected': (d) => d.selected,
+      'highlighted': (d) => d.highlighted
+    }).transition().duration(duration)
     .attr('width', (d) => d.size)
     .attr('height', (d) => d.size)
     .attr('stroke-width', 2);

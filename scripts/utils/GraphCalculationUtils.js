@@ -3,6 +3,7 @@ var d3 = require('d3/d3');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var GraphStore = require('../stores/GraphStore');
+var SelectionStore = require('../stores/SelectionStore');
 
 var GraphCalculationUtils = {};
 
@@ -69,6 +70,29 @@ GraphCalculationUtils.calculateLinks = (categories, expenses) => {
 
   return links;
 };
+
+GraphCalculationUtils.highlightSelections = (categories, expenses) => {
+  var selection = SelectionStore.getSelection();
+  if (!selection) return;
+
+  if (selection.type === 'category') {
+    var category = _.find(categories, (category) => category.id === selection.id);
+    category.selected = true;
+    _.each(expenses, (expense) => {
+      var exp = ExpenseStore.get(expense.id);
+      if (_.contains(exp.categories, selection.id)) {
+        expense.highlighted = true;
+      }
+    });
+  } else if (selection.type === 'expense') {
+    var expense = _.find(expenses, (expense) => expense.id === selection.id);
+    expense.selected = true;
+    _.each(ExpenseStore.get(expense.id).categories, (categoryId) => {
+      var category = _.find(categories, (category) => category.id === categoryId);
+      category.highlighted = true;
+    });
+  }
+}
 
 var categoryScale = d3.scale.linear().range([7.5, 100]);
 GraphCalculationUtils.calculateSizes = (categories) => {

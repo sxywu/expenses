@@ -6,6 +6,7 @@ var ViewActionCreators = require('../actions/ViewActionCreators');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var GraphStore = require('../stores/GraphStore');
+var SelectionStore = require('../stores/SelectionStore');
 var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
 var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
@@ -25,6 +26,7 @@ var GraphComponent = React.createClass({
     CategoryStore.addChangeListener(this._onChange);
     ExpenseStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
+    SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
   },
   componentDidUpdate() {
@@ -39,12 +41,14 @@ var GraphComponent = React.createClass({
     CategoryStore.removeChangeListener(this._onChange);
     ExpenseStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
+    SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
     var categories = GraphCalculationUtils.calculateCategories();
     var expenses = GraphCalculationUtils.calculateExpenses();
     var links = GraphCalculationUtils.calculateLinks(categories, expenses);
     GraphCalculationUtils.calculateSizes(categories);
+    GraphCalculationUtils.highlightSelections(categories, expenses);
     GraphCalculationUtils.positionGraph(categories, expenses, links);
 
     var state = {categories, expenses, links};

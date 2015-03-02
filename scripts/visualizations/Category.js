@@ -25,6 +25,10 @@ CategoryVisualization.enter = (selection) => {
 
 CategoryVisualization.update = (selection) => {
   selection.select('circle')
+    .classed({
+      'selected': (d) => d.selected,
+      'highlighted': (d) => d.highlighted
+    })
     .transition().duration(duration)
     .attr('r', (d) => d.size)
     .attr('fill', (d) => d.fill)
