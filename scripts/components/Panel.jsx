@@ -19,10 +19,12 @@ var ExpenseApp = React.createClass({
     }
   },
   componentDidMount() {
+    window.addEventListener('keypress', this.windowKeyPress);
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // TODO: remove this later, better to have it go through dispatcher
   },
   componentWillUnMount() {
+    window.removeEventListener('keypress', this.windowKeyPress);
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
@@ -96,6 +98,20 @@ var ExpenseApp = React.createClass({
         {body}
       </div>
     );
+  },
+  windowKeyPress(e) {
+    var CHAR_A = 97;
+    var CHAR_I = 105;
+    var CHAR_S = 115;
+    var pressedKey = e.keyCode;
+
+    if (pressedKey === CHAR_A) {
+      this.clickHeaderIcon('add');
+    } else if (pressedKey === CHAR_I) {
+      this.clickHeaderIcon('directions');
+    } else if (pressedKey === CHAR_S) {
+      this.clickHeaderIcon('settings');
+    }
   },
   clickHeaderIcon(icon) {
     var state = React.addons.update(this.state, {
