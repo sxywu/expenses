@@ -15,7 +15,6 @@ CategoryVisualization.enter = (selection) => {
   selection.select('text')
     .attr('text-anchor', 'middle')
     .attr('dy', '.35em')
-    .attr('y', (d) => d.size + margin.top)
     .attr('opacity', 0);
   
   selection
@@ -34,6 +33,7 @@ CategoryVisualization.update = (selection) => {
 
   selection.select('text')
     .transition().duration(duration)
+    .attr('y', (d) => d.size + margin.top)
     .attr('opacity', 1)
     .attr('fill', (d) => d.fill)
     .text((d) => d.name);
