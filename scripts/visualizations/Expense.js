@@ -18,7 +18,6 @@ ExpenseVisualization.enter = (selection) => {
 
   selection.select('text')
     .attr('text-anchor', 'middle')
-    .attr('y', (d) => d.size / 2 + margin.top)
     .attr('dy', '.35em')
     .attr('opacity', 0);
   
@@ -37,6 +36,7 @@ ExpenseVisualization.update = (selection) => {
 
   selection.select('text')
     .transition().duration(duration)
+    .attr('y', (d) => d.size / 2 + margin.top)
     .attr('opacity', 1)
     .text((d) => d.name);
 
