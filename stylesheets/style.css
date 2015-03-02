@@ -47,3 +47,8 @@ body {
 .Panel-header .glyphicon.selected {
   box-shadow: 0 0 0 2px #FFE545;
 }
+
+.AddExpense input,
+.AddCategory input {
+  display: block;
+}

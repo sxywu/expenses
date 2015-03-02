@@ -13,25 +13,29 @@ var AddExpense = React.createClass({
     return this.clearState();
   },
   render() {
+    var disabled = !this.state.name || !this.state.amount;
+    // var tabIndex = disabled ? null : 0;
     return (
       <div className="AddExpense">
         <input className="input-sm" placeholder="name" value={this.state.name}
-          onChange={this.onChangeName} onKeyDown={this.onKeyDown} />
+          onChange={this.onChangeName} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
         <input className="input-sm" placeholder="amount" value={this.state.amount}
-          onChange={this.onChangeAmount} onKeyDown={this.onKeyDown} />
-        <div className="btn btn-sm btn-success" onClick={this.addExpense}
-          disabled={!this.state.name || !this.state.amount} >
+          onChange={this.onChangeAmount} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
+        <button className="btn btn-sm btn-success" onClick={this.addExpense}
+          disabled={disabled} >
           Add
-        </div>
+        </button>
       </div>
     );
   },
+  onKeyPress(e) {
+    e.stopPropagation();
+  },
   onKeyDown(e) {
     // if user hits enter, add expense
-    var ENTER_KEY = 13;
-    if (e.keyCode === ENTER_KEY) {
-      this.addExpense();
-      return;
+    var ESC_KEY = 27;
+    if (e.keyCode === ESC_KEY) {
+      e.target.blur();
     }
   },
   onChangeName(e) {
