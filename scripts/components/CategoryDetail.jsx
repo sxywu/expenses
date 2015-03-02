@@ -29,7 +29,8 @@ var CategoryDetail = React.createClass({
         <h4 className="CategoryDetail-header">
           <LabelComponent data={category} /> 
           ${category.total.toFixed(2)}
-          <span className="CategoryDetail-close glyphicon glyphicon-remove-circle" />
+          <span className="CategoryDetail-close glyphicon glyphicon-remove-circle"
+            onClick={this.closeDetail} />
         </h4>
         <div className="CategoryDetail-body">
           <table>
@@ -48,6 +49,9 @@ var CategoryDetail = React.createClass({
   },
   deleteCategory() {
     ViewActionCreators.deleteCategory(this.props.data.id);
+    ViewActionCreators.unselectNode();
+  },
+  closeDetail() {
     ViewActionCreators.unselectNode();
   }
 });

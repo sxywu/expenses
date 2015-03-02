@@ -20,7 +20,8 @@ var ExpenseDetail = React.createClass({
         <h4 className="ExpenseDetail-header">
           <LabelComponent data={expense} />
           ${expense.amount.toFixed(2)}
-          <span className="ExpenseDetail-close glyphicon glyphicon-remove-circle" />
+          <span className="ExpenseDetail-close glyphicon glyphicon-remove-circle"
+            onClick={this.closeDetail} />
         </h4>
         <div className="ExpenseDetail-body">
           <div>
@@ -40,6 +41,9 @@ var ExpenseDetail = React.createClass({
   },
   deleteExpense() {
     ViewActionCreators.deleteExpense(this.props.data.id);
+    ViewActionCreators.unselectNode();
+  },
+  closeDetail() {
     ViewActionCreators.unselectNode();
   }
 });
