@@ -44,11 +44,12 @@ var GraphComponent = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
+    var selection = SelectionStore.getSelection();
     var categories = GraphCalculationUtils.calculateCategories();
     var expenses = GraphCalculationUtils.calculateExpenses();
     var links = GraphCalculationUtils.calculateLinks(categories, expenses);
     GraphCalculationUtils.calculateSizes(categories);
-    GraphCalculationUtils.highlightSelections(categories, expenses);
+    GraphCalculationUtils.highlightSelections(selection, categories, expenses);
     GraphCalculationUtils.positionGraph(categories, expenses, links);
 
     var state = {categories, expenses, links};
@@ -75,6 +76,16 @@ var GraphComponent = React.createClass({
       return x1 < expense.x && expense.x < x2 &&
              y1 < expense.y && expense.y < y2;
     });
+  },
+
+  beforeDragExpense(expense) {
+    var selection = {type: 'expense', id: expense.id};
+    var categories = this.state.categories;
+    var expenses = this.state.expenses;
+    var links = this.state.links;
+    GraphCalculationUtils.highlightSelections(selection, categories, expenses);
+
+    this.setState({categories, expenses, links});
   },
 
   onDragExpense(expense) {
@@ -136,7 +147,7 @@ var GraphComponent = React.createClass({
     });
     var expenses = this.state.expenses && _.map(this.state.expenses, (expense) => {
       return (<ExpenseComponent key={expense.id} data={expense}
-        onDrag={this.onDragExpense} afterDrag={this.afterDragExpense} />);
+        beforeDrag={this.beforeDragExpense} onDrag={this.onDragExpense} afterDrag={this.afterDragExpense} />);
     });
     return (
       <svg style={svgStyle}>

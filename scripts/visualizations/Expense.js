@@ -53,9 +53,11 @@ ExpenseVisualization.exit = () => {
 
 }
 
-ExpenseVisualization.drag = (selection, onDrag, afterDrag) => {
+ExpenseVisualization.drag = (selection, beforeDrag, onDrag, afterDrag) => {
   var drag = d3.behavior.drag()
-    .on('drag', () => {
+    .on('dragstart', () => {
+      beforeDrag();
+    }).on('drag', () => {
       onDrag(d3.event.x, d3.event.y);
     }).on('dragend', () => {
       afterDrag();

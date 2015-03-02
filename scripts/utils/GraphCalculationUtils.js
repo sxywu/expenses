@@ -71,8 +71,7 @@ GraphCalculationUtils.calculateLinks = (categories, expenses) => {
   return links;
 };
 
-GraphCalculationUtils.highlightSelections = (categories, expenses) => {
-  var selection = SelectionStore.getSelection();
+GraphCalculationUtils.highlightSelections = (selection, categories, expenses) => {
   if (!selection) return;
 
   if (selection.type === 'category') {

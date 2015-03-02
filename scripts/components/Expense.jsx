@@ -8,7 +8,7 @@ var ExpenseComponent = React.createClass({
     this.d3Wrapper = d3.select(this.getDOMNode());
     this.d3Wrapper.datum(this.props.data)
       .on('click', this.onClick.bind(this))
-      .call(ExpenseVisualization.drag, this.onDrag, this.afterDrag)
+      .call(ExpenseVisualization.drag, this.beforeDrag, this.onDrag, this.afterDrag)
       .call(ExpenseVisualization.enter);
   },
   shouldComponentUpdate(nextProps) {
@@ -31,6 +31,9 @@ var ExpenseComponent = React.createClass({
       type: 'expense',
       id: this.props.data.id
     });
+  },
+  beforeDrag() {
+    this.props.beforeDrag(this.props.data);
   },
   onDrag(x, y) {
     var expense = React.addons.update(this.props.data, {
