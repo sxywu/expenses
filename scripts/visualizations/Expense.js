@@ -13,7 +13,7 @@ ExpenseVisualization.enter = (selection) => {
     .attr('width', 0)
     .attr('height', 0)
     .attr('fill', '#fff')
-    .attr('stroke', '#333')
+    .attr('stroke', '#666')
     .attr('stroke-width', 0);
 
   selection.select('text')

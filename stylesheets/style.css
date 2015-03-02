@@ -5,15 +5,16 @@
 
 body {
   font-family: 'Droid Serif', serif;
+  color: #666;
 }
 
 .Panel {
-  width: 300px;
+  width: 325px;
   position: fixed;
   max-height: 100%;
   left: 0;
   top: 0;
-  padding: 10px;
+  padding: 20px;
   background-color: rgba(255,255,255, 0.75);
   margin: 0px;
   border-radius: 0px;
@@ -48,11 +49,45 @@ body {
   box-shadow: 0 0 0 2px #FFE545;
 }
 
+.Panel-body {
+  padding: 0;
+  margin: 20px 0;
+}
+
+.ExpenseDetail-header,
+.CategoryDetail-header {
+  background-color: #efefef;
+  margin: 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.ExpenseDetail-body,
+.CategoryDetail-body {
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.ExpenseDetail-footer,
+.CategoryDetail-footer {
+  padding: 5px 10px;
+  background-color: #fafafa;
+  border-radius: 5px;
+}
+
+.ExpenseDetail-close,
+.CategoryDetail-close {
+  float: right;
+}
+
 .AddExpense input,
 .AddExpense button,
 .AddCategory input,
 .AddCategory button {
   display: block;
-  width: 250px;
+  width: 100%;
 }
 
+.Label {
+  margin-right: 5px;
+}

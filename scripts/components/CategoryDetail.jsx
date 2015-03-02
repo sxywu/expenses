@@ -32,15 +32,23 @@ var CategoryDetail = React.createClass({
 
     return (
       <div className="CategoryDetail">
-        <h4><LabelComponent data={category} /> ${category.total.toFixed(2)}</h4>
-        <table>
-          <tbody>
-            {expenses}
-          </tbody>
-        </table>
-        <a className="action" onClick={this.deleteCategory}>
-          Delete
-        </a>
+        <h4 className="CategoryDetail-header">
+          <LabelComponent data={category} /> 
+          ${category.total.toFixed(2)}
+          <span className="CategoryDetail-close glyphicon glyphicon-remove-circle" />
+        </h4>
+        <div className="CategoryDetail-body">
+          <table>
+            <tbody>
+              {expenses}
+            </tbody>
+          </table>
+        </div>
+        <div className="CategoryDetail-footer">
+          <a className="action" onClick={this.deleteCategory}>
+            Delete category
+          </a>
+        </div>
       </div>
     );
   },

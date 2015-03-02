@@ -23,18 +23,24 @@ var ExpenseDetail = React.createClass({
     });
     return (
       <div className="ExpenseDetail">
-        <h4>
-          <LabelComponent data={expense} /> ${expense.amount.toFixed(2)}
+        <h4 className="ExpenseDetail-header">
+          <LabelComponent data={expense} />
+          ${expense.amount.toFixed(2)}
+          <span className="ExpenseDetail-close glyphicon glyphicon-remove-circle" />
         </h4>
-        <div>
-          Date: {dateFormat(expense.timestamp)} 
+        <div className="ExpenseDetail-body">
+          <div>
+            Date: {dateFormat(expense.timestamp)} 
+          </div>
+          <div>
+            Categories: {categories}
+          </div>
         </div>
-        <div>
-          Categories: {categories}
+        <div className="ExpenseDetail-footer">
+          <a className="action" onClick={this.deleteExpense}>
+            Delete expense
+          </a>
         </div>
-        <a className="action" onClick={this.deleteExpense}>
-          Delete
-        </a>
       </div>
     );
   },
