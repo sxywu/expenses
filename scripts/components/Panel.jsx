@@ -27,11 +27,10 @@ var ExpenseApp = React.createClass({
   },
   _onChange() {
     var selection = SelectionStore.getSelection();
-    var merge = {selection}
-    if (selection) {
-      // if selection exists, set header icon to null
-      merge.panelBody = null;
-    }
+    var merge = {
+      selection,
+      panelBody: selection ? null : 'directions'
+    };
     var state = React.addons.update(this.state, {
       $merge: merge
     });
@@ -76,10 +75,10 @@ var ExpenseApp = React.createClass({
       if (this.state.panelBody === 'add') {
         body = (
           <div className="Panel-body-add">
-            <h4>Add Category</h4>
-            <AddCategoryComponent />
             <h4>Add Expense</h4>
             <AddExpenseComponent />
+            <h4>Add Category</h4>
+            <AddCategoryComponent />
           </div>
         );
       }
