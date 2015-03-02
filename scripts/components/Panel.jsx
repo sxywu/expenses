@@ -7,6 +7,7 @@ var AddCategoryComponent = require('./AddCategory.jsx');
 var AddExpenseComponent = require('./AddExpense.jsx');
 var CategoryDetailComponent = require('./CategoryDetail.jsx');
 var ExpenseDetailComponent = require('./ExpenseDetail.jsx');
+var ViewActionCreators = require('../actions/ViewActionCreators');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
@@ -101,16 +102,19 @@ var ExpenseApp = React.createClass({
     );
   },
   windowKeyPress(e) {
-    var CHAR_A = 97;
-    var CHAR_I = 105;
-    var CHAR_S = 115;
+    var CHAR_A = 97; // add
+    var CHAR_I = 105; // directions
+    var CHAR_S = 115; // settings
+    var CHAR_D = 100; // delete
     var pressedKey = e.keyCode;
 
     if (pressedKey === CHAR_A) {
       this.clickHeaderIcon('add');
     } else if (pressedKey === CHAR_I) {
       this.clickHeaderIcon('directions');
-    } 
+    } else if (pressedKey === CHAR_D) {
+      this.deleteSelection();
+    }
     // take out settings for now
     // else if (pressedKey === CHAR_S) {
     //   this.clickHeaderIcon('settings');
@@ -121,6 +125,16 @@ var ExpenseApp = React.createClass({
       $merge: {panelBody: icon, selection: null}
     });
     this.setState(state);
+  },
+  deleteSelection() {
+    var id = this.state.selection.id;
+    if (this.state.selection.type === 'category') {
+      ViewActionCreators.deleteCategory(id);
+    } else if (this.state.selection.type === 'expense') {
+      ViewActionCreators.deleteExpense(id);
+    }
+    
+    ViewActionCreators.unselectNode();
   }
 });
 

@@ -15,10 +15,13 @@ _.each(_expenses, (expense) => {
 });
 
 function addExpense(expense) {
-  var id = _.chain(_expenses)
-    .map((expense) => parseInt(expense.id.split('/')[1]))
-    .max().value();
-  id += 1;
+  var id = 1;
+  if (_expenses.length) {
+    id = _.chain(_expenses)
+      .map((expense) => parseInt(expense.id.split('/')[1]))
+      .max().value();
+    id += 1;
+  }
   _expenses.push({
     id: 'expense/' + id,
     name: expense.name,
@@ -36,16 +39,23 @@ function addExpenseToCategory(expense, category) {
   var expense = _.find(_expenses, (exp) => exp.id === expense.id);
   // if expense is already in there, then we should just remove it
   var expenseExists = false;
-  expense.categories = _.filter(expense.categories, (categoryId) => {
-    if (categoryId === category.id) {
-      expenseExists = true;
-      return false;
-    }
-    return true;
+  expense.categories = _.reject(expense.categories, (categoryId) => {
+    expenseExists = (categoryId === category.id);
+    return expenseExists;
   });
+  // if it doesn't exist, then add it in
   if (!expenseExists) {
     expense.categories.push(category.id)
   }
+}
+
+function removeDeletedCategory(categoryId) {
+  _.each(_expenses, (expense) => {
+    expense.categories = _.reject(expense.categories, (category) => {
+      // if the category id matches, then remove that category
+      return category === categoryId;
+    });
+  });
 }
 
 var ExpenseStore = assign({}, EventEmitter.prototype, {
@@ -78,6 +88,10 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
 
     case Constants.ADD_EXPENSE_TO_CATEGORY:
       addExpenseToCategory(action.data.expense, action.data.category);
+      break;
+
+    case Constants.DELETE_CATEGORY:
+      removeDeletedCategory(action.data);
       break;
 
     default:

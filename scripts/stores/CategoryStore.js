@@ -10,10 +10,13 @@ var CHANGE_EVENT = 'change';
 var _categories = localStorage.categories ? JSON.parse(localStorage.categories) : [];
 
 function addCategory(category) {
-  var id = _.chain(_categories)
-    .map((category) => parseInt(category.id.split('/')[1]))
-    .max().value();
-  id += 1;
+  var id = 1;
+  if (_categories.length) {
+    id = _.chain(_categories)
+      .map((category) => parseInt(category.id.split('/')[1]))
+      .max().value();
+    id += 1;
+  }
   _categories.push({
     id: 'category/' + id,
     name: category.name

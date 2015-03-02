@@ -8,12 +8,6 @@ var LabelComponent = require('./Label.jsx');
 
 var dateFormat = d3.time.format('%x');
 var ExpenseDetail = React.createClass({
-  componentDidMount() {
-    window.addEventListener('keypress', this.windowKeyPress);
-  },
-  componentWillUnMount() {
-    window.removeEventListener('keypress', this.windowKeyPress);
-  },
   render() {
     var expense = ExpenseStore.get(this.props.data.id);
     var categories = _.map(expense.categories, (categoryId) => {
@@ -43,15 +37,6 @@ var ExpenseDetail = React.createClass({
         </div>
       </div>
     );
-  },
-  windowKeyPress(e) {
-    e.stopPropagation();
-
-    var CHAR_D = 100;
-    var pressedKey = e.keyCode;
-    if (pressedKey === CHAR_D) {
-      this.deleteExpense();
-    }
   },
   deleteExpense() {
     ViewActionCreators.deleteExpense(this.props.data.id);
