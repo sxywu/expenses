@@ -108,7 +108,12 @@ var GraphComponent = React.createClass({
   },
 
   render() {
-    var svgStyle = {width: 1000, height: 1000};
+    var panel = document.getElementsByClassName('Panel')[0];
+    var left = panel ? panel.offsetWidth : 0;
+    var width = window.innerWidth - left;
+    var height = window.innerHeight;
+    var svgStyle = {position: 'absolute', width, height, left};
+
     var links = this.state.links && _.map(this.state.links, (link) => {
       var key = link.source.id + ',' + link.target.id;
       return (<LinkComponent key={key} data={link} />);

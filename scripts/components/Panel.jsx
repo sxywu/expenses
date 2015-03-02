@@ -65,9 +65,9 @@ var ExpenseApp = React.createClass({
 
     return (
       <div className="Panel-header">
+        <span className={settingClasses} onClick={this.clickHeaderIcon.bind(this, 'settings')} />
         <span className={addClasses} onClick={this.clickHeaderIcon.bind(this, 'add')} />
         <span className={directionClasses} onClick={this.clickHeaderIcon.bind(this, 'directions')} />
-        <span className={settingClasses} onClick={this.clickHeaderIcon.bind(this, 'settings')} />
       </div>
     );
   },
@@ -77,9 +77,9 @@ var ExpenseApp = React.createClass({
       if (this.state.panelBody === 'add') {
         body = (
           <div className="Panel-body-add">
-            <h4>Add Expense</h4>
+            <h5>Add expense</h5>
             <AddExpenseComponent />
-            <h4>Add Category</h4>
+            <h5>Add category</h5>
             <AddCategoryComponent />
           </div>
         );

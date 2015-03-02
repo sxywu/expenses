@@ -8,7 +8,7 @@ body {
 }
 
 .Panel {
-  min-width: 300px;
+  width: 300px;
   position: fixed;
   max-height: 100%;
   left: 0;
@@ -49,6 +49,10 @@ body {
 }
 
 .AddExpense input,
-.AddCategory input {
+.AddExpense button,
+.AddCategory input,
+.AddCategory button {
   display: block;
+  width: 250px;
 }
+
