@@ -12,8 +12,8 @@ ExpenseVisualization.enter = (selection) => {
     .attr('ry', 3)
     .attr('width', 0)
     .attr('height', 0)
-    .attr('fill', '#fff')
-    .attr('stroke', '#666')
+    .attr('fill', '#fafafa')
+    .attr('stroke', '#333')
     .attr('stroke-width', 0);
 
   selection.select('text')
@@ -28,19 +28,18 @@ ExpenseVisualization.enter = (selection) => {
 }
 
 ExpenseVisualization.update = (selection) => {
+
   selection.select('rect')
-    .classed({
-      'selected': (d) => d.selected,
-      'highlighted': (d) => d.highlighted
-    }).transition().duration(duration)
+    .transition().duration(duration)
     .attr('width', (d) => d.size)
     .attr('height', (d) => d.size)
-    .attr('stroke-width', 2);
+    .attr('stroke-opacity', (d) => {
+      return d.selected ? 1 : (d.highlighted ? .5 : .25);
+    }).attr('stroke-width', 3);
 
   selection.select('text')
     .transition().duration(duration)
     .attr('y', (d) => d.size / 2 + margin.top)
-    .attr('opacity', 1)
     .text((d) => d.name);
 
   selection

@@ -91,15 +91,3 @@ body {
 .Label {
   margin-right: 5px;
 }
-
-
-/*svg graph*/
-.graph .selected {
-  stroke: #FFE545;
-  stroke-width: 3px;
-}
-
-.graph .highlighted {
-  stroke: #FFE545;
-  stroke-opacity: .5;
-}

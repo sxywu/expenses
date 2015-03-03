@@ -34,7 +34,8 @@ var CategoryComponent = React.createClass({
   render() {
     return (
       <g className="category">
-        <circle />
+        <circle className="back" />
+        <circle className="front" />
         <text />
       </g>
     );
