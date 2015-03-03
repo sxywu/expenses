@@ -40,6 +40,7 @@ ExpenseVisualization.update = (selection) => {
   selection.select('text')
     .transition().duration(duration)
     .attr('y', (d) => d.size / 2 + margin.top)
+    .attr('opacity', 1)
     .text((d) => d.name);
 
   selection

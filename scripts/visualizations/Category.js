@@ -2,7 +2,7 @@ var d3 = require('d3/d3');
 
 var CategoryVisualization = {};
 var duration = 750;
-var margin = {top: 10, left: 5};
+var margin = {top: 12, left: 5};
 
 CategoryVisualization.enter = (selection) => {
   selection.select('circle.back')
