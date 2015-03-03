@@ -39,9 +39,12 @@ function addExpenseToCategory(expense, category) {
   var expense = _.find(_expenses, (exp) => exp.id === expense.id);
   // if expense is already in there, then we should just remove it
   var expenseExists = false;
-  expense.categories = _.reject(expense.categories, (categoryId) => {
-    expenseExists = (categoryId === category.id);
-    return expenseExists;
+  expense.categories = _.filter(expense.categories, (categoryId) => {
+    if (categoryId === category.id) {
+      expenseExists = true;
+      return false;
+    }
+    return true;
   });
   // if it doesn't exist, then add it in
   if (!expenseExists) {
