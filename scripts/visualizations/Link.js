@@ -1,7 +1,7 @@
 var d3 = require('d3/d3');
 
 var LinkVisualization = {};
-var duration = 750;
+var duration = 500;
 
 LinkVisualization.enter = (selection) => {
   selection

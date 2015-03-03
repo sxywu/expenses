@@ -77,13 +77,17 @@ var GraphComponent = React.createClass({
   },
 
   beforeDragExpense(expense) {
-    var selection = {type: 'expense', id: expense.id};
-    var categories = this.state.categories;
-    var expenses = this.state.expenses;
-    var links = this.state.links;
-    GraphCalculationUtils.highlightSelections(selection, categories, expenses);
+    var categories = GraphCalculationUtils.calculateCategories();
+    var expenses = [expense];
+    var links = GraphCalculationUtils.calculateLinks(categories, expenses);
+    _.each(categories, (category) => {
+      category.size = 15;
+    });
+    GraphCalculationUtils.positionGraph(categories, expenses, links);
 
-    this.setState({categories, expenses, links});
+    var state = {categories, expenses, links};
+    GraphCalculationUtils.calculateUpdate(this.state, state);
+    this.setState(state);
   },
 
   onDragExpense(expense) {

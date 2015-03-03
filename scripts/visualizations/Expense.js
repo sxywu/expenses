@@ -1,7 +1,7 @@
 var d3 = require('d3/d3');
 
 var ExpenseVisualization = {};
-var duration = 750;
+var duration = 500;
 var margin = {top: 10, left: 5};
 
 ExpenseVisualization.enter = (selection) => {

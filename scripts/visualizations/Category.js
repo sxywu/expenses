@@ -1,7 +1,7 @@
 var d3 = require('d3/d3');
 
 var CategoryVisualization = {};
-var duration = 750;
+var duration = 500;
 var margin = {top: 12, left: 5};
 
 CategoryVisualization.enter = (selection) => {
