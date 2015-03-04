@@ -127,9 +127,11 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
   });
 }
 
-var width = 1000;
-var topPadding = 350;
-var yPadding = 50;
+// positioning functions
+var width = 900;
+var height = 700;
+var topPadding = height / 3;
+var yPadding = (height - topPadding) / 7.5;
 var timeScale = d3.time.scale()
   .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
   .range([width * (1 / 5), width * (4 / 5)])
@@ -140,7 +142,7 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
     var time = new Date(0, 0, 0, exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
     expense.x = timeScale(time);
     expense.fixed = true;
-    expense.y = yPadding * exp.timestamp.getDay() + topPadding;
+    expense.y = yPadding * (exp.timestamp.getDay() + 1) + topPadding;
   });
 }
 
@@ -169,9 +171,9 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
         d.x = width - d.size;
       }
       if (y1 < 0) {
-        d.y = topPadding * (1 / 4) + d.size;
-      } else if (y2 > (topPadding * (3 / 4))) {
-        d.y = topPadding * (3 / 4) - d.size;
+        d.y = topPadding + d.size;
+      } else if (y2 > topPadding) {
+        d.y = topPadding - d.size;
       }
     });
   });
