@@ -44,7 +44,7 @@ GraphCalculationUtils.calculateExpenses = () => {
     return {
       id: expense.id,
       name: expense.name + ' (' + dateFormat(expense.timestamp) + ')',
-      size: 15
+      size: 10
     };
   });
 };
@@ -76,24 +76,28 @@ GraphCalculationUtils.highlightSelections = (selection, categories, expenses) =>
 
   if (selection.type === 'category') {
     var category = _.find(categories, (category) => category.id === selection.id);
-    category.selected = true;
-    _.each(expenses, (expense) => {
-      var exp = ExpenseStore.get(expense.id);
-      if (_.contains(exp.categories, selection.id)) {
-        expense.highlighted = true;
-      }
-    });
+    if (category) {
+      category.selected = true;
+      _.each(expenses, (expense) => {
+        var exp = ExpenseStore.get(expense.id);
+        if (_.contains(exp.categories, selection.id)) {
+          expense.highlighted = true;
+        }
+      });
+    }
   } else if (selection.type === 'expense') {
     var expense = _.find(expenses, (expense) => expense.id === selection.id);
-    expense.selected = true;
-    _.each(ExpenseStore.get(expense.id).categories, (categoryId) => {
-      var category = _.find(categories, (category) => category.id === categoryId);
-      category.highlighted = true;
-    });
+    if (expense) {
+      expense.selected = true;
+      _.each(ExpenseStore.get(expense.id).categories, (categoryId) => {
+        var category = _.find(categories, (category) => category.id === categoryId);
+        category.highlighted = true;
+      });
+    }
   }
 }
 
-var categoryScale = d3.scale.linear().range([7.5, 100]);
+var categoryScale = d3.scale.linear().range([7.5, 50]);
 GraphCalculationUtils.calculateSizes = (categories) => {
   var min = _.min(categories, (category) => category.total).total;
   var max = _.max(categories, (category) => category.total).total;
@@ -123,20 +127,38 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
   });
 }
 
+var topPadding = 350;
+var yPadding = 50;
+var timeScale = d3.time.scale()
+  .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
+  .range([200, 800])
+  .clamp(true);
+GraphCalculationUtils.positionExpenses = (expenses) => {
+  _.each(expenses, (expense) => {
+    var exp = ExpenseStore.get(expense.id);
+    var time = new Date(0, 0, 0, exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
+    expense.x = timeScale(time);
+    expense.fixed = true;
+    expense.y = yPadding * exp.timestamp.getDay() + topPadding;
+    console.log(exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
+    console.log(time, timeScale(time));
+  });
+}
+
 var force = d3.layout.force()
   .linkDistance(75)
   .charge((d) => -Math.pow(d.size, 2))
-  .size([500, 500]);
+  .size([1000, topPadding / 2]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
-  var positions = GraphStore.getPositions();
-  // first apply any positions that have been saved
+  // var positions = GraphStore.getPositions();
+  // // first apply any positions that have been saved
   var nodes = _.union(categories, expenses);
-  _.each(nodes, (node) => {
-    if (!positions[node.id]) return;
-    node.fixed = positions[node.id].fixed;
-    node.x = positions[node.id].x;
-    node.y = positions[node.id].y;
-  });
+  // _.each(nodes, (node) => {
+  //   if (!positions[node.id]) return;
+  //   node.fixed = positions[node.id].fixed;
+  //   node.x = positions[node.id].x;
+  //   node.y = positions[node.id].y;
+  // });
 
   force.nodes(nodes)
     .links(links)
