@@ -141,8 +141,6 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
     expense.x = timeScale(time);
     expense.fixed = true;
     expense.y = yPadding * exp.timestamp.getDay() + topPadding;
-    console.log(exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
-    console.log(time, timeScale(time));
   });
 }
 
