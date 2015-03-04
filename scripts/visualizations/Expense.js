@@ -34,8 +34,8 @@ ExpenseVisualization.update = (selection) => {
     .attr('width', (d) => d.size)
     .attr('height', (d) => d.size)
     .attr('stroke-opacity', (d) => {
-      return d.selected ? 1 : (d.highlighted ? .5 : .25);
-    }).attr('stroke-width', 3);
+      return d.selected ? 1 : (d.highlighted ? .75 : .25);
+    }).attr('stroke-width', 2);
 
   selection.select('text')
     .transition().duration(duration)
