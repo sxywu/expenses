@@ -43,7 +43,7 @@ GraphCalculationUtils.calculateExpenses = () => {
   return _.map(expenses, (expense) => {
     return {
       id: expense.id,
-      name: expense.name + ' (' + dateFormat(expense.timestamp) + ')',
+      name: expense.name,
       size: 10
     };
   });

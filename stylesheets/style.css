@@ -91,3 +91,7 @@ body {
 .Label {
   margin-right: 5px;
 }
+
+.Expense text {
+  font-size: .75em;
+}
