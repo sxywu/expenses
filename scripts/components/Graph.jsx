@@ -85,7 +85,7 @@ var GraphComponent = React.createClass({
     _.each(categories, (category) => {
       category.size = 15;
     });
-    GraphCalculationUtils.positionGraph(categories, expenses, links);
+    GraphCalculationUtils.positionGraphBeforeDrag(categories, expenses, links);
 
     var state = {categories, expenses, links};
     GraphCalculationUtils.calculateUpdate(this.state, state);

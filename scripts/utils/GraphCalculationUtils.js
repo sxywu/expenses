@@ -181,6 +181,25 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
 };
 
+var forceForDrag = d3.layout.force()
+  .size([width, height]);
+GraphCalculationUtils.positionGraphBeforeDrag = (categories, expenses, links) => {
+  var nodes = _.union(categories, expenses);
+  var foci = {x: expenses[0].x, y: expenses[0].y};
+  force.nodes(nodes)
+    .links(links)
+    .on('tick', (e) => {
+      var k = e.alpha;
+      _.each(categories, (d) => {
+        d.x += (foci.x - d.x) * k;
+        d.y += (foci.y - d.y) * k;
+      });
+    }).start();
+  _.each(_.range(1000), () => force.tick());
+  force.stop();
+  _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
+}
+
 function cleanNodeAfterForceCalculation(node) {
   delete node.index;
   delete node.px;
