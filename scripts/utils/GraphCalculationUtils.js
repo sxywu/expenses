@@ -127,11 +127,12 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
   });
 }
 
+var width = 1000;
 var topPadding = 350;
 var yPadding = 50;
 var timeScale = d3.time.scale()
   .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
-  .range([200, 800])
+  .range([width * (1 / 5), width * (4 / 5)])
   .clamp(true);
 GraphCalculationUtils.positionExpenses = (expenses) => {
   _.each(expenses, (expense) => {
@@ -148,13 +149,34 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
 var force = d3.layout.force()
   .linkDistance(75)
   .charge((d) => -Math.pow(d.size, 2))
-  .size([1000, topPadding / 2]);
+  .size([width, topPadding]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
   force.nodes(nodes)
     .links(links)
     .start();
-  _.each(_.range(1000), () => force.tick());
+  _.each(_.range(1000), () => {
+    force.tick();
+    // make sure categories don't go out of bounds
+    _.each(categories, (d) => {
+      var x1 = d.x - d.size;
+      var y1 = d.y - d.size;
+      var x2 = d.x + d.size;
+      var y2 = d.y + d.size;
+      if (x1 < 0) {
+        // if it's hitting the left bound
+        d.x = d.size;
+      } else if (x2 > width) {
+        // if it's hitting right bound
+        d.x = width - d.size;
+      }
+      if (y1 < 0) {
+        d.y = topPadding * (1 / 4) + d.size;
+      } else if (y2 > (topPadding * (3 / 4))) {
+        d.y = topPadding * (3 / 4) - d.size;
+      }
+    });
+  });
   force.stop();
   _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
 };
