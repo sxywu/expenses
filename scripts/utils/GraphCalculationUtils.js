@@ -146,7 +146,7 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
 
 var force = d3.layout.force()
   .linkDistance(75)
-  .charge((d) => -Math.pow(d.size, 2))
+  .charge((d) => -Math.pow(d.size * 2, 2))
   .size([width, topPadding]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
