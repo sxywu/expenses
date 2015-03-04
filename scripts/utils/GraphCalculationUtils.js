@@ -154,29 +154,29 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
   force.nodes(nodes)
     .links(links)
-    .start();
-  _.each(_.range(1000), () => {
-    force.tick();
-    // make sure categories don't go out of bounds
-    _.each(categories, (d) => {
-      var x1 = d.x - d.size;
-      var y1 = d.y - d.size;
-      var x2 = d.x + d.size;
-      var y2 = d.y + d.size;
-      if (x1 < 0) {
-        // if it's hitting the left bound
-        d.x = d.size;
-      } else if (x2 > width) {
-        // if it's hitting right bound
-        d.x = width - d.size;
-      }
-      if (y1 < 0) {
-        d.y = topPadding + d.size;
-      } else if (y2 > topPadding) {
-        d.y = topPadding - d.size;
-      }
-    });
-  });
+    .on('tick', () => {
+      // make sure categories don't go out of bounds
+      _.each(categories, (d) => {
+        var x1 = d.x - d.size;
+        var y1 = d.y - d.size;
+        var x2 = d.x + d.size;
+        var y2 = d.y + d.size;
+        if (x1 < 0) {
+          // if it's hitting the left bound
+          d.x = d.size;
+        } else if (x2 > width) {
+          // if it's hitting right bound
+          d.x = width - d.size;
+        }
+        if (y1 < 0) {
+          d.y = topPadding + d.size;
+        } else if (y2 > topPadding) {
+          d.y = topPadding - d.size;
+        }
+      });
+    }).start();
+
+  _.each(_.range(1000), () => force.tick());
   force.stop();
   _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
 };
