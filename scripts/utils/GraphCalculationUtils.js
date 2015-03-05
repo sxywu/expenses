@@ -148,14 +148,13 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
 
 var force = d3.layout.force()
   .linkDistance(75)
+  .charge((d) => -Math.pow(d.size * 2, 2))
   .size([width, topPadding]);
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
-
   force.nodes(nodes)
     .links(links)
     .on('tick', () => {
-      var q = d3.geom.quadtree(nodes);
       // make sure categories don't go out of bounds
       _.each(categories, (d) => {
         var x1 = d.x - d.size;
@@ -174,8 +173,6 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
         } else if (y2 > topPadding) {
           d.y = topPadding - d.size;
         }
-
-        q.visit(collide(d));
       });
     }).start();
 
@@ -189,49 +186,18 @@ var forceForDrag = d3.layout.force()
 GraphCalculationUtils.positionGraphBeforeDrag = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
   var foci = {x: expenses[0].x, y: expenses[0].y};
-
   force.nodes(nodes)
     .links(links)
     .on('tick', (e) => {
       var k = e.alpha;
-      var q = d3.geom.quadtree(nodes);
       _.each(categories, (d) => {
         d.x += (foci.x - d.x) * k;
         d.y += (foci.y - d.y) * k;
-
-        q.visit(collide(d));
       });
     }).start();
-
   _.each(_.range(1000), () => force.tick());
   force.stop();
   _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
-}
-
-// copy and pasted from bl.ocks
-function collide(node) {
-  var r = node.size + 16,
-      nx1 = node.x - r,
-      nx2 = node.x + r,
-      ny1 = node.y - r,
-      ny2 = node.y + r;
-  return function(quad, x1, y1, x2, y2) {
-    console.log(node, quad);
-    if (quad.point && (quad.point !== node)) {
-      var x = node.x - quad.point.x,
-          y = node.y - quad.point.y,
-          l = Math.sqrt(x * x + y * y),
-          r = node.size + quad.point.size;
-      if (l < r) {
-        l = (l - r) / l * .5;
-        node.x -= x *= l;
-        node.y -= y *= l;
-        quad.point.x += x;
-        quad.point.y += y;
-      }
-    }
-    return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-  };
 }
 
 function cleanNodeAfterForceCalculation(node) {
