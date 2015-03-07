@@ -20,7 +20,13 @@ var ExpenseApp = React.createClass({
     }
   },
   componentDidMount() {
+    CategoryStore.addChangeListener(this._onChange);
+    ExpenseStore.addChangeListener(this._onChange);
     this.getExpensesForWeek();
+  },
+  componentWillUnMount() {
+    CategoryStore.removeChangeListener(this._onChange);
+    ExpenseStore.removeChangeListener(this._onChange);
   },
   getExpensesForWeek() {
     var expenses = _.filter(ExpenseStore.getAll(), (expense) => {
