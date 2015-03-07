@@ -128,20 +128,25 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
 var width;
 var height;
 var topPadding;
+var leftPadding = 100;
 var yPadding;
 GraphCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
   width = docWidth;
   height = docHeight;
   topPadding = height / 3;
-  yPadding = (height - topPadding) / 7.5;
+  yPadding = (height - topPadding) / 8;
 }
 
 var dayInMS = 86400000; // 86,400,000 milliseconds in a day
 GraphCalculationUtils.getDatesForWeek = (week) => {
   return _.map(_.range(7), (i) => {
+    var date = new Date(week.getTime() + i * dayInMS);
     return {
-      date: new Date(week.getTime() + i * dayInMS),
-      y: yPadding * i + topPadding
+      date: date,
+      formattedDate: dateFormat(date),
+      y: yPadding * (i + 1) + topPadding,
+      width: width,
+      x: leftPadding
     }
   });
 }
@@ -150,13 +155,13 @@ var timeScale = d3.time.scale()
   .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
   .clamp(true);
 GraphCalculationUtils.positionExpenses = (expenses) => {
-  timeScale.range([width * (1 / 5), width * (4 / 5)]);
+  timeScale.range([leftPadding, width - leftPadding]);
   _.each(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
     var time = new Date(0, 0, 0, exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
     expense.x = timeScale(time);
     expense.fixed = true;
-    expense.y = yPadding * (exp.timestamp.getDay() + 1) + topPadding;
+    expense.y = yPadding * exp.timestamp.getDay() + topPadding;
   });
 }
 
