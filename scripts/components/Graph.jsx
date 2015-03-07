@@ -12,6 +12,7 @@ var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
 var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 var LinkComponent = require('./Link.jsx');
+var GraphDateComponent = require('./GraphDate.jsx');
 
 var width = 900;
 var height = 700;
@@ -141,25 +142,30 @@ var GraphComponent = React.createClass({
 
   render() {
     var panel = document.getElementsByClassName('Panel')[0];
-    var left = panel ? panel.offsetWidth : 0;
+    var left = panel ? panel.offsetWidth : 325;
     width = window.innerWidth - left;
     height = window.innerHeight;
     var svgStyle = {position: 'absolute', width, height, left};
 
-    var links = this.state.links && _.map(this.state.links, (link) => {
+    var links = _.map(this.state.links, (link) => {
       var key = link.source.id + ',' + link.target.id;
       return (<LinkComponent key={key} data={link} />);
     });
-    var categories = this.state.categories && _.map(this.state.categories, (category) => {
+    var categories = _.map(this.state.categories, (category) => {
       return (<CategoryComponent key={category.id} data={category} />);
     });
-    var expenses = this.state.expenses && _.map(this.state.expenses, (expense) => {
+    var expenses = _.map(this.state.expenses, (expense) => {
       return (<ExpenseComponent key={expense.id} data={expense}
         beforeDrag={this.beforeDragExpense} onDrag={this.onDragExpense} afterDrag={this.afterDragExpense} />);
     });
+    var dates = _.map(this.state.dates, (date) => {
+      return (<GraphDateComponent data={date} />);
+    });
+
     return (
       <svg style={svgStyle}>
         <g className="graph">
+          {dates}
           {links}
           {categories}
           {expenses}
