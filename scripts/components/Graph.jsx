@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var _ = require('lodash');
+var d3 = require('d3/d3');
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ViewActionCreators = require('../actions/ViewActionCreators');
@@ -12,20 +13,24 @@ var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 var LinkComponent = require('./Link.jsx');
 
+var width = 900;
+var height = 700;
 var GraphComponent = React.createClass({
   getInitialState() {
     return {
       categories: [],
       expenses: [],
-      links: []
+      links: [],
+      dates: []
     }
   },
   componentDidMount() {
-    CategoryStore.addChangeListener(this._onChange);
-    ExpenseStore.addChangeListener(this._onChange);
-    GraphStore.addChangeListener(this._onChange);
+    GraphStore.addChangeListener(this._onChange);  
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
+  },
+  componentWillReceiveProps(nextProps) {
+    this._onChange(nextProps);
   },
   componentDidUpdate() {
     this.callViewActionCreators(() => {
@@ -36,23 +41,29 @@ var GraphComponent = React.createClass({
     });
   },
   componentWillUnMount() {
-    CategoryStore.removeChangeListener(this._onChange);
-    ExpenseStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
     SelectionStore.removeChangeListener(this._onChange);
   },
-  _onChange() {
+  _onChange(props) {
+    props = props || this.props;
     var selection = SelectionStore.getSelection();
-    var categories = GraphCalculationUtils.calculateCategories();
-    var expenses = GraphCalculationUtils.calculateExpenses();
+    // get expenses from store for this week, and then use it to calculate expenses, 
+    var expensesData = _.filter(ExpenseStore.getAll(), (expense) => {
+      return _.isEqual(props.data.week, d3.time.week(expense.timestamp));
+    });
+    var categories = GraphCalculationUtils.calculateCategories(expensesData);
+    var expenses = GraphCalculationUtils.calculateExpenses(expensesData);
     var links = GraphCalculationUtils.calculateLinks(categories, expenses);
+    // calculate some more rendering things
     GraphCalculationUtils.calculateSizes(categories);
     GraphCalculationUtils.highlightSelections(selection, categories, expenses);
-    
+    // calculate their positions
+    GraphCalculationUtils.setDocumentDimensions(width, height);
     GraphCalculationUtils.positionExpenses(expenses);
     GraphCalculationUtils.positionGraph(categories, expenses, links);
+    var dates = GraphCalculationUtils.getDatesForWeek(props.data.week);
 
-    var state = {categories, expenses, links};
+    var state = {categories, expenses, links, dates};
     GraphCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
   },
@@ -131,8 +142,8 @@ var GraphComponent = React.createClass({
   render() {
     var panel = document.getElementsByClassName('Panel')[0];
     var left = panel ? panel.offsetWidth : 0;
-    var width = window.innerWidth - left;
-    var height = window.innerHeight;
+    width = window.innerWidth - left;
+    height = window.innerHeight;
     var svgStyle = {position: 'absolute', width, height, left};
 
     var links = this.state.links && _.map(this.state.links, (link) => {

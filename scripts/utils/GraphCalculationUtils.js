@@ -12,12 +12,10 @@ var GraphCalculationUtils = {};
 * @return {Array} Array of renderable category objects
 */
 var colorScale = d3.scale.category10();
-GraphCalculationUtils.calculateCategory = (category) => {
-  // (I really shouldn't be getting all expenses every time...)
-  var expenses = ExpenseStore.getAll();
+GraphCalculationUtils.calculateCategory = (category, expensesData) => {
   // to get the size of the category, get all the expenses
   // that are in the category, and add um their amounts
-  var total = _.chain(expenses)
+  var total = _.chain(expensesData)
     .filter((expense) => _.contains(expense.categories, category.id))
     .reduce((memo, expense) => {
       return memo + expense.amount;
@@ -30,17 +28,16 @@ GraphCalculationUtils.calculateCategory = (category) => {
     total: total
   }
 };
-GraphCalculationUtils.calculateCategories = () => {
+GraphCalculationUtils.calculateCategories = (expensesData) => {
   var categories = CategoryStore.getAll();
   return _.map(categories, (category) => {
-    return GraphCalculationUtils.calculateCategory(category);
+    return GraphCalculationUtils.calculateCategory(category, expensesData);
   });
 };
 
 var dateFormat = d3.time.format('%m/%d');
-GraphCalculationUtils.calculateExpenses = () => {
-  var expenses = ExpenseStore.getAll();
-  return _.map(expenses, (expense) => {
+GraphCalculationUtils.calculateExpenses = (expensesData) => {
+  return _.map(expensesData, (expense) => {
     return {
       id: expense.id,
       name: expense.name,
@@ -128,15 +125,32 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
 }
 
 // positioning functions
-var width = 900;
-var height = 700;
-var topPadding = height / 3;
-var yPadding = (height - topPadding) / 7.5;
+var width;
+var height;
+var topPadding;
+var yPadding;
+GraphCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
+  width = docWidth;
+  height = docHeight;
+  topPadding = height / 3;
+  yPadding = (height - topPadding) / 7.5;
+}
+
+var dayInMS = 86400000; // 86,400,000 milliseconds in a day
+GraphCalculationUtils.getDatesForWeek = (week) => {
+  return _.map(_.range(7), (i) => {
+    return {
+      date: new Date(week.getTime() + i * dayInMS),
+      y: yPadding * i + topPadding
+    }
+  });
+}
+
 var timeScale = d3.time.scale()
   .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
-  .range([width * (1 / 5), width * (4 / 5)])
   .clamp(true);
 GraphCalculationUtils.positionExpenses = (expenses) => {
+  timeScale.range([width * (1 / 5), width * (4 / 5)]);
   _.each(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
     var time = new Date(0, 0, 0, exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
@@ -148,12 +162,11 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
 
 var force = d3.layout.force()
   .linkDistance(75)
-  .charge((d) => -Math.pow(d.size * 2, 2))
-  .size([width, topPadding]);
+  .charge((d) => -Math.pow(d.size * 2, 2));
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
-  force.nodes(nodes)
-    .links(links)
+  force.size([width, topPadding])
+    .nodes(nodes).links(links)
     .on('tick', () => {
       // make sure categories don't go out of bounds
       _.each(categories, (d) => {
@@ -181,13 +194,12 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
   _.each(nodes, (node) => cleanNodeAfterForceCalculation(node));
 };
 
-var forceForDrag = d3.layout.force()
-  .size([width, height]);
+var forceForDrag = d3.layout.force();
 GraphCalculationUtils.positionGraphBeforeDrag = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
   var foci = {x: expenses[0].x, y: expenses[0].y};
-  force.nodes(nodes)
-    .links(links)
+  force.size([width, height])
+    .nodes(nodes).links(links)
     .on('tick', (e) => {
       var k = e.alpha;
       _.each(categories, (d) => {
