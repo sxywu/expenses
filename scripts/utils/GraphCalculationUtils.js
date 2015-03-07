@@ -35,7 +35,7 @@ GraphCalculationUtils.calculateCategories = (expensesData) => {
   });
 };
 
-var dateFormat = d3.time.format('%m/%d');
+var dateFormat = d3.time.format('%m/%d (%a)');
 GraphCalculationUtils.calculateExpenses = (expensesData) => {
   return _.map(expensesData, (expense) => {
     return {
