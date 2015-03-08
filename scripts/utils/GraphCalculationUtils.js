@@ -128,7 +128,7 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
 var width;
 var height;
 var topPadding;
-var leftPadding = 100;
+var leftPadding = 150;
 var yPadding;
 GraphCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
   width = docWidth;
