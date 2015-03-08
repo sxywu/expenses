@@ -10,8 +10,8 @@ var dateFormat = d3.time.format('%x');
 var CategoryDetail = React.createClass({
   render() {
     var category = CategoryStore.get(this.props.data.id);
-    category = GraphCalculationUtils.calculateCategory(category);
-    var expenses = _.chain(ExpenseStore.getAll())
+    category = GraphCalculationUtils.calculateCategory(category, this.props.expenses);
+    var expenses = _.chain(this.props.expenses)
       .filter((expense) => {
         return _.contains(expense.categories, category.id);
       }).map((expense) => {

@@ -43,7 +43,7 @@ var ExpenseApp = React.createClass({
   render() {
     return (
       <div>
-        <PanelComponent />
+        <PanelComponent data={this.state} />
         <GraphComponent data={this.state} />
       </div>
     );

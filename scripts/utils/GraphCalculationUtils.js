@@ -94,7 +94,7 @@ GraphCalculationUtils.highlightSelections = (selection, categories, expenses) =>
   }
 }
 
-var categoryScale = d3.scale.linear().range([20, 60]);
+var categoryScale = d3.scale.linear().range([7.5, 60]);
 GraphCalculationUtils.calculateSizes = (categories) => {
   var min = _.min(categories, (category) => category.total).total;
   var max = _.max(categories, (category) => category.total).total;

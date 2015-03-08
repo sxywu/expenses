@@ -89,7 +89,8 @@ var ExpenseApp = React.createClass({
     } else if (this.state.selection) {
       // if no category or expense is selected, then default to one of the header icons
       if (this.state.selection.type === 'category') {
-        body = (<CategoryDetailComponent data={this.state.selection} />);
+        body = (<CategoryDetailComponent data={this.state.selection}
+          expenses={this.props.data.expenses} />);
       } else if (this.state.selection.type === 'expense') {
         body = (<ExpenseDetailComponent data={this.state.selection} />);
       }
