@@ -33,14 +33,6 @@ var GraphComponent = React.createClass({
   componentWillReceiveProps(nextProps) {
     this._onChange(nextProps);
   },
-  componentDidUpdate() {
-    this.callViewActionCreators(() => {
-      ViewActionCreators.savePositions({
-        categories: this.state.categories,
-        expenses: this.state.expenses
-      });
-    });
-  },
   componentWillUnMount() {
     GraphStore.removeChangeListener(this._onChange);
     SelectionStore.removeChangeListener(this._onChange);
@@ -67,6 +59,13 @@ var GraphComponent = React.createClass({
     var state = {categories, expenses, links, dates};
     GraphCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
+
+    // save the calculated positions
+    this.callViewActionCreators(() => {
+      ViewActionCreators.savePositions({
+        categories: this.state.categories
+      });
+    });
   },
   // probably should be abstracted out somewhere
   callViewActionCreators(callback) {

@@ -169,6 +169,14 @@ var force = d3.layout.force()
   .linkDistance(75)
   .charge((d) => -Math.pow(d.size * 2, 2));
 GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
+  var positions = GraphStore.getPositions();
+  // first apply any positions that have been saved
+  _.each(categories, (category) => {
+    if (!positions[category.id]) return;
+    category.fixed = true;
+    category.x = positions[category.id].x;
+    category.y = positions[category.id].y;
+  });
   var nodes = _.union(categories, expenses);
   force.size([width, topPadding])
     .nodes(nodes).links(links)

@@ -11,13 +11,10 @@ var CHANGE_EVENT = 'change';
 
 var positions = localStorage.positions ? JSON.parse(localStorage.positions) : {};
 
-function savePosition(node, fixed) {
+function savePosition(node) {
   positions[node.id] = React.addons.update(positions[node.id] || {}, {
     $merge: {x: node.x, y: node.y}
   });
-  if (fixed) {
-    positions[node.id].fixed = true;
-  }
 }
 
 function savePositions(nodes) {
@@ -26,6 +23,11 @@ function savePositions(nodes) {
 
 function deletePosition(id) {
   delete positions[id];
+}
+
+function saveToStorage() {
+  // lazily storing it in localStorage...
+  localStorage.positions = JSON.stringify(positions);
 }
 
 // store information about the graph
@@ -48,25 +50,26 @@ var GraphStore = assign({}, EventEmitter.prototype, {
 GraphStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
     case Constants.DELETE_EXPENSE:
+    case Constants.DELETE_CATEGORY:
       deletePosition(action.data);
-      break;
+      saveToStorage();
+      return true;
 
     case Constants.SAVE_POSITIONS:
       savePositions(action.data.categories);
-      savePositions(action.data.expenses);
+      saveToStorage();
       return true;
 
-    case Constants.AFTER_DRAG_EXPENSE:
-      savePosition(action.data, true);
-      break;
+    case Constants.ADD_EXPENSE_TO_CATEGORY:
+      positions = {};
+      saveToStorage();
+      return true;
 
     default:
       return true;
   };
 
   GraphStore.emitChange();
-  // lazily storing it in localStorage...
-  localStorage.positions = JSON.stringify(positions);
 });
 
 module.exports = GraphStore; 
