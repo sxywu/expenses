@@ -135,6 +135,7 @@ var ExpenseApp = React.createClass({
     this.setState(state);
   },
   deleteSelection() {
+    if (!this.state.selection) return;
     var id = this.state.selection.id;
     if (this.state.selection.type === 'category') {
       ViewActionCreators.deleteCategory(id);
