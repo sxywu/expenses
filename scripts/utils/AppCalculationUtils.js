@@ -1,18 +1,29 @@
 var _ = require('lodash');
 var d3 = require('d3/d3');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var GraphStore = require('../stores/GraphStore');
 var SelectionStore = require('../stores/SelectionStore');
 
-var GraphCalculationUtils = {};
+var AppCalculationUtils = {};
+
+AppCalculationUtils.callViewActionCreators = (callback) => {
+  setTimeout(() => {
+    if (AppDispatcher.isDispatching()) {
+      this.callViewActionCreators(callback);
+    } else {
+      callback();
+    }
+  }, 500);
+}
 
 /** Gets info from CategoryStore and calculates data
 * to render with, such as name, fill, size, etc.
 * @return {Array} Array of renderable category objects
 */
 var colorScale = d3.scale.category10();
-GraphCalculationUtils.calculateCategory = (category, expensesData) => {
+AppCalculationUtils.calculateCategory = (category, expensesData) => {
   // to get the size of the category, get all the expenses
   // that are in the category, and add um their amounts
   var total = _.chain(expensesData)
@@ -28,15 +39,15 @@ GraphCalculationUtils.calculateCategory = (category, expensesData) => {
     total: total
   }
 };
-GraphCalculationUtils.calculateCategories = (expensesData, categories) => {
+AppCalculationUtils.calculateCategories = (expensesData, categories) => {
   categories = categories || CategoryStore.getAll();
   return _.map(categories, (category) => {
-    return GraphCalculationUtils.calculateCategory(category, expensesData);
+    return AppCalculationUtils.calculateCategory(category, expensesData);
   });
 };
 
 var dateFormat = d3.time.format('%m/%d (%a)');
-GraphCalculationUtils.calculateExpenses = (expensesData) => {
+AppCalculationUtils.calculateExpenses = (expensesData) => {
   return _.map(expensesData, (expense) => {
     return {
       id: expense.id,
@@ -52,7 +63,7 @@ GraphCalculationUtils.calculateExpenses = (expensesData) => {
 * @param {Array} expenses As returned by calculateExpenses
 * @return {Array} links between expenses and categories
 */
-GraphCalculationUtils.calculateLinks = (categories, expenses) => {
+AppCalculationUtils.calculateLinks = (categories, expenses) => {
   var links = [];
   _.each(expenses, (expense) => {
     // for each of the expenses, link it to the categories it belongs to
@@ -68,7 +79,7 @@ GraphCalculationUtils.calculateLinks = (categories, expenses) => {
   return links;
 };
 
-GraphCalculationUtils.highlightSelections = (selection, categories, expenses) => {
+AppCalculationUtils.highlightSelections = (selection, categories, expenses) => {
   if (!selection) return;
 
   if (selection.type === 'category') {
@@ -95,7 +106,7 @@ GraphCalculationUtils.highlightSelections = (selection, categories, expenses) =>
 }
 
 var categoryScale = d3.scale.linear().range([7.5, 60]);
-GraphCalculationUtils.calculateSizes = (categories) => {
+AppCalculationUtils.calculateSizes = (categories) => {
   var min = _.min(categories, (category) => category.total).total;
   var max = _.max(categories, (category) => category.total).total;
   max = Math.max(max, 100);
@@ -106,7 +117,7 @@ GraphCalculationUtils.calculateSizes = (categories) => {
   });
 }
 
-GraphCalculationUtils.calculateUpdate = (prev, next) => {
+AppCalculationUtils.calculateUpdate = (prev, next) => {
   _.each(next.categories, (category) => {
     var prevCategory = _.find(prev.categories, (prevCategory) => prevCategory.id === category.id);
     if (prevCategory) {
@@ -130,7 +141,7 @@ var height;
 var categoryHeight;
 var padding = {top: 75, left: 150};
 var yPadding;
-GraphCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
+AppCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
   width = docWidth;
   height = docHeight;
   categoryHeight = height / 3;
@@ -138,7 +149,7 @@ GraphCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
 }
 
 var dayInMS = 86400000; // 86,400,000 milliseconds in a day
-GraphCalculationUtils.getDatesForWeek = (week) => {
+AppCalculationUtils.getDatesForWeek = (week) => {
   return _.map(_.range(7), (i) => {
     var date = new Date(week.getTime() + i * dayInMS);
     return {
@@ -154,7 +165,7 @@ GraphCalculationUtils.getDatesForWeek = (week) => {
 var timeScale = d3.time.scale()
   .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
   .clamp(true);
-GraphCalculationUtils.positionExpenses = (expenses) => {
+AppCalculationUtils.positionExpenses = (expenses) => {
   timeScale.range([padding.left, width - padding.left]);
   _.each(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
@@ -168,7 +179,7 @@ GraphCalculationUtils.positionExpenses = (expenses) => {
 var force = d3.layout.force()
   .linkDistance(75)
   .charge((d) => -Math.pow(d.size * 2, 2));
-GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
+AppCalculationUtils.positionGraph = (categories, expenses, links) => {
   var positions = GraphStore.getPositions();
   // first apply any positions that have been saved
   _.each(categories, (category) => {
@@ -208,7 +219,7 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
 };
 
 var forceForDrag = d3.layout.force();
-GraphCalculationUtils.positionGraphBeforeDrag = (categories, expenses, links) => {
+AppCalculationUtils.positionGraphBeforeDrag = (categories, expenses, links) => {
   var nodes = _.union(categories, expenses);
   var foci = {x: expenses[0].x, y: expenses[0].y};
   force.size([width, height])
@@ -232,4 +243,4 @@ function cleanNodeAfterForceCalculation(node) {
   delete node.weight;
 }
 
-module.exports = GraphCalculationUtils;
+module.exports = AppCalculationUtils;

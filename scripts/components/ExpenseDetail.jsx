@@ -3,7 +3,7 @@ var _ = require('lodash');
 var ViewActionCreators = require('../actions/ViewActionCreators');
 var ExpenseStore = require('../stores/ExpenseStore');
 var CategoryStore = require('../stores/CategoryStore');
-var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
+var AppCalculationUtils = require('../utils/AppCalculationUtils');
 var LabelComponent = require('./Label.jsx');
 
 var dateFormat = d3.time.format('%m/%d %I:%M%p');
@@ -12,7 +12,7 @@ var ExpenseDetail = React.createClass({
     var expense = ExpenseStore.get(this.props.data.id);
     var categories = _.map(expense.categories, (categoryId) => {
       var category = CategoryStore.get(categoryId);
-      category = GraphCalculationUtils.calculateCategory(category);
+      category = AppCalculationUtils.calculateCategory(category);
       return (<LabelComponent data={category} />);
     });
     return (

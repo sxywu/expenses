@@ -1,7 +1,7 @@
 var React = require('react/addons');
 var _ = require('lodash');
 var ViewActionCreators = require('../actions/ViewActionCreators');
-var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
+var AppCalculationUtils = require('../utils/AppCalculationUtils');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var LabelComponent = require('./Label.jsx');
@@ -10,7 +10,7 @@ var dateFormat = d3.time.format('%m/%d');
 var CategoryDetail = React.createClass({
   render() {
     var category = CategoryStore.get(this.props.data.id);
-    category = GraphCalculationUtils.calculateCategory(category, this.props.expenses);
+    category = AppCalculationUtils.calculateCategory(category, this.props.expenses);
     var expenses = _.chain(this.props.expenses)
       .filter((expense) => {
         return _.contains(expense.categories, category.id);

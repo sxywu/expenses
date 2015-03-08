@@ -2,13 +2,12 @@ var React = require('react/addons');
 var _ = require('lodash');
 var d3 = require('d3/d3');
 
-var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ViewActionCreators = require('../actions/ViewActionCreators');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var GraphStore = require('../stores/GraphStore');
 var SelectionStore = require('../stores/SelectionStore');
-var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
+var AppCalculationUtils = require('../utils/AppCalculationUtils');
 var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 var LinkComponent = require('./Link.jsx');
@@ -43,38 +42,28 @@ var GraphComponent = React.createClass({
     // get expenses from store for this week, and then use it to calculate expenses, 
     var expensesData = props.data.expenses;
     var categoriesData = props.data.categories;
-    var categories = GraphCalculationUtils.calculateCategories(expensesData, categoriesData);
-    var expenses = GraphCalculationUtils.calculateExpenses(expensesData);
-    var links = GraphCalculationUtils.calculateLinks(categories, expenses);
+    var categories = AppCalculationUtils.calculateCategories(expensesData, categoriesData);
+    var expenses = AppCalculationUtils.calculateExpenses(expensesData);
+    var links = AppCalculationUtils.calculateLinks(categories, expenses);
     // calculate some more rendering things
-    GraphCalculationUtils.calculateSizes(categories);
-    GraphCalculationUtils.highlightSelections(selection, categories, expenses);
+    AppCalculationUtils.calculateSizes(categories);
+    AppCalculationUtils.highlightSelections(selection, categories, expenses);
     // calculate their positions
-    GraphCalculationUtils.setDocumentDimensions(width, height);
-    GraphCalculationUtils.positionExpenses(expenses);
-    GraphCalculationUtils.positionGraph(categories, expenses, links);
-    var dates = GraphCalculationUtils.getDatesForWeek(props.data.week);
+    AppCalculationUtils.setDocumentDimensions(width, height);
+    AppCalculationUtils.positionExpenses(expenses);
+    AppCalculationUtils.positionGraph(categories, expenses, links);
+    var dates = AppCalculationUtils.getDatesForWeek(props.data.week);
 
     var state = {categories, expenses, links, dates};
-    GraphCalculationUtils.calculateUpdate(this.state, state);
+    AppCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
 
     // save the calculated positions
-    this.callViewActionCreators(() => {
+    AppCalculationUtils.callViewActionCreators(() => {
       ViewActionCreators.savePositions({
         categories: this.state.categories
       });
     });
-  },
-  // probably should be abstracted out somewhere
-  callViewActionCreators(callback) {
-    setTimeout(() => {
-      if (AppDispatcher.isDispatching()) {
-        this.callViewActionCreators(callback);
-      } else {
-        callback();
-      }
-    }, 500);
   },
   findOverlappingCategory(expense) {
     return _.find(this.state.categories, (category) => {
@@ -89,16 +78,16 @@ var GraphComponent = React.createClass({
   },
 
   beforeDragExpense(expense) {
-    var categories = GraphCalculationUtils.calculateCategories();
+    var categories = AppCalculationUtils.calculateCategories();
     var expenses = [expense];
-    var links = GraphCalculationUtils.calculateLinks(categories, expenses);
+    var links = AppCalculationUtils.calculateLinks(categories, expenses);
     _.each(categories, (category) => {
       category.size = 15;
     });
-    GraphCalculationUtils.positionGraphBeforeDrag(categories, expenses, links);
+    AppCalculationUtils.positionGraphBeforeDrag(categories, expenses, links);
 
     var state = {categories, expenses, links};
-    GraphCalculationUtils.calculateUpdate(this.state, state);
+    AppCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
   },
 
