@@ -77,11 +77,12 @@ body {
 .CategoryDetail-footer {
   padding: 5px 20px;
   background-color: #fff;
+  color: #0B486B;
 }
 
-.ExpenseDetail-close,
-.CategoryDetail-close {
-  float: right;
+.ExpenseDetail-footer .action,
+.CategoryDetail-footer .action {
+  padding-right: 10px;
 }
 
 .AddExpense input,

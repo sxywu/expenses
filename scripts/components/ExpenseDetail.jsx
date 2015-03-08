@@ -32,9 +32,8 @@ var ExpenseDetail = React.createClass({
         </div>
         <div className="ExpenseDetail-footer">
           <a className="action" onClick={this.deleteExpense}>
-            Delete expense
+            Delete
           </a>
-          |
           <a className="action" onClick={this.closeDetail}>
             Close
           </a>

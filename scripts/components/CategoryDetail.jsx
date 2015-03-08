@@ -40,9 +40,8 @@ var CategoryDetail = React.createClass({
         </div>
         <div className="CategoryDetail-footer">
           <a className="action" onClick={this.deleteCategory}>
-            Delete category
+            Delete
           </a>
-          |
           <a className="action" onClick={this.closeDetail}>
             Close
           </a>
