@@ -20,8 +20,6 @@ var ExpenseDetail = React.createClass({
         <h4 className="ExpenseDetail-header">
           <LabelComponent data={expense} />
           ${expense.amount.toFixed(2)}
-          <span className="ExpenseDetail-close glyphicon glyphicon-remove-circle"
-            onClick={this.closeDetail} />
         </h4>
         <div className="ExpenseDetail-body">
           <div>
@@ -34,6 +32,10 @@ var ExpenseDetail = React.createClass({
         <div className="ExpenseDetail-footer">
           <a className="action" onClick={this.deleteExpense}>
             Delete expense
+          </a>
+          |
+          <a className="action" onClick={this.closeDetail}>
+            Close
           </a>
         </div>
       </div>

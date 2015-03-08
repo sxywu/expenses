@@ -29,8 +29,6 @@ var CategoryDetail = React.createClass({
         <h4 className="CategoryDetail-header">
           <LabelComponent data={category} /> 
           ${category.total.toFixed(2)}
-          <span className="CategoryDetail-close glyphicon glyphicon-remove-circle"
-            onClick={this.closeDetail} />
         </h4>
         <div className="CategoryDetail-body">
           <table>
@@ -42,6 +40,10 @@ var CategoryDetail = React.createClass({
         <div className="CategoryDetail-footer">
           <a className="action" onClick={this.deleteCategory}>
             Delete category
+          </a>
+          |
+          <a className="action" onClick={this.closeDetail}>
+            Close
           </a>
         </div>
       </div>
