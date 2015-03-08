@@ -5,6 +5,7 @@ var _ = require('lodash');
 var SelectionStore = require('../stores/SelectionStore');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
+var HomeComponent = require('./Home.jsx');
 var AddCategoryComponent = require('./AddCategory.jsx');
 var AddExpenseComponent = require('./AddExpense.jsx');
 var SummaryComponent = require('./Summary.jsx');
@@ -15,12 +16,12 @@ var AppCalculationUtils = require('../utils/AppCalculationUtils');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
-// todo: directions
+// todo: home
 var ExpenseApp = React.createClass({
   getInitialState() {
     return {
       selection: SelectionStore.getSelection(),
-      panelBody: "directions",
+      panelBody: "home",
       justSelected: false
     }
   },
@@ -47,13 +48,12 @@ var ExpenseApp = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
-    var merge = {
-      selection: SelectionStore.getSelection(),
-      panelBody: 'summary',
-      justSelected: true
-    };
+    var selection = SelectionStore.getSelection();
+    var panelBody = selection ? 'summary' : this.state.panelBody;
+    var justSelected = selection ? true : false;
+
     var state = React.addons.update(this.state, {
-      $merge: merge
+      $merge: {selection, panelBody, justSelected}
     });
     this.setState(state);
   },
@@ -71,10 +71,10 @@ var ExpenseApp = React.createClass({
       "glyphicon-plus-sign": true,
       "selected": this.state.panelBody === 'add'
     });
-    var directionClasses = cx({
+    var homeClasses = cx({
       "glyphicon": true,
-      "glyphicon-info-sign": true,
-      "selected": this.state.panelBody === 'directions'
+      "glyphicon-home": true,
+      "selected": this.state.panelBody === 'home'
     });
     var settingClasses = cx({
       "glyphicon": true,
@@ -93,13 +93,15 @@ var ExpenseApp = React.createClass({
       <div className="Panel-header">
         <span className={summaryClasses} onClick={this.clickHeaderIcon.bind(this, 'summary')} />
         <span className={addClasses} onClick={this.clickHeaderIcon.bind(this, 'add')} />
-        <span className={directionClasses} onClick={this.clickHeaderIcon.bind(this, 'directions')} />
+        <span className={homeClasses} onClick={this.clickHeaderIcon.bind(this, 'home')} />
       </div>
     );
   },
   renderBody() {
     var body = null;
-    if (this.state.justSelected || this.state.panelBody === 'summary') {
+    if (this.state.panelBody === 'home') {
+      body = (<HomeComponent />);
+    } else if (this.state.justSelected || this.state.panelBody === 'summary') {
       if (this.state.selection) {
         // if no category or expense is selected, then default to one of the header icons
         if (this.state.selection.type === 'category') {
@@ -129,15 +131,15 @@ var ExpenseApp = React.createClass({
   },
   windowKeyPress(e) {
     var CHAR_A = 97; // add
-    var CHAR_I = 105; // directions
+    var CHAR_H = 104; // home
     var CHAR_S = 115; // settings
     var CHAR_D = 100; // delete
     var pressedKey = e.keyCode;
 
     if (pressedKey === CHAR_A) {
       this.clickHeaderIcon('add');
-    } else if (pressedKey === CHAR_I) {
-      this.clickHeaderIcon('directions');
+    } else if (pressedKey === CHAR_H) {
+      this.clickHeaderIcon('home');
     } else if (pressedKey === CHAR_D) {
       this.deleteSelection();
     } else if (pressedKey === CHAR_S) {
