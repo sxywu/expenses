@@ -6,7 +6,7 @@ var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var LabelComponent = require('./Label.jsx');
 
-var dateFormat = d3.time.format('%x');
+var dateFormat = d3.time.format('%m/%d');
 var CategoryDetail = React.createClass({
   render() {
     var category = CategoryStore.get(this.props.data.id);
@@ -16,11 +16,11 @@ var CategoryDetail = React.createClass({
         return _.contains(expense.categories, category.id);
       }).map((expense) => {
         return (
-          <tr>
-            <td>{dateFormat(expense.timestamp)}</td>
-            <td>{expense.name}</td>
-            <td>${expense.amount.toFixed(2)}</td>
-          </tr>
+          <div className="table-row">
+            <div className="table-cell">{dateFormat(expense.timestamp)}</div>
+            <div className="table-cell">{expense.name}</div>
+            <div className="table-cell">${expense.amount.toFixed(2)}</div>
+          </div>
         );
       }).value();
 
@@ -32,11 +32,9 @@ var CategoryDetail = React.createClass({
           ${category.total.toFixed(2)}
         </h4>
         <div className="CategoryDetail-body">
-          <table>
-            <tbody>
-              {expenses}
-            </tbody>
-          </table>
+          <div className="table">
+            {expenses}
+          </div>
         </div>
         <div className="CategoryDetail-footer">
           <a className="action" onClick={this.deleteCategory}>

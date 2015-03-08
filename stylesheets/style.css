@@ -77,6 +77,19 @@ body {
   margin: 10px 0;
 }
 
+.CategoryDetail-body .table {
+  display: table;
+  width: 100%;
+}
+
+.CategoryDetail-body .table-row {
+  display: table-row;
+}
+
+.CategoryDetail-body .table-cell {
+  display: table-cell;
+}
+
 .ExpenseDetail-footer,
 .CategoryDetail-footer {
   padding: 5px 20px;
