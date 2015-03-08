@@ -96,6 +96,10 @@ body {
   font-size: 16px;
 }
 
+.Home-body {
+  font-size: 12px;
+}
+
 .CategoryDetail-body .table {
   display: table;
   width: 100%;

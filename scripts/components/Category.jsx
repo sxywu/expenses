@@ -26,6 +26,8 @@ var CategoryComponent = React.createClass({
 
   },
   onClick() {
+    if (!this.props.data.id) return;
+    
     ViewActionCreators.selectNode({
       type: 'category',
       id: this.props.data.id
