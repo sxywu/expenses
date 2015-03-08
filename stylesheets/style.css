@@ -75,6 +75,7 @@ body {
 .CategoryDetail-body {
   padding: 10px 20px;
   margin: 10px 0;
+  font-size: 16px;
 }
 
 .CategoryDetail-body .table {
