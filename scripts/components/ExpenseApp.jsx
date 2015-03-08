@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var cx = React.addons.classSet;
 var _ = require('lodash');
 var d3 = require('d3/d3');
 
@@ -9,7 +10,8 @@ var GraphComponent = require('./Graph.jsx');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
-// todo: instructions, selection/highlight, positioning, direction on drag
+// todo: instructions
+var weekFormat = d3.time.format('%b. %d, %Y');
 var ExpenseApp = React.createClass({
   getInitialState() {
     return {
@@ -28,9 +30,10 @@ var ExpenseApp = React.createClass({
     CategoryStore.removeChangeListener(this.getExpensesForWeek);
     ExpenseStore.removeChangeListener(this.getExpensesForWeek);
   },
-  getExpensesForWeek() {
+  getExpensesForWeek(week) {
+    week = week || this.state.week;
     var expenses = _.filter(ExpenseStore.getAll(), (expense) => {
-      return _.isEqual(this.state.week, d3.time.week(expense.timestamp));
+      return _.isEqual(week, d3.time.week(expense.timestamp));
     });
     var categories = _.chain(expenses)
       .pluck('categories')
@@ -38,15 +41,40 @@ var ExpenseApp = React.createClass({
       .map((categoryId) => CategoryStore.get(categoryId))
       .value();
 
-    this.setState({expenses, categories});
+    this.setState({week, expenses, categories});
   },
   render() {
+    var rightArrowClasses = cx({
+      'glyphicon': true,
+      'glyphicon-arrow-right': true,
+      'disabled': _.isEqual(this.state.week, this.state.currentWeek)
+    });
+    var weekText = "Week of " + weekFormat(this.state.week);
     return (
       <div>
         <PanelComponent data={this.state} />
         <GraphComponent data={this.state} />
+        <h2 className="Week-title">
+          <div className="glyphicon glyphicon-arrow-left"
+            onClick={this.onArrowClick.bind(this, 'left')} />
+          {weekText}
+          <div className={rightArrowClasses}
+            onClick={this.onArrowClick.bind(this, 'right')} />
+        </h2>
       </div>
     );
+  },
+  onArrowClick(direction) {
+    var week = this.state.week;
+    var weekInMS = 7 * 86400000;
+    if (direction === 'left') {
+      week = new Date(week.getTime() - weekInMS);
+    } else if (direction === 'right' &&
+      !_.isEqual(this.state.week, this.state.currentWeek)) {
+      week = week = new Date(week.getTime() + weekInMS);
+    }
+
+    this.getExpensesForWeek(week);
   }
 });
 

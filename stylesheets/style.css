@@ -8,6 +8,22 @@ body {
   color: #666;
 }
 
+.Week-title {
+  position: fixed;
+  left: 325px;
+  line-height: 58px;
+  margin: 0;
+  color: #0B486B;
+}
+
+.Week-title .glyphicon {
+  margin: 0px 20px;
+}
+
+.Week-title .glyphicon.disabled {
+  opacity: .25;
+}
+
 .Panel {
   width: 325px;
   position: fixed;
