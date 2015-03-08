@@ -4,6 +4,8 @@ var GraphBackground = {};
 
 var height = 2;
 var padding = {top: 10, left: 20};
+var duration = 500;
+
 GraphBackground.enter = (selection) => {
   selection.select('rect')
     .attr('width', (d) => d.width)
@@ -22,6 +24,17 @@ GraphBackground.enter = (selection) => {
   selection.attr('transform', (d) => {
     return 'translate(0,' + d.y + ')';
   });
+}
+
+GraphBackground.update = (selection) => {
+  selection.select('rect')
+    .transition().duration(duration)
+    .attr('width', (d) => d.width);
+
+  selection.transition().duration(duration)
+    .attr('transform', (d) => {
+      return 'translate(0,' + d.y + ')';
+    });
 }
 
 GraphBackground.exit = () => {

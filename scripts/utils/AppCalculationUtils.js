@@ -133,6 +133,13 @@ AppCalculationUtils.calculateUpdate = (prev, next) => {
       expense.update = !_.isEqual(prevExpense, expense);
     }
   });
+  _.each(next.dates, (date) => {
+    var prevDate = _.find(prev.dates, (prevDate) => _.isEqual(prevDate.date === date.date));
+    if (prevDate) {
+      delete prevDate.update;
+      date.update = !_.isEqual(prevDate, date);
+    }
+  });
 }
 
 // positioning functions

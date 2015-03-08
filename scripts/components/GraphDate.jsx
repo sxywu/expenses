@@ -9,6 +9,18 @@ var GraphDateComponent = React.createClass({
     this.d3Wrapper.datum(this.props.data)
       .call(GraphDate.enter);
   },
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.data.update) {
+      this.d3Wrapper.datum(nextProps.data)
+        .call(GraphDate.update);
+      return false;
+    }
+    return true;
+  },
+  componentDidUpdate() {
+    this.d3Wrapper.datum(this.props.data)
+        .call(GraphDate.update);
+  },
   render() {
     return (
       <g className="GraphDate">
