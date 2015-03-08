@@ -27,7 +27,7 @@ var GraphComponent = React.createClass({
     }
   },
   componentDidMount() {
-    window.addEventListener('resize', this._onWindowResize);
+    window.addEventListener('resize', _.debounce(this._onWindowResize, 200));
     GraphStore.addChangeListener(this._onChange);  
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
