@@ -6,7 +6,7 @@ var CategoryStore = require('../stores/CategoryStore');
 var GraphCalculationUtils = require('../utils/GraphCalculationUtils');
 var LabelComponent = require('./Label.jsx');
 
-var dateFormat = d3.time.format('%x');
+var dateFormat = d3.time.format('%m/%d %I:%M%p');
 var ExpenseDetail = React.createClass({
   render() {
     var expense = ExpenseStore.get(this.props.data.id);
