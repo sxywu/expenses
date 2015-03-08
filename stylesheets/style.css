@@ -70,7 +70,6 @@ body {
 .Panel-body {
   padding: 0;
   margin: 20px 0;
-  max-height: 90%;
   overflow: auto;
 }
 

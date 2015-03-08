@@ -19,13 +19,17 @@ var AppCalculationUtils = require('../utils/AppCalculationUtils');
 // todo: home
 var ExpenseApp = React.createClass({
   getInitialState() {
+    var top = 58;
     return {
       selection: SelectionStore.getSelection(),
       panelBody: "home",
-      justSelected: false
+      justSelected: false,
+      top: top,
+      height: window.innerHeight - top
     }
   },
   componentDidMount() {
+    window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('keypress', this.windowKeyPress);
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // TODO: remove this later, better to have it go through dispatcher
@@ -44,8 +48,13 @@ var ExpenseApp = React.createClass({
     }
   },
   componentWillUnMount() {
+    window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keypress', this.windowKeyPress);
     SelectionStore.removeChangeListener(this._onChange);
+  },
+  _onWindowResize() {
+    var height = window.innerHeight - this.state.top;
+    this.setState({height});
   },
   _onChange() {
     var selection = SelectionStore.getSelection();
@@ -123,8 +132,9 @@ var ExpenseApp = React.createClass({
       );
     }
 
+    var bodyStyle = {"max-height": this.state.height};
     return (
-      <div className="Panel-body">
+      <div className="Panel-body" style={bodyStyle}>
         {body}
       </div>
     );
