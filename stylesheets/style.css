@@ -85,7 +85,6 @@ body {
   line-height: 24px;
 }
 
-.Home-body,
 .AddCategory-body,
 .AddExpense-body,
 .Summary-body,
@@ -96,9 +95,10 @@ body {
   font-size: 16px;
 }
 
-.Home-body p {
+.Home-body {
   font-size: 12px;
-  vertical-align: middle;
+  padding: 0 20px 10px 20px;
+  margin: 0 0 10px 0;
 }
 
 .Home .glyphicon {
