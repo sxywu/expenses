@@ -41,6 +41,10 @@ var GraphComponent = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onWindowResize() {
+   AppCalculationUtils.callViewActionCreators(() => {
+      ViewActionCreators.deletePositions();
+    });
+
     var panel = document.getElementsByClassName('Panel')[0];
     var left = panel ? panel.offsetWidth : 325;
     var width = window.innerWidth - left;

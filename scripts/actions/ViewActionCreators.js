@@ -38,6 +38,13 @@ var ViewActionCreators = {
     });
   },
 
+  deletePositions(data) {
+    AppDispatcher.dispatch({
+      actionType: Constants.DELETE_POSITIONS,
+      data: data
+    });
+  },
+
   afterDragExpense(data) {
     AppDispatcher.dispatch({
       actionType: Constants.AFTER_DRAG_EXPENSE,

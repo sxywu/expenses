@@ -60,10 +60,11 @@ GraphStore.dispatchToken = AppDispatcher.register((action) => {
       saveToStorage();
       return true;
 
+    case Constants.DELETE_POSITIONS:
     case Constants.ADD_EXPENSE_TO_CATEGORY:
       positions = {};
       saveToStorage();
-      return true;
+      break;
 
     default:
       return true;
