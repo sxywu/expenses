@@ -24,11 +24,6 @@ GraphBackground.enter = (selection) => {
   });
 }
 
-GraphBackground.update = (selection) => {
-  selection.select('text')
-    .text((d) => d.formattedDate);
-}
-
 GraphBackground.exit = () => {
 
 }

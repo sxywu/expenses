@@ -7,29 +7,13 @@ var GraphDateComponent = React.createClass({
     // wrap element in d3
     this.d3Wrapper = d3.select(this.getDOMNode());
     this.d3Wrapper.datum(this.props.data)
-      .call(GraphDate.enter)
-      .call(GraphDate.update);
-  },
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.data.update) {
-      this.d3Wrapper.datum(nextProps.data)
-        .call(GraphDate.update);
-      return false;
-    }
-    return true;
-  },
-  componentDidUpate() {
-    this.d3Wrapper.datum(this.props.data)
-      .call(GraphDate.update);
-  },
-  componentWillUnMount() {
-
+      .call(GraphDate.enter);
   },
   render() {
     return (
       <g className="GraphDate">
         <rect />
-        <text />
+        <text>{this.props.data.formattedDate}</text>
       </g>
     );
   }
