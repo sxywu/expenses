@@ -28,8 +28,8 @@ GraphCalculationUtils.calculateCategory = (category, expensesData) => {
     total: total
   }
 };
-GraphCalculationUtils.calculateCategories = (expensesData) => {
-  var categories = CategoryStore.getAll();
+GraphCalculationUtils.calculateCategories = (expensesData, categories) => {
+  categories = categories || CategoryStore.getAll();
   return _.map(categories, (category) => {
     return GraphCalculationUtils.calculateCategory(category, expensesData);
   });
