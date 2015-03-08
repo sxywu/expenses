@@ -99,9 +99,7 @@ var ExpenseApp = React.createClass({
     } else if (this.state.panelBody === 'add') {
       body = (
         <div className="Panel-body-add">
-          <h5>Add expense</h5>
           <AddExpenseComponent />
-          <h5>Add category</h5>
           <AddCategoryComponent />
         </div>
       );

@@ -11,11 +11,16 @@ var AddCategory = React.createClass({
     var disabled = !this.state.name;
     return (
       <div className="AddCategory">
-        <input className="input-sm" placeholder="name" value={this.state.name}
-          onChange={this.onChange} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
-        <button className="btn btn-sm btn-success" onClick={this.addCategory} disabled={disabled} >
-          Add
-        </button>
+        <h4 className="AddCategory-header">
+          Add category
+        </h4>
+        <div className="AddCategory-body">
+          <input className="input-sm form-control" placeholder="name" value={this.state.name}
+            onChange={this.onChange} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
+          <button className="btn btn-sm btn-success form-control" onClick={this.addCategory} disabled={disabled} >
+            Add
+          </button>
+        </div>
       </div>
     );
   },

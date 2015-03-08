@@ -16,13 +16,18 @@ var AddExpense = React.createClass({
     var disabled = !this.state.name || !this.state.amount;
     return (
       <div className="AddExpense">
-        <input className="input-sm" placeholder="name" value={this.state.name}
-          onChange={this.onChangeName} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
-        <input className="input-sm" placeholder="amount" value={this.state.amount}
-          onChange={this.onChangeAmount} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
-        <button className="btn btn-sm btn-success" onClick={this.addExpense} disabled={disabled} >
-          Add
-        </button>
+        <h4 className="AddExpense-header">
+          Add expense
+        </h4>
+        <div className="AddExpense-body">
+          <input className="input-sm form-control" placeholder="name" value={this.state.name}
+            onChange={this.onChangeName} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
+          <input className="input-sm form-control" placeholder="amount" value={this.state.amount}
+            onChange={this.onChangeAmount} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
+          <button className="btn btn-sm btn-success" onClick={this.addExpense} disabled={disabled} >
+            Add
+          </button>
+        </div>
       </div>
     );
   },
