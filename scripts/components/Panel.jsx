@@ -1,5 +1,7 @@
 var React = require('react/addons');
 var cx = React.addons.classSet;
+var _ = require('lodash');
+
 var SelectionStore = require('../stores/SelectionStore');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
@@ -9,6 +11,7 @@ var SummaryComponent = require('./Summary.jsx');
 var CategoryDetailComponent = require('./CategoryDetail.jsx');
 var ExpenseDetailComponent = require('./ExpenseDetail.jsx');
 var ViewActionCreators = require('../actions/ViewActionCreators');
+var AppCalculationUtils = require('../utils/AppCalculationUtils');
 
 // notes: how to stagger transitions?
 // eventually use immutable diff?
@@ -25,6 +28,19 @@ var ExpenseApp = React.createClass({
     window.addEventListener('keypress', this.windowKeyPress);
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // TODO: remove this later, better to have it go through dispatcher
+  },
+  componentWillReceiveProps(nextProps) {
+    // if selection not in expenses, send unselectNode
+    var selectionExists = _.chain(nextProps.data.expenses)
+      .pluck('id')
+      .union(_.pluck(nextProps.data.categories, 'id'))
+      .contains(this.state.selection && this.state.selection.id)
+      .value();
+    if (!selectionExists) {
+      AppCalculationUtils.callViewActionCreators(() => {
+        ViewActionCreators.unselectNode();
+      });
+    }
   },
   componentWillUnMount() {
     window.removeEventListener('keypress', this.windowKeyPress);

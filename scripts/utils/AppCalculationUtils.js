@@ -11,7 +11,7 @@ var AppCalculationUtils = {};
 AppCalculationUtils.callViewActionCreators = (callback) => {
   setTimeout(() => {
     if (AppDispatcher.isDispatching()) {
-      this.callViewActionCreators(callback);
+      AppCalculationUtils.callViewActionCreators(callback);
     } else {
       callback();
     }
