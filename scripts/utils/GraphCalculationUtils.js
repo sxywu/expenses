@@ -127,14 +127,14 @@ GraphCalculationUtils.calculateUpdate = (prev, next) => {
 // positioning functions
 var width;
 var height;
-var topPadding;
-var leftPadding = 150;
+var categoryHeight;
+var padding = {top: 75, left: 150};
 var yPadding;
 GraphCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
   width = docWidth;
   height = docHeight;
-  topPadding = height / 3;
-  yPadding = (height - topPadding) / 8;
+  categoryHeight = height / 3;
+  yPadding = (height - categoryHeight - padding.top) / 7;
 }
 
 var dayInMS = 86400000; // 86,400,000 milliseconds in a day
@@ -144,9 +144,9 @@ GraphCalculationUtils.getDatesForWeek = (week) => {
     return {
       date: date,
       formattedDate: dateFormat(date),
-      y: yPadding * (i + 1) + topPadding,
+      y: yPadding * i + padding.top,
       width: width,
-      x: leftPadding
+      x: padding.left
     }
   });
 }
@@ -155,13 +155,13 @@ var timeScale = d3.time.scale()
   .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
   .clamp(true);
 GraphCalculationUtils.positionExpenses = (expenses) => {
-  timeScale.range([leftPadding, width - leftPadding]);
+  timeScale.range([padding.left, width - padding.left]);
   _.each(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
     var time = new Date(0, 0, 0, exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
     expense.x = timeScale(time);
     expense.fixed = true;
-    expense.y = yPadding * (exp.timestamp.getDay() + 1) + topPadding;
+    expense.y = yPadding * exp.timestamp.getDay() + padding.top;
   });
 }
 
@@ -178,7 +178,7 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
     category.y = positions[category.id].y;
   });
   var nodes = _.union(categories, expenses);
-  force.size([width, topPadding])
+  force.size([width, categoryHeight])
     .nodes(nodes).links(links)
     .on('tick', () => {
       // make sure categories don't go out of bounds
@@ -189,15 +189,15 @@ GraphCalculationUtils.positionGraph = (categories, expenses, links) => {
         var y2 = d.y + d.size;
         if (x1 < 0) {
           // if it's hitting the left bound
-          d.x = d.size;
+          d.x = d.size + padding.left / 2;
         } else if (x2 > width) {
           // if it's hitting right bound
-          d.x = width - d.size;
+          d.x = width - d.size - padding.left / 2;
         }
-        if (y1 < 0) {
-          d.y = topPadding + d.size;
-        } else if (y2 > topPadding) {
-          d.y = topPadding - d.size;
+        if (y1 < height - categoryHeight) {
+          d.y = (height - categoryHeight) + d.size;
+        } else if (y2 > height) {
+          d.y = height - d.size;
         }
       });
     }).start();
