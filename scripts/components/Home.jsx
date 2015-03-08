@@ -8,13 +8,10 @@ var Home = React.createClass({
     return (
       <div className="Home">
         {this.renderDirections()}
-
         <h4 className="Home-header">
           About
         </h4>
-        <div className="Home-body">
-
-        </div>
+        {this.renderAbout()}
       </div>
     );
   },
@@ -38,7 +35,7 @@ var Home = React.createClass({
       </svg>
     );
     return (
-      <div className="Home-body">
+      <div className="Directions-body">
         <h4>Start</h4>
         <p>
           From the Add tab:<br />
@@ -57,6 +54,26 @@ var Home = React.createClass({
           Expenses are placed by time of creation.
           Categories are placed at the bottom, and only appear when there are expenses linked to it.
           Click on any expense or category to view them in detail.
+        </p>
+      </div>
+    );
+  },
+  renderAbout() {
+    return (
+      <div className="Home-body">
+        <p>
+        This simple expense-tracking app started out as an example app for a blog post on <a href="http://d3js.org/" target="_new">D3</a>+ 
+        <a href="http://facebook.github.io/react/" target="_new">React</a>+ 
+        <a href="http://facebook.github.io/flux/docs/overview.html" target="_new">Flux</a>.
+        The blog post itself has yet to be written (I got carried away implementing this), but I *am* toying with the idea of expanding on this.
+        </p>
+        <p>
+        Number one on my to-do is to hook this up with the <a href="https://plaid.com/" target="_new">Plaid</a> API to start importing credit card transaction date (manual input?  Ain't nobody got time for that).
+        Then better mobile compatibility, and better design and styling.
+        </p>
+        <p>
+        <a href="https://twitter.com/shirleyxywu" target="_new">Let me know what you think</a><br />
+        <a href="https://github.com/sxywu/expenses/issues" target="_new">Tell me if you find a bug</a><br />
         </p>
       </div>
     );

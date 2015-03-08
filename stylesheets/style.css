@@ -70,6 +70,8 @@ body {
 .Panel-body {
   padding: 0;
   margin: 20px 0;
+  max-height: 90%;
+  overflow: auto;
 }
 
 .Home-header,
@@ -85,6 +87,7 @@ body {
   line-height: 24px;
 }
 
+.Home-body,
 .AddCategory-body,
 .AddExpense-body,
 .Summary-body,
@@ -96,6 +99,18 @@ body {
 }
 
 .Home-body {
+  font-size: 12px;
+}
+
+.Home-body a {
+  display: inline-block;
+  background-color: #fff;
+  padding: 0 3px;
+  border-radius: 3px;
+  margin: 1px;
+}
+
+.Directions-body {
   font-size: 12px;
   padding: 0 20px 10px 20px;
   margin: 0 0 10px 0;
