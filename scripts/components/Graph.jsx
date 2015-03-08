@@ -13,18 +13,21 @@ var ExpenseComponent = require('./Expense.jsx');
 var LinkComponent = require('./Link.jsx');
 var GraphDateComponent = require('./GraphDate.jsx');
 
-var width = 900;
-var height = 700;
 var GraphComponent = React.createClass({
   getInitialState() {
+    var left = 325;
     return {
       categories: [],
       expenses: [],
       links: [],
-      dates: []
+      dates: [],
+      left: left,
+      width: window.innerWidth - left,
+      height: window.innerHeight
     }
   },
   componentDidMount() {
+    window.addEventListener('resize', this._onWindowResize);
     GraphStore.addChangeListener(this._onChange);  
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
@@ -33,11 +36,23 @@ var GraphComponent = React.createClass({
     this._onChange(nextProps);
   },
   componentWillUnMount() {
+    window.removeEventListener('resize', this._onWindowResize);
     GraphStore.removeChangeListener(this._onChange);
     SelectionStore.removeChangeListener(this._onChange);
   },
-  _onChange(props) {
+  _onWindowResize() {
+    var panel = document.getElementsByClassName('Panel')[0];
+    var left = panel ? panel.offsetWidth : 325;
+    var width = window.innerWidth - left;
+    var height = window.innerHeight;
+
+    this._onChange(this.props, width, height)
+  },
+  _onChange(props, width, height) {
     props = props || this.props;
+    width = width || this.state.width;
+    height = height || this.state.height;
+
     var selection = SelectionStore.getSelection();
     // get expenses from store for this week, and then use it to calculate expenses, 
     var expensesData = props.data.expenses;
@@ -54,7 +69,7 @@ var GraphComponent = React.createClass({
     AppCalculationUtils.positionGraph(categories, expenses, links);
     var dates = AppCalculationUtils.getDatesForWeek(props.data.week);
 
-    var state = {categories, expenses, links, dates};
+    var state = {categories, expenses, links, dates, width, height};
     AppCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
 
@@ -128,11 +143,12 @@ var GraphComponent = React.createClass({
   },
 
   render() {
-    var panel = document.getElementsByClassName('Panel')[0];
-    var left = panel ? panel.offsetWidth : 325;
-    width = window.innerWidth - left;
-    height = window.innerHeight;
-    var svgStyle = {position: 'absolute', width, height, left};
+    var svgStyle = {
+      position: 'absolute',
+      width: this.state.width,
+      height: this.state.height,
+      left: this.state.left
+    };
 
     var links = _.map(this.state.links, (link) => {
       var key = link.source.id + ',' + link.target.id;
