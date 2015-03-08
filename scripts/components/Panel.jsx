@@ -5,6 +5,7 @@ var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var AddCategoryComponent = require('./AddCategory.jsx');
 var AddExpenseComponent = require('./AddExpense.jsx');
+var SummaryComponent = require('./Summary.jsx');
 var CategoryDetailComponent = require('./CategoryDetail.jsx');
 var ExpenseDetailComponent = require('./ExpenseDetail.jsx');
 var ViewActionCreators = require('../actions/ViewActionCreators');
@@ -16,7 +17,8 @@ var ExpenseApp = React.createClass({
   getInitialState() {
     return {
       selection: SelectionStore.getSelection(),
-      panelBody: "directions"
+      panelBody: "directions",
+      justSelected: false
     }
   },
   componentDidMount() {
@@ -29,10 +31,10 @@ var ExpenseApp = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onChange() {
-    var selection = SelectionStore.getSelection();
     var merge = {
-      selection,
-      panelBody: selection ? null : 'directions'
+      selection: SelectionStore.getSelection(),
+      panelBody: 'summary',
+      justSelected: true
     };
     var state = React.addons.update(this.state, {
       $merge: merge
@@ -63,11 +65,17 @@ var ExpenseApp = React.createClass({
       "glyphicon-cog": true,
       "selected": this.state.panelBody === 'settings'
     });
+    var summaryClasses = cx({
+      "glyphicon": true,
+      "glyphicon-th-list": true,
+      "selected": this.state.panelBody === 'summary'
+    });
 
     // take out settings for now, can't remember what i was gonna do with it...
     // <span className={settingClasses} onClick={this.clickHeaderIcon.bind(this, 'settings')} />
     return (
       <div className="Panel-header">
+        <span className={summaryClasses} onClick={this.clickHeaderIcon.bind(this, 'summary')} />
         <span className={addClasses} onClick={this.clickHeaderIcon.bind(this, 'add')} />
         <span className={directionClasses} onClick={this.clickHeaderIcon.bind(this, 'directions')} />
       </div>
@@ -75,25 +83,28 @@ var ExpenseApp = React.createClass({
   },
   renderBody() {
     var body = null;
-    if (this.state.panelBody) {
-      if (this.state.panelBody === 'add') {
-        body = (
-          <div className="Panel-body-add">
-            <h5>Add expense</h5>
-            <AddExpenseComponent />
-            <h5>Add category</h5>
-            <AddCategoryComponent />
-          </div>
-        );
-      }
-    } else if (this.state.selection) {
-      // if no category or expense is selected, then default to one of the header icons
-      if (this.state.selection.type === 'category') {
-        body = (<CategoryDetailComponent data={this.state.selection}
+    if (this.state.justSelected || this.state.panelBody === 'summary') {
+      if (this.state.selection) {
+        // if no category or expense is selected, then default to one of the header icons
+        if (this.state.selection.type === 'category') {
+          body = (<CategoryDetailComponent data={this.state.selection}
+            expenses={this.props.data.expenses} />);
+        } else if (this.state.selection.type === 'expense') {
+          body = (<ExpenseDetailComponent data={this.state.selection} />);
+        }
+      } else {
+        body = (<SummaryComponent categories={this.props.data.categories}
           expenses={this.props.data.expenses} />);
-      } else if (this.state.selection.type === 'expense') {
-        body = (<ExpenseDetailComponent data={this.state.selection} />);
       }
+    } else if (this.state.panelBody === 'add') {
+      body = (
+        <div className="Panel-body-add">
+          <h5>Add expense</h5>
+          <AddExpenseComponent />
+          <h5>Add category</h5>
+          <AddCategoryComponent />
+        </div>
+      );
     }
 
     return (
@@ -115,15 +126,13 @@ var ExpenseApp = React.createClass({
       this.clickHeaderIcon('directions');
     } else if (pressedKey === CHAR_D) {
       this.deleteSelection();
+    } else if (pressedKey === CHAR_S) {
+      this.clickHeaderIcon('summary');
     }
-    // take out settings for now
-    // else if (pressedKey === CHAR_S) {
-    //   this.clickHeaderIcon('settings');
-    // }
   },
   clickHeaderIcon(icon) {
     var state = React.addons.update(this.state, {
-      $merge: {panelBody: icon, selection: null}
+      $merge: {panelBody: icon, justSelected: false}
     });
     this.setState(state);
   },
