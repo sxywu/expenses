@@ -26,24 +26,6 @@ var ExpenseComponent = React.createClass({
   componentWillUnMount() {
 
   },
-  onClick() {
-    ViewActionCreators.selectNode({
-      type: 'expense',
-      id: this.props.data.id
-    });
-  },
-  beforeDrag() {
-    this.props.beforeDrag(this.props.data);
-  },
-  onDrag(x, y) {
-    var expense = React.addons.update(this.props.data, {
-      $merge: {update: true, drag: true, x, y}
-    });
-    this.props.onDrag(expense);
-  },
-  afterDrag() {
-    this.props.afterDrag(this.props.data);
-  },
   render() {
     return (
       <g className="expense">
@@ -52,6 +34,29 @@ var ExpenseComponent = React.createClass({
         <text>{this.props.data.name}</text>
       </g>
     );
+  },
+  // events
+  onClick() {
+    if (!this.props.data.id) return;
+    ViewActionCreators.selectNode({
+      type: 'expense',
+      id: this.props.data.id
+    });
+  },
+  beforeDrag() {
+    if (!this.props.data.id) return;
+    this.props.beforeDrag(this.props.data);
+  },
+  onDrag(x, y) {
+    if (!this.props.data.id) return;
+    var expense = React.addons.update(this.props.data, {
+      $merge: {update: true, drag: true, x, y}
+    });
+    this.props.onDrag(expense);
+  },
+  afterDrag() {
+    if (!this.props.data.id) return;
+    this.props.afterDrag(this.props.data);
   }
 });
 
