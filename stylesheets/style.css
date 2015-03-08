@@ -14,25 +14,27 @@ body {
   height: 100%;
   left: 0;
   top: 0;
-  padding: 20px;
-  background-color: rgba(255,255,255, 0.75);
+  padding: 20px 0;
+  background-color: #0B486B;
   margin: 0px;
   border-radius: 0px;
   border: none;
+  color: #fff;
 }
 
 .Panel-header {
   width: 100%;
   height: 28px;
   margin-bottom: 10px;
+  padding: 0 20px;
   text-align: center;
 }
 
 .Panel-header .glyphicon {
   height: 28px;
   line-height: 26px;
-  border: 1px solid #666;
-  color: #666;
+  border: 1px solid #0B486B;
+  color: #0B486B;
   float: right;
   width: 28px;
   border-radius: 14px;
@@ -41,12 +43,12 @@ body {
 }
 
 .Panel-header .glyphicon:hover {
-  box-shadow: 0 0 5px #FFE545;
+  box-shadow: 0 0 5px #CFF09E;
   cursor: pointer;
 }
 
 .Panel-header .glyphicon.selected {
-  box-shadow: 0 0 0 2px #FFE545;
+  box-shadow: 0 0 0 2px #CFF09E;
 }
 
 .Panel-body {
@@ -54,25 +56,27 @@ body {
   margin: 20px 0;
 }
 
+.Summary-header,
 .ExpenseDetail-header,
 .CategoryDetail-header {
-  background-color: #efefef;
+  color: #0B486B;
+  background-color: #fff;
   margin: 0;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 5px 20px;
+  line-height: 24px;
 }
 
+.Summary-body,
 .ExpenseDetail-body,
 .CategoryDetail-body {
-  padding: 10px;
+  padding: 10px 20px;
   margin: 10px 0;
 }
 
 .ExpenseDetail-footer,
 .CategoryDetail-footer {
-  padding: 5px 10px;
-  background-color: #fafafa;
-  border-radius: 5px;
+  padding: 5px 20px;
+  background-color: #fff;
 }
 
 .ExpenseDetail-close,

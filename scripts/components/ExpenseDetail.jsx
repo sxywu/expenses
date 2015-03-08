@@ -18,7 +18,8 @@ var ExpenseDetail = React.createClass({
     return (
       <div className="ExpenseDetail">
         <h4 className="ExpenseDetail-header">
-          <LabelComponent data={expense} />
+          {expense.name}
+          <br />
           ${expense.amount.toFixed(2)}
         </h4>
         <div className="ExpenseDetail-body">

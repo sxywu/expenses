@@ -27,7 +27,8 @@ var CategoryDetail = React.createClass({
     return (
       <div className="CategoryDetail">
         <h4 className="CategoryDetail-header">
-          <LabelComponent data={category} /> 
+          {category.name}
+          <br />
           ${category.total.toFixed(2)}
         </h4>
         <div className="CategoryDetail-body">

@@ -10,7 +10,7 @@ LinkVisualization.enter = (selection) => {
     .attr('x2', (d) => d.source.x)
     .attr('y2', (d) => d.source.y)
     .attr('fill', 'none')
-    .attr('stroke', '#333');
+    .attr('stroke', '#0B486B');
 
   selection.call(LinkVisualization.update);
 }

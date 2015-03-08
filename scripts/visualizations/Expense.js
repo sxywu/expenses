@@ -14,7 +14,7 @@ ExpenseVisualization.enter = (selection) => {
     .attr('width', 0)
     .attr('height', 0)
     .attr('fill', '#fafafa')
-    .attr('stroke', '#333')
+    .attr('stroke', '#0B486B')
     .attr('stroke-width', 0);
 
   selection.select('rect.textBG')
