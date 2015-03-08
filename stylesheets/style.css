@@ -98,6 +98,20 @@ body {
 
 .Home-body {
   font-size: 12px;
+  vertical-align: middle;
+}
+
+.Home .glyphicon {
+  height: 28px;
+  line-height: 26px;
+  border: 1px solid #0B486B;
+  color: #0B486B;
+  width: 28px;
+  border-radius: 14px;
+  margin: 5px;
+  background-color: #fff;
+  text-align: center;
+  font-size: 14px;
 }
 
 .CategoryDetail-body .table {

@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var cx = React.addons.classSet;
 var CategoryComponent = require('./Category.jsx');
 
 var Home = React.createClass({
@@ -20,8 +21,12 @@ var Home = React.createClass({
     );
   },
   renderDirections() {
+    var addClasses = cx({
+      "glyphicon": true,
+      "glyphicon-plus-sign": true
+    });
     var categoryStyle = {width: 80, height: 60};
-    var categoryData = {name: 'Restaurants', size: 15, x: 40, y: 24, fill: '#84315A'};
+    var categoryData = {name: 'Restaurant', size: 15, x: 40, y: 25, fill: '#84315A'};
     var category = (
       <svg style={categoryStyle}>
         <CategoryComponent data={categoryData} />
@@ -29,7 +34,8 @@ var Home = React.createClass({
     );
     return (
       <div className="Home-body">
-        <li>{category} add some categories</li>
+        <span className={addClasses} />From the Add tab<br />
+        {category} add some categories 
       </div>
     );
   }
