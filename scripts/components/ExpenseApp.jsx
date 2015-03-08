@@ -69,12 +69,12 @@ var ExpenseApp = React.createClass({
     var weekInMS = 7 * 86400000;
     if (direction === 'left') {
       week = new Date(week.getTime() - weekInMS);
+      this.getExpensesForWeek(week);
     } else if (direction === 'right' &&
       !_.isEqual(this.state.week, this.state.currentWeek)) {
       week = week = new Date(week.getTime() + weekInMS);
+      this.getExpensesForWeek(week);
     }
-
-    this.getExpensesForWeek(week);
   }
 });
 
