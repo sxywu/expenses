@@ -18,11 +18,16 @@ var Summary = React.createClass({
           </div>
         );
       }).value();
+    var total = _.reduce(this.props.expenses, (memo, expense) => {
+      return memo + expense.amount;
+    }, 0);
       
     return (
       <div className="Summary">
         <h4 className="Summary-header">
-          Summary
+          Weekly total
+          <br />
+          ${total.toFixed(2)}
         </h4>
         <div className="Summary-body">
           {categories}
