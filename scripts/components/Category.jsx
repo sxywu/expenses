@@ -36,7 +36,8 @@ var CategoryComponent = React.createClass({
       <g className="category">
         <circle className="back" />
         <circle className="front" />
-        <text />
+        <rect />
+        <text>{this.props.data.name}</text>
       </g>
     );
   }
