@@ -61,7 +61,7 @@ var GraphComponent = React.createClass({
     // get expenses from store for this week, and then use it to calculate expenses, 
     var expensesData = props.data.expenses;
     var categoriesData = props.data.categories;
-    var categories = AppCalculationUtils.calculateCategories(expensesData, categoriesData);
+    var categories = AppCalculationUtils.calculateCategories(expensesData);
     var expenses = AppCalculationUtils.calculateExpenses(expensesData);
     var links = AppCalculationUtils.calculateLinks(categories, expenses);
     // calculate some more rendering things

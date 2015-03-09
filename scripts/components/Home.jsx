@@ -52,7 +52,7 @@ var Home = React.createClass({
           Click on any expense or category to view it in detail.
           The graph shows a week of expenses at a time.
           Expenses are placed by time of creation.
-          Categories are placed at the bottom, and only appear when there are expenses linked to it.
+          Categories are placed at the bottom.
         </p>
       </div>
     );
