@@ -169,3 +169,21 @@ body {
 .Expense text {
   font-size: .75em;
 }
+
+/*share buttons*/
+
+
+#share {
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 10px;
+}
+
+.twitter-share-button {
+  margin-right: -30px;
+}
+
+.gh-star-button {
+  width: 75px;
+}
