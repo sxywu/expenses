@@ -44,16 +44,15 @@ var Home = React.createClass({
         </p>
         <h4>Categorize</h4>
         <p>
-          Add an expense by dragging it over a category.
-          Drag the expense over a linked category to remove it.
+          Add an expense by dragging it over a category, drag again to remove.
           An expense can belong to multiple categories.
         </p>
         <h4>Inspect</h4>
         <p>
+          Click on any expense or category to view it in detail.
           The graph shows a week of expenses at a time.
           Expenses are placed by time of creation.
           Categories are placed at the bottom, and only appear when there are expenses linked to it.
-          Click on any expense or category to view them in detail.
         </p>
       </div>
     );
@@ -65,12 +64,13 @@ var Home = React.createClass({
         This simple expense-tracking app started out as an example app for a blog post on <a href="http://d3js.org/" target="_new">D3</a>+ 
         <a href="http://facebook.github.io/react/" target="_new">React</a>+ 
         <a href="http://facebook.github.io/flux/docs/overview.html" target="_new">Flux</a>.
-        The blog post itself has yet to be written (I got carried away implementing this), but I *am* toying with the idea of expanding on this.
+        The blog post itself has yet to be written, but you can find the <a href="https://github.com/sxywu/expenses" target="_new">source code here</a>.
         </p>
-        <p>
-        Number one on my to-do is to hook this up with the <a href="https://plaid.com/" target="_new">Plaid</a> API to start importing credit card transaction date (manual input?  Ain't nobody got time for that).
-        Then better mobile compatibility, and better design and styling.
-        </p>
+        <u>Next steps</u>:
+        <li>Set up a node server and store data in database</li>
+        <li>Hook up <a href="https://plaid.com/" target="_new">Plaid</a> API, import credit card transactions (manual input?  Ain't nobody got time for that)</li>
+        <li>Better mobile compatibility</li>
+        <li>Better design and styling</li>
         <p>
         <a href="https://twitter.com/shirleyxywu" target="_new">Let me know what you think</a><br />
         <a href="https://github.com/sxywu/expenses/issues" target="_new">Tell me if you find a bug</a><br />
