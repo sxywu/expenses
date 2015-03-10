@@ -7,7 +7,8 @@ var GraphDateComponent = React.createClass({
     // wrap element in d3
     this.d3Wrapper = d3.select(this.getDOMNode());
     this.d3Wrapper.datum(this.props.data)
-      .call(GraphDate.enter);
+      .call(GraphDate.enter)
+      .call(GraphDate.update);
   },
   shouldComponentUpdate(nextProps) {
     if (nextProps.data.update) {
