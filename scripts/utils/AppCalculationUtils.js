@@ -147,7 +147,7 @@ AppCalculationUtils.calculateUpdate = (prev, next) => {
 var width;
 var height;
 var categoryHeight;
-var padding = {top: 75, left: 150};
+var padding = {top: 75, left: 125};
 var yPadding;
 AppCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
   width = docWidth;
@@ -163,15 +163,14 @@ AppCalculationUtils.getDatesForWeek = (week) => {
     return {
       date: date,
       formattedDate: dateFormat(date),
-      y: yPadding * i + padding.top,
-      width: width,
-      x: padding.left
+      x: padding.left,
+      y: yPadding * i + padding.top
     }
   });
 }
 
 var expenseScale = d3.scale.linear();
-AppCalculationUtils.positionExpenses = (expenses) => {
+AppCalculationUtils.positionExpensesAndDates = (expenses, dates) => {
   var expensesByDay = _.groupBy(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
     return exp.timestamp.getDay();
@@ -195,6 +194,7 @@ AppCalculationUtils.positionExpenses = (expenses) => {
       expense.y = yPadding * day + padding.top;
       expense.fixed = true;
     });
+    dates[day].width = x;
   });
 }
 

@@ -2,14 +2,15 @@ var d3 = require('d3/d3');
 
 var GraphBackground = {};
 
-var height = 2;
+var height = 6;
 var padding = {top: 10, left: 20};
 var duration = 500;
 
 GraphBackground.enter = (selection) => {
   selection.select('rect')
-    .attr('width', (d) => d.width)
+    .attr('width', 0)
     .attr('height', height)
+    .attr('x', (d) => d.x)
     .attr('y', -height / 2)
     .attr('opacity', .1)
     .attr('fill', '#0B486B');
@@ -29,7 +30,7 @@ GraphBackground.enter = (selection) => {
 GraphBackground.update = (selection) => {
   selection.select('rect')
     .transition().duration(duration)
-    .attr('width', (d) => d.width);
+    .attr('width', (d) => d.width - d.x);
 
   selection.transition().duration(duration)
     .attr('transform', (d) => {
