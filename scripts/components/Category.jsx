@@ -28,10 +28,14 @@ var CategoryComponent = React.createClass({
   onClick() {
     if (!this.props.data.id) return;
     
-    ViewActionCreators.selectNode({
-      type: 'category',
-      id: this.props.data.id
-    });
+    if (this.props.data.selected) {
+      ViewActionCreators.unselectNode();
+    } else {
+      ViewActionCreators.selectNode({
+        type: 'category',
+        id: this.props.data.id
+      });
+    }
   },
   render() {
     return (

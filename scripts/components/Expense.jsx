@@ -38,10 +38,15 @@ var ExpenseComponent = React.createClass({
   // events
   onClick() {
     if (!this.props.data.id) return;
-    ViewActionCreators.selectNode({
-      type: 'expense',
-      id: this.props.data.id
-    });
+
+    if (this.props.data.selected) {
+      ViewActionCreators.unselectNode();
+    } else {
+      ViewActionCreators.selectNode({
+        type: 'expense',
+        id: this.props.data.id
+      });
+    }
   },
   beforeDrag() {
     if (!this.props.data.id) return;
