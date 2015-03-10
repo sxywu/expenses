@@ -41,9 +41,12 @@ AppCalculationUtils.calculateCategory = (category, expensesData) => {
 };
 AppCalculationUtils.calculateCategories = (expensesData, categories) => {
   categories = categories || CategoryStore.getAll();
-  return _.map(categories, (category) => {
-    return AppCalculationUtils.calculateCategory(category, expensesData);
-  });
+  return _.chain(categories)
+    .map((category) => {
+      return AppCalculationUtils.calculateCategory(category, expensesData);
+    }).sortBy((category) => {
+      return -category.total;
+    }).value();
 };
 
 var dateFormat = d3.time.format('%m/%d (%a)');
