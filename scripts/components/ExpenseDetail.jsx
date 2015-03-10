@@ -24,10 +24,11 @@ var ExpenseDetail = React.createClass({
         </h4>
         <div className="ExpenseDetail-body">
           <div>
-            Date: {dateFormat(expense.timestamp)} 
+            Date: {dateFormat(expense.timestamp)}
           </div>
           <div>
-            Categories: {categories}
+            Categories:<br />
+            {categories}
           </div>
         </div>
         <div className="ExpenseDetail-footer">
