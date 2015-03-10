@@ -44,13 +44,13 @@ var Home = React.createClass({
         </p>
         <h4>Drag</h4>
         <p>
-          Add an expense by dragging it over a category, drag again to remove.
+          Add an expense by dragging it over a category, drag again to remove.<br />
           An expense can belong to multiple categories.
         </p>
         <h4>Click</h4>
         <p>
-          Click on any expense or category to view it in detail.
-          While in detail view, take actions (edit, delete, close) from the bottom bar.
+          Click on any expense or category to view it in detail, click again to deselect.<br />
+          While in detail view, take actions (delete, close) from the bottom bar.<br />
           The graph shows a week of expenses at a time.
         </p>
       </div>
