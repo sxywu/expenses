@@ -30,7 +30,7 @@ GraphBackground.enter = (selection) => {
 GraphBackground.update = (selection) => {
   selection.select('rect')
     .transition().duration(duration)
-    .attr('width', (d) => d.width - d.x);
+    .attr('width', (d) => d.width ? d.width - d.x : 0);
 
   selection.transition().duration(duration)
     .attr('transform', (d) => {
