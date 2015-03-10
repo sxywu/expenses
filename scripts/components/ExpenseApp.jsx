@@ -52,8 +52,6 @@ var ExpenseApp = React.createClass({
     var weekText = "Week of " + weekFormat(this.state.week);
     return (
       <div>
-        <PanelComponent data={this.state} />
-        <GraphComponent data={this.state} />
         <h2 className="Week-title">
           <div className="glyphicon glyphicon-arrow-left"
             onClick={this.onArrowClick.bind(this, 'left')} />
@@ -61,6 +59,8 @@ var ExpenseApp = React.createClass({
           <div className={rightArrowClasses}
             onClick={this.onArrowClick.bind(this, 'right')} />
         </h2>
+        <PanelComponent data={this.state} />
+        <GraphComponent data={this.state} />
       </div>
     );
   },
