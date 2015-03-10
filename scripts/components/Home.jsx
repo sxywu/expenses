@@ -36,23 +36,22 @@ var Home = React.createClass({
     );
     return (
       <div className="Directions-body">
-        <h4>Start</h4>
+        <h4>Add</h4>
         <p>
           From the Add tab:<br />
           {category} add some categories,<br />
           {expense} and then add some expenses.<br />
         </p>
-        <h4>Categorize</h4>
+        <h4>Drag</h4>
         <p>
           Add an expense by dragging it over a category, drag again to remove.
           An expense can belong to multiple categories.
         </p>
-        <h4>Inspect</h4>
+        <h4>Click</h4>
         <p>
           Click on any expense or category to view it in detail.
+          While in detail view, take actions (edit, delete, close) from the bottom bar.
           The graph shows a week of expenses at a time.
-          Expenses are placed by time of creation.
-          Categories are placed at the bottom.
         </p>
       </div>
     );
@@ -66,7 +65,7 @@ var Home = React.createClass({
         <a href="http://facebook.github.io/flux/docs/overview.html" target="_new">Flux</a>.
         The blog post itself has yet to be written, but you can find the <a href="https://github.com/sxywu/expenses" target="_new">source code here</a>.
         </p>
-        <u>Next steps</u>:
+        <u>Next steps (because I'm addicted)</u>:
         <li>Set up a node server and store data in database</li>
         <li>Hook up <a href="https://plaid.com/" target="_new">Plaid</a> API, import credit card transactions (manual input?  Ain't nobody got time for that)</li>
         <li>Better mobile compatibility</li>
