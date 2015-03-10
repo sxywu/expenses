@@ -52,7 +52,8 @@ AppCalculationUtils.calculateExpenses = (expensesData) => {
     return {
       id: expense.id,
       name: expense.name,
-      size: 10
+      size: 10,
+      total: expense.amount
     };
   });
 };
@@ -169,17 +170,31 @@ AppCalculationUtils.getDatesForWeek = (week) => {
   });
 }
 
-var timeScale = d3.time.scale()
-  .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 23, 59, 59, 999)])
-  .clamp(true);
+var expenseScale = d3.scale.linear();
 AppCalculationUtils.positionExpenses = (expenses) => {
-  timeScale.range([padding.left, width - padding.left]);
-  _.each(expenses, (expense) => {
+  var expensesByDay = _.groupBy(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
-    var time = new Date(0, 0, 0, exp.timestamp.getHours(), exp.timestamp.getMinutes(), exp.timestamp.getSeconds());
-    expense.x = timeScale(time);
-    expense.fixed = true;
-    expense.y = yPadding * exp.timestamp.getDay() + padding.top;
+    return exp.timestamp.getDay();
+  });
+
+  var maxWidth = 0;
+  _.each(expensesByDay, (expensesOfDay, day) => {
+    var width = _.reduce(expensesOfDay, (memo, expense) => {
+      return memo + expense.total + expense.size;
+    }, 0);
+    maxWidth = Math.max(maxWidth, width);
+  });
+  maxWidth = Math.max(maxWidth, 200);
+
+  expenseScale.domain([0, maxWidth])
+    .range([padding.left, width - padding.left]);
+  _.each(expensesByDay, (expensesOfDay, day) => {
+    var x = 0;
+    _.each(expensesOfDay, (expense) => {
+      expense.x = x += expenseScale(expense.total + expense.size);
+      expense.y = yPadding * day + padding.top;
+      expense.fixed = true;
+    });
   });
 }
 
