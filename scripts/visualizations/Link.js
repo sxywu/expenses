@@ -24,7 +24,7 @@ LinkVisualization.update = (selection) => {
     .attr('x2', (d) => d.target.x)
     .attr('y2', (d) => d.target.y)
     .attr('stroke-opacity', (d) => {
-      return d.source.selected || d.target.selected ? 1 : .25;
+      return d.source.selected || d.target.selected ? 1 : .05;
     });
 }
 

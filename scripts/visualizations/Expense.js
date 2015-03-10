@@ -41,7 +41,7 @@ ExpenseVisualization.update = (selection) => {
     .attr('width', (d) => d.size)
     .attr('height', (d) => d.size)
     .attr('stroke-opacity', (d) => {
-      return d.selected ? 1 : (d.highlighted ? .75 : .25);
+      return d.selected || d.highlighted ? 1 : .5;
     }).attr('stroke-width', 2);
 
   selection.select('text')
@@ -51,7 +51,7 @@ ExpenseVisualization.update = (selection) => {
     }).transition().duration(duration)
     .attr('y', (d) => d.size / 2 + margin.top)
     .attr('opacity', (d) => {
-      return d.selected ? 1 : (d.highlighted ? .75 : .25);
+      return d.selected || d.highlighted ? 1 : .5;
     });
 
   selection.select('rect.textBG')

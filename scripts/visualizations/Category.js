@@ -47,9 +47,9 @@ CategoryVisualization.update = (selection) => {
     .attr('fill', (d) => d.fill)
     .attr('stroke', (d) => d.fill)
     .attr('fill-opacity', (d) => {
-      return d.selected ? .75 : (d.highlighted ? .5 : .25);
+      return d.selected || d.highlighted ? .75 : .15;
     }).attr('stroke-opacity', (d) => {
-      return d.selected ? 1 : (d.highlighted ? .75 : .5);
+      return d.selected || d.highlighted ? 1 : .35;
     }).attr('stroke-width', 3);
 
   selection.select('text')
@@ -58,8 +58,9 @@ CategoryVisualization.update = (selection) => {
       d.textHeight = this.getBBox().height + padding.top;
     }).transition().duration(duration)
     .attr('y', (d) => d.size + margin.top)
-    .attr('opacity', 1)
-    .attr('fill', (d) => d.fill);
+    .attr('opacity', (d) => {
+      return d.selected || d.highlighted ? 1 : .5;
+    }).attr('fill', (d) => d.fill);
 
   selection.select('rect')
     .transition().duration(duration)
