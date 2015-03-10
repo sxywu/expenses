@@ -178,10 +178,13 @@ AppCalculationUtils.positionExpensesAndDates = (expenses, dates) => {
 
   var maxWidth = 0;
   _.each(expensesByDay, (expensesOfDay, day) => {
-    var width = _.reduce(expensesOfDay, (memo, expense) => {
+    dates[day].total = 0;
+    var total = _.reduce(expensesOfDay, (memo, expense) => {
+      dates[day].total += expense.total;
       return memo + expense.total + expense.size;
     }, 0);
-    maxWidth = Math.max(maxWidth, width);
+
+    maxWidth = Math.max(maxWidth, total);
   });
   maxWidth = Math.max(maxWidth, 200);
 
