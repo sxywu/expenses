@@ -5,9 +5,15 @@ var ExpenseStore = require('../stores/ExpenseStore');
 var CategoryStore = require('../stores/CategoryStore');
 var AppCalculationUtils = require('../utils/AppCalculationUtils');
 var LabelComponent = require('./Label.jsx');
+var AddExpenseComponent = require('./AddExpense.jsx'); 
 
 var dateFormat = d3.time.format('%m/%d %I:%M%p');
 var ExpenseDetail = React.createClass({
+  getInitialState() {
+    return {
+      editing: false
+    }
+  },
   render() {
     var expense = ExpenseStore.get(this.props.data.id);
     var categories = _.map(expense.categories, (categoryId) => {
@@ -15,8 +21,16 @@ var ExpenseDetail = React.createClass({
       category = AppCalculationUtils.calculateCategory(category);
       return (<LabelComponent data={category} />);
     });
+
     return (
       <div className="ExpenseDetail">
+        {this.state.editing ? this.renderEdit(expense) : this.renderInfo(expense, categories)}
+      </div>
+    );
+  },
+  renderInfo(expense, categories) {
+    return (
+      <div>
         <h4 className="ExpenseDetail-header">
           {expense.name}
           <br />
@@ -32,6 +46,9 @@ var ExpenseDetail = React.createClass({
           </div>
         </div>
         <div className="ExpenseDetail-footer">
+          <a className="action" onClick={this.editExpense}>
+            Edit
+          </a>
           <a className="action" onClick={this.deleteExpense}>
             Delete
           </a>
@@ -41,6 +58,15 @@ var ExpenseDetail = React.createClass({
         </div>
       </div>
     );
+  },
+  renderEdit(expense) {
+    return (
+      <AddExpenseComponent data={expense} onSubmit={this.editExpense} />
+    );
+  },
+  editExpense() {
+    var editing = !this.state.editing;
+    this.setState({editing});
   },
   deleteExpense() {
     ViewActionCreators.deleteExpense(this.props.data.id);

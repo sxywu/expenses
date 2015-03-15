@@ -5,8 +5,9 @@ var ViewActionCreators = require('../actions/ViewActionCreators');
 var AddExpense = React.createClass({
   clearState() {
     return {
-      name: '',
-      amount: ''
+      name: this.props.data ? this.props.data.name : '',
+      amount: this.props.data ? this.props.data.amount : '',
+      editing: !!this.props.data
     }
   },
   getInitialState() {
@@ -14,10 +15,13 @@ var AddExpense = React.createClass({
   },
   render() {
     var disabled = !this.state.name || !this.state.amount;
+    var title = this.state.editing ? 'Edit expense' : 'Add expense';
+    var buttonText = this.state.editing ? 'Save Edits' : 'Add';
+
     return (
       <div className="AddExpense">
         <h4 className="AddExpense-header">
-          Add expense
+          {title}
         </h4>
         <div className="AddExpense-body">
           <input className="input-sm form-control" placeholder="name" value={this.state.name}
@@ -25,7 +29,7 @@ var AddExpense = React.createClass({
           <input className="input-sm form-control" placeholder="amount" value={this.state.amount}
             onChange={this.onChangeAmount} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
           <button className="btn btn-sm btn-success" onClick={this.addExpense} disabled={disabled} >
-            Add
+            {buttonText}
           </button>
         </div>
       </div>
@@ -57,11 +61,20 @@ var AddExpense = React.createClass({
   },
   addExpense() {
     if (this.state.name && this.state.amount) {
-      ViewActionCreators.addExpense({
-        name: this.state.name,
-        amount: Number(this.state.amount)
-      });
-      this.setState(this.clearState());
+      if (this.state.editing) {
+        ViewActionCreators.editExpense({
+          id: this.props.data.id,
+          name: this.state.name,
+          amount: Number(this.state.amount)
+        });
+        this.props.onSubmit();
+      } else {
+        ViewActionCreators.addExpense({
+          name: this.state.name,
+          amount: Number(this.state.amount)
+        });
+        this.setState(this.clearState());
+      }
     }
   }
 });

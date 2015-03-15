@@ -31,6 +31,13 @@ function addExpense(expense) {
   });
 }
 
+function editExpense(edits) {
+  var expense = _.find(_expenses, (expense) => expense.id === edits.id);
+  if (!expense) return;
+  expense.name = edits.name;
+  expense.amount = edits.amount;
+}
+
 function deleteExpense(expenseId) {
   _expenses = _.filter(_expenses, (expense) => expense.id !== expenseId);
 }
@@ -83,6 +90,10 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.actionType) {
     case Constants.ADD_EXPENSE:
       addExpense(action.data);
+      break;
+
+    case Constants.EDIT_EXPENSE:
+      editExpense(action.data);
       break;
 
     case Constants.DELETE_EXPENSE:
