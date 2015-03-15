@@ -192,11 +192,11 @@ AppCalculationUtils.positionExpensesAndDates = (expenses, dates) => {
   maxWidth = Math.max(maxWidth, 200);
 
   expenseScale.domain([0, maxWidth])
-    .range([padding.left, width - padding.left]);
+    .range([0, width - 2 * padding.left]);
   _.each(expensesByDay, (expensesOfDay, day) => {
-    var x = 0;
+    var x = padding.left;
     _.each(expensesOfDay, (expense) => {
-      expense.x = x += expenseScale(expense.total + expense.size);
+      expense.x = x += expenseScale(expense.total) + expense.size;
       expense.y = yPadding * day + padding.top;
       expense.fixed = true;
     });

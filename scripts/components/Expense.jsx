@@ -15,7 +15,6 @@ var ExpenseComponent = React.createClass({
     if (nextProps.data.update) {
       this.d3Wrapper.datum(nextProps.data)
         .call(ExpenseVisualization.update);
-      return false;
     }
     return true;
   },

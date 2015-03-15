@@ -14,7 +14,6 @@ var CategoryComponent = React.createClass({
     if (nextProps.data.update) {
       this.d3Wrapper.datum(nextProps.data)
         .call(CategoryVisualization.update);
-      return false;
     }
     return true;
   },
