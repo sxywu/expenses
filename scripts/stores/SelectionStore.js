@@ -7,7 +7,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _selection = localStorage.selection && JSON.parse(localStorage.selection);
+var _selection;
 
 var SelectionStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -39,8 +39,6 @@ SelectionStore.dispatchToken = AppDispatcher.register((action) => {
   };
 
   SelectionStore.emitChange();
-  // lazily storing it in localStorage...
-  localStorage.selection = JSON.stringify(_selection);
 });
 
 module.exports = SelectionStore;

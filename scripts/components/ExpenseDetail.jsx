@@ -70,7 +70,6 @@ var ExpenseDetail = React.createClass({
   },
   deleteExpense() {
     ViewActionCreators.deleteExpense(this.props.data.id);
-    ViewActionCreators.unselectNode();
   },
   closeDetail() {
     ViewActionCreators.unselectNode();

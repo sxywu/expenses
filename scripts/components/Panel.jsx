@@ -42,6 +42,7 @@ var ExpenseApp = React.createClass({
       .contains(this.state.selection && this.state.selection.id)
       .value();
     if (!selectionExists) {
+      this.setState({selection: null});
       AppCalculationUtils.callViewActionCreators(() => {
         ViewActionCreators.unselectNode();
       });

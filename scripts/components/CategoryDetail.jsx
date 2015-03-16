@@ -49,7 +49,6 @@ var CategoryDetail = React.createClass({
   },
   deleteCategory() {
     ViewActionCreators.deleteCategory(this.props.data.id);
-    ViewActionCreators.unselectNode();
   },
   closeDetail() {
     ViewActionCreators.unselectNode();
