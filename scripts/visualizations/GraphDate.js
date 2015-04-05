@@ -27,6 +27,9 @@ GraphBackground.enter = (selection) => {
 }
 
 GraphBackground.update = (selection) => {
+  selection.select('rect')
+    .transition().duration(duration)
+    .attr('width', (d) => d.width);
 
   selection.transition().duration(duration)
     .attr('transform', (d) => {
@@ -36,6 +39,16 @@ GraphBackground.update = (selection) => {
 
 GraphBackground.exit = () => {
 
+}
+
+GraphBackground.onMouseEnter = (selection) => {
+  selection.select('rect')
+    .attr('fill', '#cfcfcf');
+}
+
+GraphBackground.onMouseLeave = (selection) => {
+  selection.select('rect')
+    .attr('fill', (d) => d.fill);
 }
 
 module.exports = GraphBackground;

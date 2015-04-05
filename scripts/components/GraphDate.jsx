@@ -29,12 +29,18 @@ var GraphDateComponent = React.createClass({
 
     return (
       <g className="GraphDate">
-        <rect />
+        <rect onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} />
         <text className="date">
           {date}
         </text>
       </g>
     );
+  },
+  onMouseEnter() {
+    this.d3Wrapper.call(GraphDate.onMouseEnter);
+  },
+  onMouseLeave() {
+    this.d3Wrapper.call(GraphDate.onMouseLeave);
   }
 });
 
