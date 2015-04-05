@@ -151,29 +151,42 @@ var width;
 var height;
 var categoryHeight;
 var padding = {top: 75, left: 125};
-var yPadding;
+var dateHeight;
 AppCalculationUtils.setDocumentDimensions = (docWidth, docHeight) => {
   width = docWidth;
   height = docHeight;
   categoryHeight = height / 3;
-  yPadding = (height - categoryHeight - padding.top) / 7;
+  dateHeight = (height - categoryHeight - padding.top) / 7;
 }
 
 var dayInMS = 86400000; // 86,400,000 milliseconds in a day
-AppCalculationUtils.getDatesForWeek = (week) => {
+AppCalculationUtils.getDatesForWeek = (week, expenses) => {
   return _.map(_.range(7), (i) => {
     var date = new Date(week.getTime() + i * dayInMS);
+    var total = _.chain(expenses)
+      .filter((expense) => {
+        var exp = ExpenseStore.get(expense.id);
+        return exp.timestamp.getDay() === i; // if date matches
+      }).reduce((memo, expense) => {
+        return memo + expense.total;
+      }, 0).value();
+    var fill = (i % 2 === 0 ? '#fff' : '#efefef');
+
     return {
       date: date,
       formattedDate: dateFormat(date),
       x: padding.left,
-      y: yPadding * i + padding.top
+      y: dateHeight * i + padding.top,
+      width: width,
+      height: dateHeight,
+      total: total,
+      fill: fill
     }
   });
 }
 
 var expenseScale = d3.scale.linear();
-AppCalculationUtils.positionExpensesAndDates = (expenses, dates) => {
+AppCalculationUtils.positionExpenses = (expenses) => {
   var expensesByDay = _.groupBy(expenses, (expense) => {
     var exp = ExpenseStore.get(expense.id);
     return exp.timestamp.getDay();
@@ -181,12 +194,9 @@ AppCalculationUtils.positionExpensesAndDates = (expenses, dates) => {
 
   var maxWidth = 0;
   _.each(expensesByDay, (expensesOfDay, day) => {
-    dates[day].total = 0;
     var total = _.reduce(expensesOfDay, (memo, expense) => {
-      dates[day].total += expense.total;
       return memo + expense.total + expense.size;
     }, 0);
-
     maxWidth = Math.max(maxWidth, total);
   });
   maxWidth = Math.max(maxWidth, 200);
@@ -197,10 +207,9 @@ AppCalculationUtils.positionExpensesAndDates = (expenses, dates) => {
     var x = padding.left;
     _.each(expensesOfDay, (expense) => {
       expense.x = x += expenseScale(expense.total) + expense.size;
-      expense.y = yPadding * day + padding.top;
+      expense.y = dateHeight * day + padding.top;
       expense.fixed = true;
     });
-    dates[day].width = x;
   });
 }
 

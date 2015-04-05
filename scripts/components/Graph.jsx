@@ -69,8 +69,8 @@ var GraphComponent = React.createClass({
     AppCalculationUtils.highlightSelections(selection, categories, expenses);
     // calculate their positions
     AppCalculationUtils.setDocumentDimensions(width, height);
-    var dates = AppCalculationUtils.getDatesForWeek(props.data.week);
-    AppCalculationUtils.positionExpensesAndDates(expenses, dates);
+    var dates = AppCalculationUtils.getDatesForWeek(props.data.week, expenses);
+    AppCalculationUtils.positionExpenses(expenses);
     AppCalculationUtils.positionGraph(categories, expenses, links);
 
     var state = {categories, expenses, links, dates, width, height};
@@ -153,7 +153,6 @@ var GraphComponent = React.createClass({
       height: this.state.height,
       left: this.state.left
     };
-
     var links = _.map(this.state.links, (link) => {
       var key = link.source.id + ',' + link.target.id;
       return (<LinkComponent key={key} data={link} />);

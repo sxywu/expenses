@@ -25,16 +25,13 @@ var GraphDateComponent = React.createClass({
   render() {
     var total = "$";
     total += this.props.data.total ? this.props.data.total.toFixed(2) : 0;
-    var date = this.props.data.formattedDate + ': ';
+    var date = this.props.data.formattedDate;
 
     return (
       <g className="GraphDate">
         <rect />
         <text className="date">
           {date}
-        </text>
-        <text className="total">
-          {total}
         </text>
       </g>
     );
