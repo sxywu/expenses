@@ -12,6 +12,7 @@ var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 var LinkComponent = require('./Link.jsx');
 var GraphDateComponent = require('./GraphDate.jsx');
+var GraphVisualization = require('../visualizations/Graph');
 
 var GraphComponent = React.createClass({
   getInitialState() {
@@ -31,9 +32,14 @@ var GraphComponent = React.createClass({
     GraphStore.addChangeListener(this._onChange);  
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
+  
+    this.d3Wrapper = d3.select(this.getDOMNode());
   },
   componentWillReceiveProps(nextProps) {
     this._onChange(nextProps);
+  },
+  componentDidUpdate() {
+    this.d3Wrapper.call(GraphVisualization.update);
   },
   componentWillUnMount() {
     window.removeEventListener('resize', this._onWindowResize);

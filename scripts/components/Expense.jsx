@@ -13,14 +13,12 @@ var ExpenseComponent = React.createClass({
   },
   shouldComponentUpdate(nextProps) {
     if (nextProps.data.update) {
-      this.d3Wrapper.datum(nextProps.data)
-        .call(ExpenseVisualization.update);
+      this.d3Wrapper.datum(nextProps.data);
     }
     return true;
   },
   componentDidUpate() {
-    this.d3Wrapper.datum(this.props.data)
-      .call(ExpenseVisualization.update);
+    this.d3Wrapper.datum(this.props.data);
   },
   componentWillUnMount() {
 
