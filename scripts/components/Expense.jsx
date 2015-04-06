@@ -28,6 +28,7 @@ var ExpenseComponent = React.createClass({
   render() {
     return (
       <g className="expense">
+        <rect className="expenseBar" />
         <rect className="expenseRect" />
         <rect className="textBG" />
         <text>{this.props.data.name}</text>

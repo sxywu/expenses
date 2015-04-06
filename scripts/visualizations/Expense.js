@@ -6,19 +6,29 @@ var margin = {top: 10, left: 5};
 var padding = {top: 5, left: 5};
 
 ExpenseVisualization.enter = (selection) => {
+  selection.select('rect.expenseBar')
+    .attr('x', 0)
+    .attr('y', (d) => -d.size / 4)
+    .attr('width', 0)
+    .attr('height', (d) => d.size / 2)
+    .attr('opacity', .5)
+    .attr('fill', '#0B486B');
+
   selection.select('rect.expenseRect')
     .attr('x', (d) => -d.size / 2)
     .attr('y', (d) => -d.size / 2)
     .attr('rx', 3)
     .attr('ry', 3)
-    .attr('width', 0)
-    .attr('height', 0)
+    .attr('width', (d) => d.size)
+    .attr('height', (d) => d.size)
     .attr('fill', '#fafafa')
     .attr('stroke', '#0B486B')
-    .attr('stroke-width', 0);
+    .attr('stroke-opacity', (d) => {
+      return d.selected || d.highlighted ? 1 : .5;
+    }).attr('stroke-width', 2);
 
   selection.select('rect.textBG')
-    .attr('opacity', 0)
+    .attr('opacity', .75)
     .attr('rx', 5)
     .attr('ry', 5)
     .attr('fill', '#fafafa');
@@ -29,20 +39,21 @@ ExpenseVisualization.enter = (selection) => {
     .attr('opacity', 0);
   
   selection
-    .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
+    .attr('transform', (d) => 'translate(' + d.x1 + ',' + d.y + ')');
 
   selection.call(ExpenseVisualization.update);
 }
 
 ExpenseVisualization.update = (selection) => {
+  selection.select('rect.expenseBar')
+    .transition().duration(duration)
+    .attr('x', (d) => d.x1 - d.x)
+    .attr('width', (d) => d.x - d.x1);
 
   selection.select('rect.expenseRect')
     .transition().duration(duration)
     .attr('width', (d) => d.size)
-    .attr('height', (d) => d.size)
-    .attr('stroke-opacity', (d) => {
-      return d.selected || d.highlighted ? 1 : .5;
-    }).attr('stroke-width', 2);
+    .attr('height', (d) => d.size);
 
   selection.select('text')
     .each(function(d) {
@@ -56,7 +67,6 @@ ExpenseVisualization.update = (selection) => {
 
   selection.select('rect.textBG')
     .transition().duration(duration)
-    .attr('opacity', .75)
     .attr('width', (d) => d.textWidth)
     .attr('height', (d) => d.textHeight)
     .attr('x', (d) => -d.textWidth / 2)

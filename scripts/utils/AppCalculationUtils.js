@@ -71,9 +71,9 @@ AppCalculationUtils.calculateLinks = (categories, expenses) => {
   var links = [];
   _.each(expenses, (expense) => {
     // for each of the expenses, link it to the categories it belongs to
-    var source = expense;
+    var target = expense;
     _.each(ExpenseStore.get(expense.id).categories, (categoryId) => {
-      var target = _.find(categories, (category) => category.id === categoryId);
+      var source = _.find(categories, (category) => category.id === categoryId);
       if (target) {
         links.push({source, target});
       }
@@ -206,7 +206,8 @@ AppCalculationUtils.positionExpenses = (expenses) => {
   _.each(expensesByDay, (expensesOfDay, day) => {
     var x = padding.left;
     _.each(expensesOfDay, (expense) => {
-      expense.x = x += expenseScale(expense.total) + expense.size;
+      expense.x1 = x += expense.size / 2;
+      expense.x = x += expenseScale(expense.total) + expense.size / 2;
       expense.y = dateHeight * day + padding.top;
       expense.fixed = true;
     });
