@@ -1,7 +1,7 @@
 var d3 = require('d3/d3');
 
 var ExpenseVisualization = {};
-var duration = 500;
+var duration = 250;
 var margin = {top: 10, left: 5};
 var padding = {top: 5, left: 5};
 
@@ -47,13 +47,14 @@ ExpenseVisualization.enter = (selection) => {
 
 ExpenseVisualization.update = (selection) => {
   selection.select('rect.expenseBar')
-    .transition().delay((d, i) => i * duration)
+    .attr('opacity', (d) => d.drag ? 0 : .5)
+    .transition().delay((d, i) => d.order * duration)
     .duration(duration)
     .attr('x', (d) => d.x1 - d.x)
     .attr('width', (d) => d.x - d.x1);
 
   selection.select('rect.expenseRect')
-    .transition().delay((d, i) => i * duration)
+    .transition().delay((d, i) => d.order * duration)
     .duration(duration)
     .attr('width', (d) => d.size)
     .attr('height', (d) => d.size)
@@ -65,7 +66,7 @@ ExpenseVisualization.update = (selection) => {
     .each(function(d) {
       d.textWidth = this.getBBox().width + padding.left * 2;
       d.textHeight = this.getBBox().height + padding.top;
-    }).transition().delay((d, i) => i * duration)
+    }).transition().delay((d, i) => d.order * duration)
     .duration(duration)
     .attr('y', (d) => d.size / 2 + margin.top)
     .attr('opacity', (d) => {
@@ -73,7 +74,7 @@ ExpenseVisualization.update = (selection) => {
     });
 
   selection.select('rect.textBG')
-    .transition().delay((d, i) => i * duration)
+    .transition().delay((d, i) => d.order * duration)
     .duration(duration)
     .attr('width', (d) => d.textWidth)
     .attr('height', (d) => d.textHeight)
@@ -81,7 +82,7 @@ ExpenseVisualization.update = (selection) => {
     .attr('y', (d) => d.size / 2 + margin.top - d.textHeight / 2);
 
   selection
-    .transition().delay((d, i) => i * duration)
+    .transition().delay((d, i) => d.order * duration)
     .duration((d) => {
       return d.drag ? 0 : duration;
     })
