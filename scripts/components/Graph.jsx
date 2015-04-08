@@ -109,6 +109,12 @@ var GraphComponent = React.createClass({
     _.each(categories, (category) => {
       category.size = 15;
     });
+    // then put the rest of the expenses in
+    _.each(this.state.expenses, (exp) => {
+      if (exp.id !== expense.id) {
+        expenses.push(exp);
+      }
+    });
     AppCalculationUtils.positionGraphBeforeDrag(categories, expenses, links);
 
     var state = {categories, expenses, links};
