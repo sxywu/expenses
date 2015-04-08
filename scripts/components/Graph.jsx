@@ -10,6 +10,7 @@ var SelectionStore = require('../stores/SelectionStore');
 var AppCalculationUtils = require('../utils/AppCalculationUtils');
 var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
+var ExpenseBarComponent = require('./ExpenseBar.jsx');
 var LinkComponent = require('./Link.jsx');
 var GraphDateComponent = require('./GraphDate.jsx');
 var GraphVisualization = require('../visualizations/Graph');
@@ -176,6 +177,9 @@ var GraphComponent = React.createClass({
       return (<ExpenseComponent key={expense.id} data={expense}
         beforeDrag={this.beforeDragExpense} onDrag={this.onDragExpense} afterDrag={this.afterDragExpense} />);
     });
+    var expenseBars = _.map(this.state.expenses, (expense) => {
+      return (<ExpenseBarComponent key={expense.id} data={expense} />);
+    });
     var dates = _.map(this.state.dates, (date) => {
       return (<GraphDateComponent data={date} />);
     });
@@ -185,6 +189,7 @@ var GraphComponent = React.createClass({
         <g className="graph">
           {dates}
           {links}
+          {expenseBars}
           {categories}
           {expenses}
         </g>

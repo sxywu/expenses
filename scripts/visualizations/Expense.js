@@ -6,14 +6,6 @@ var margin = {top: 10, left: 5};
 var padding = {top: 5, left: 5};
 
 ExpenseVisualization.enter = (selection) => {
-  selection.select('rect.expenseBar')
-    .attr('x', 0)
-    .attr('y', (d) => -d.size / 4)
-    .attr('width', 0)
-    .attr('height', (d) => d.size / 2)
-    .attr('opacity', .5)
-    .attr('fill', '#0B486B');
-
   selection.select('rect.expenseRect')
     .attr('x', (d) => -d.size / 2)
     .attr('y', (d) => -d.size / 2)
@@ -46,13 +38,6 @@ ExpenseVisualization.enter = (selection) => {
 }
 
 ExpenseVisualization.update = (selection) => {
-  selection.select('rect.expenseBar')
-    .attr('opacity', (d) => d.drag ? 0 : .5)
-    .transition().delay((d, i) => d.order * duration)
-    .duration(duration)
-    .attr('x', (d) => d.x1 - d.x)
-    .attr('width', (d) => d.x - d.x1);
-
   selection.select('rect.expenseRect')
     .transition().delay((d, i) => d.order * duration)
     .duration(duration)
@@ -85,8 +70,7 @@ ExpenseVisualization.update = (selection) => {
     .transition().delay((d, i) => d.order * duration)
     .duration((d) => {
       return d.drag ? 0 : duration;
-    })
-    .attr('opacity', 1)
+    }).attr('opacity', 1)
     .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }
 

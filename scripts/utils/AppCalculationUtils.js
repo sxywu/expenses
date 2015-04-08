@@ -207,8 +207,8 @@ AppCalculationUtils.positionExpenses = (expenses) => {
     var x = padding.left;
     _.each(expensesOfDay, (expense, i) => {
       expense.order = i;
-      expense.x1 = x += expense.size / 2;
-      expense.x = x += expenseScale(expense.total) + expense.size / 2;
+      expense.x1 = x;
+      expense.x = x += expenseScale(expense.total) + expense.size;
       expense.y = dateHeight * day + padding.top;
       expense.fixed = true;
     });
