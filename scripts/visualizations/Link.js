@@ -17,9 +17,8 @@ LinkVisualization.enter = (selection) => {
 
 LinkVisualization.update = (selection) => {
   selection
-    .transition().duration((d) => {
-      return d.source.drag || d.target.drag ? 0 : duration;
-    }).attr('x1', (d) => d.source.x)
+    .transition().duration((d) => !d.expenseBeingDragged ? duration : 0)
+    .attr('x1', (d) => d.source.x)
     .attr('y1', (d) => d.source.y)
     .attr('x2', (d) => d.target.x)
     .attr('y2', (d) => d.target.y)

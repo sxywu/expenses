@@ -170,6 +170,7 @@ var GraphComponent = React.createClass({
     };
     var links = _.map(this.state.links, (link) => {
       var key = link.source.id + ',' + link.target.id;
+      link.expenseBeingDragged = this.state.dragging;
       return (<LinkComponent key={key} data={link} />);
     });
     var categories = _.map(this.state.categories, (category) => {
