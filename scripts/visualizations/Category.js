@@ -71,7 +71,7 @@ CategoryVisualization.update = (selection) => {
     .attr('y', (d) => d.size + margin.top - d.textHeight / 2);
 
   selection
-    .transition().duration(duration)
+    .transition().duration((d) => !d.expenseBeingDragged ? duration : 0)
     .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }
 

@@ -19,6 +19,7 @@ var GraphComponent = React.createClass({
   getInitialState() {
     var left = 325;
     return {
+      dragging: false,
       categories: [],
       expenses: [],
       links: [],
@@ -118,7 +119,7 @@ var GraphComponent = React.createClass({
     });
     AppCalculationUtils.positionGraphBeforeDrag(categories, expenses, links);
 
-    var state = {categories, expenses, links};
+    var state = {categories, expenses, links, dragging: true};
     AppCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
   },
@@ -157,6 +158,7 @@ var GraphComponent = React.createClass({
       ViewActionCreators.addExpenseToCategory({expense, category});
     }
     ViewActionCreators.afterDragExpense(expense);
+    this.setState({dragging: false});
   },
 
   render() {
@@ -171,6 +173,7 @@ var GraphComponent = React.createClass({
       return (<LinkComponent key={key} data={link} />);
     });
     var categories = _.map(this.state.categories, (category) => {
+      category.expenseBeingDragged = this.state.dragging;
       return (<CategoryComponent key={category.id} data={category} />);
     });
     var expenses = _.map(this.state.expenses, (expense) => {
