@@ -177,10 +177,12 @@ var GraphComponent = React.createClass({
       return (<CategoryComponent key={category.id} data={category} />);
     });
     var expenses = _.map(this.state.expenses, (expense) => {
+      expense.expenseBeingDragged = this.state.dragging;
       return (<ExpenseComponent key={expense.id} data={expense}
         beforeDrag={this.beforeDragExpense} onDrag={this.onDragExpense} afterDrag={this.afterDragExpense} />);
     });
     var expenseBars = _.map(this.state.expenses, (expense) => {
+      expense.expenseBeingDragged = this.state.dragging;
       return (<ExpenseBarComponent key={expense.id} data={expense} />);
     });
     var dates = _.map(this.state.dates, (date) => {

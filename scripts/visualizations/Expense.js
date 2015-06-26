@@ -69,7 +69,7 @@ ExpenseVisualization.update = (selection) => {
   selection
     .transition().delay((d, i) => d.order * duration)
     .duration((d) => {
-      return d.drag ? 0 : duration;
+      return d.expenseBeingDragged ? 0 : duration;
     }).attr('opacity', 1)
     .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')');
 }

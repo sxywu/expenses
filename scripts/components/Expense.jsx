@@ -52,7 +52,7 @@ var ExpenseComponent = React.createClass({
   onDrag(x, y) {
     if (!this.props.data.id) return;
     var expense = React.addons.update(this.props.data, {
-      $merge: {update: true, drag: true, x, y}
+      $merge: {update: true, x, y}
     });
     this.props.onDrag(expense);
   },
