@@ -187,6 +187,7 @@ var GraphComponent = React.createClass({
       return (<ExpenseBarComponent key={expense.id} data={expense} />);
     });
     var dates = _.map(this.state.dates, (date) => {
+      date.expenseBeingDragged = this.state.dragging;
       return (<GraphDateComponent data={date} />);
     });
 
