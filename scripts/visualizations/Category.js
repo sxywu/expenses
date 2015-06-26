@@ -38,11 +38,11 @@ CategoryVisualization.enter = (selection) => {
 
 CategoryVisualization.update = (selection) => {
   selection.select('circle.back')
-    .transition().duration(duration)
+    .transition().duration((d) => !d.expenseBeingDragged ? duration : 0)
     .attr('r', (d) => d.size)
 
   selection.select('circle.front')
-    .transition().duration(duration)
+    .transition().duration((d) => !d.expenseBeingDragged ? duration : 0)
     .attr('r', (d) => d.size)
     .attr('fill', (d) => d.fill)
     .attr('stroke', (d) => d.fill)
@@ -56,14 +56,14 @@ CategoryVisualization.update = (selection) => {
     .each(function(d) {
       d.textWidth = this.getBBox().width + padding.left * 2;
       d.textHeight = this.getBBox().height + padding.top;
-    }).transition().duration(duration)
+    }).transition().duration((d) => !d.expenseBeingDragged ? duration : 0)
     .attr('y', (d) => d.size + margin.top)
     .attr('opacity', (d) => {
       return d.selected || d.highlighted ? 1 : .5;
     }).attr('fill', (d) => d.fill);
 
   selection.select('rect')
-    .transition().duration(duration)
+    .transition().duration((d) => !d.expenseBeingDragged ? duration : 0)
     .attr('opacity', .75)
     .attr('width', (d) => d.textWidth)
     .attr('height', (d) => d.textHeight)
