@@ -15,16 +15,13 @@ ExpenseBarVisualization.enter = (selection) => {
 }
 
 ExpenseBarVisualization.update = (selection) => {
-  if (selection.datum().expenseBeingDragged) {
-    // if an expense is being dragged around
-    // make all of the bars disappear
-    selection.attr('width', 0);
-  } else {
-    selection
-      .transition().delay((d, i) => d.order * duration)
-      .duration(duration).attr('x', (d) => d.x1)
-      .attr('width', (d) => d.x - d.x1);
-  }
+  selection
+    .transition().delay((d, i) => d.order * duration)
+    .duration((d) => !d.expenseBeingDragged ? duration : 0)
+    .attr('x', (d) => d.x1)
+    .attr('y', (d) => d.y -d.size / 4)
+    // if the expense is being dragged, make its bar disappear
+    .attr('width', (d) => d.id !== d.expenseBeingDragged ? d.x - d.x1 : 0);
 }
 
 ExpenseBarVisualization.exit = () => {

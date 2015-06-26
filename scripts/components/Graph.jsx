@@ -119,7 +119,7 @@ var GraphComponent = React.createClass({
     });
     AppCalculationUtils.positionGraphBeforeDrag(categories, expenses, links);
 
-    var state = {categories, expenses, links, dragging: true};
+    var state = {categories, expenses, links, dragging: expense.id};
     AppCalculationUtils.calculateUpdate(this.state, state);
     this.setState(state);
   },
