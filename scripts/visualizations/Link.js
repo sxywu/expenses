@@ -10,7 +10,8 @@ LinkVisualization.enter = (selection) => {
     .attr('x2', (d) => d.source.x)
     .attr('y2', (d) => d.source.y)
     .attr('fill', 'none')
-    .attr('stroke', '#0B486B');
+    .attr('stroke', '#0B486B')
+    .attr('stroke-width', 2);
 
   selection.call(LinkVisualization.update);
 }
@@ -23,7 +24,7 @@ LinkVisualization.update = (selection) => {
     .attr('x2', (d) => d.target.x)
     .attr('y2', (d) => d.target.y)
     .attr('stroke-opacity', (d) => {
-      return d.source.selected || d.target.selected ? 1 : .05;
+      return d.source.selected || d.target.selected ? 1 : .1;
     });
 }
 
