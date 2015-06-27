@@ -8,16 +8,6 @@ var SelectionStore = require('../stores/SelectionStore');
 
 var AppCalculationUtils = {};
 
-AppCalculationUtils.callViewActionCreators = (callback) => {
-  setTimeout(() => {
-    if (AppDispatcher.isDispatching()) {
-      AppCalculationUtils.callViewActionCreators(callback);
-    } else {
-      callback();
-    }
-  }, 500);
-}
-
 /** Gets info from CategoryStore and calculates data
 * to render with, such as name, fill, size, etc.
 * @return {Array} Array of renderable category objects

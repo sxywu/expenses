@@ -30,12 +30,12 @@ var GraphComponent = React.createClass({
     }
   },
   componentDidMount() {
+    this.d3Wrapper = d3.select(this.getDOMNode());
+
     window.addEventListener('resize', _.debounce(this._onWindowResize, 200));
     GraphStore.addChangeListener(this._onChange);  
     SelectionStore.addChangeListener(this._onChange);
     this._onChange(); // remove this later, better to have it go through dispatcher
-  
-    this.d3Wrapper = d3.select(this.getDOMNode());
   },
   componentWillReceiveProps(nextProps) {
     this._onChange(nextProps);
@@ -49,9 +49,7 @@ var GraphComponent = React.createClass({
     SelectionStore.removeChangeListener(this._onChange);
   },
   _onWindowResize() {
-   AppCalculationUtils.callViewActionCreators(() => {
-      ViewActionCreators.deletePositions();
-    });
+    _.defer(() => ViewActionCreators.deletePositions());
 
     var panel = document.getElementsByClassName('Panel')[0];
     var left = panel ? panel.offsetWidth : 325;
@@ -86,11 +84,11 @@ var GraphComponent = React.createClass({
     this.setState(state);
 
     // save the calculated positions
-    AppCalculationUtils.callViewActionCreators(() => {
+    _.defer(() => {
       ViewActionCreators.savePositions({
         categories: this.state.categories
       });
-    });
+    }); 
   },
   findOverlappingCategory(expense) {
     return _.find(this.state.categories, (category) => {
