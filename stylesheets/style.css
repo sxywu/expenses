@@ -86,6 +86,18 @@ body {
   line-height: 24px;
 }
 
+.ExpenseDetail-actions,
+.CategoryDetail-actions {
+  float: right;
+}
+
+.ExpenseDetail-actions .action,
+.CategoryDetail-actions .action {
+  padding-left: 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .Home-body,
 .AddCategory-body,
 .AddExpense-body,
@@ -139,18 +151,6 @@ body {
 
 .CategoryDetail-body .table-cell {
   display: table-cell;
-}
-
-.ExpenseDetail-footer,
-.CategoryDetail-footer {
-  padding: 5px 20px;
-  background-color: #fff;
-  color: #0B486B;
-}
-
-.ExpenseDetail-footer .action,
-.CategoryDetail-footer .action {
-  padding-right: 10px;
 }
 
 .AddExpense input,

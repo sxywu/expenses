@@ -35,6 +35,17 @@ var ExpenseDetail = React.createClass({
           {expense.name}
           <br />
           ${expense.amount.toFixed(2)}
+          <span className="ExpenseDetail-actions">
+            <a className="action" onClick={this.editExpense}>
+              Edit
+            </a>
+            <a className="action" onClick={this.deleteExpense}>
+              Delete
+            </a>
+            <a className="action" onClick={this.closeDetail}>
+              Close
+            </a>
+          </span>
         </h4>
         <div className="ExpenseDetail-body">
           <div>
@@ -44,17 +55,6 @@ var ExpenseDetail = React.createClass({
             Categories:<br />
             {categories}
           </div>
-        </div>
-        <div className="ExpenseDetail-footer">
-          <a className="action" onClick={this.editExpense}>
-            Edit
-          </a>
-          <a className="action" onClick={this.deleteExpense}>
-            Delete
-          </a>
-          <a className="action" onClick={this.closeDetail}>
-            Close
-          </a>
         </div>
       </div>
     );
