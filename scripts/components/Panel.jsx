@@ -5,7 +5,6 @@ var _ = require('lodash');
 var SelectionStore = require('../stores/SelectionStore');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
-var HomeComponent = require('./Home.jsx');
 var AddCategoryComponent = require('./AddCategory.jsx');
 var AddExpenseComponent = require('./AddExpense.jsx');
 var SummaryComponent = require('./Summary.jsx');

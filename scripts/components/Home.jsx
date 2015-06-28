@@ -1,18 +1,16 @@
 var React = require('react/addons');
 var cx = React.addons.classSet;
+var Modal = require('react-bootstrap').Modal;
 var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 
 var Home = React.createClass({
   render() {
     return (
-      <div className="Home">
+      <Modal {...this.props} title='Instructions' bsSize='large' animation={true}>
         {this.renderDirections()}
-        <h4 className="Home-header">
-          About
-        </h4>
         {this.renderAbout()}
-      </div>
+      </Modal>
     );
   },
   renderDirections() {
