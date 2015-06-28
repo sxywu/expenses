@@ -7,7 +7,8 @@ var Home = React.createClass({
   getInitialState() {
     return {
       top: 0,
-      left: 0
+      left: 0,
+      displayModal: 'auto'
     }
   },
   componentDidMount() {
@@ -25,13 +26,18 @@ var Home = React.createClass({
     var left = (window.innerWidth - width) / 2;
     this.setState({top, left});
   },
+  closeModal() {
+    this.setState({displayModal: 'none'});
+  },
   render() {
+    var homeStyle = {display: this.state.displayModal};
     var bodyStyle = {top: this.state.top, left: this.state.left};
 
     return (
-      <div>
-        <div className="Home-backdrop" />
+      <div style={homeStyle}>
+        <div className="Home-backdrop" onClick={this.closeModal} />
         <div className="Home-body" ref="body" style={bodyStyle}>
+          <div className="Home-close glyphicon glyphicon-remove" onClick={this.closeModal} />
           {this.renderDirections()}
           {this.renderAbout()}
         </div>

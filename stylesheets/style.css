@@ -127,6 +127,12 @@ body {
   border-radius: 5px;
 }
 
+.Home-close {
+  float: right;
+  padding: 10px;
+  cursor: pointer;
+}
+
 .About-body a {
   display: inline-block;
   background-color: #fff;
