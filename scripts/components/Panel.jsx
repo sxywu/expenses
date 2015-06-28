@@ -44,7 +44,7 @@ var ExpenseApp = React.createClass({
       _.define(() => ViewActionCreators.unselectNode());
     }
   },
-  componentWillUnMount() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this._onWindowResize);
     SelectionStore.removeChangeListener(this._onChange);
   },

@@ -4,7 +4,6 @@
   "dependencies": {
     "flux": "^2.0.1",
     "react": "^0.13.0",
-    "react-bootstrap": "*",
     "d3": "*",
     "lodash": "*",
     "keymirror": "~0.1.0",

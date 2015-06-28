@@ -1,16 +1,41 @@
 var React = require('react/addons');
 var cx = React.addons.classSet;
-var Modal = require('react-bootstrap').Modal;
 var CategoryComponent = require('./Category.jsx');
 var ExpenseComponent = require('./Expense.jsx');
 
 var Home = React.createClass({
+  getInitialState() {
+    return {
+      top: 0,
+      left: 0
+    }
+  },
+  componentDidMount() {
+    this._onWindowResize();
+    window.addEventListener('resize', this._onWindowResize);
+  },
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onWindowResize);
+  },
+  _onWindowResize() {
+    var element = this.refs.body.getDOMNode();
+    var width = element.offsetWidth;
+    var height = element.offsetHeight;
+    var top = (window.innerHeight - height) / 2;
+    var left = (window.innerWidth - width) / 2;
+    this.setState({top, left});
+  },
   render() {
+    var bodyStyle = {top: this.state.top, left: this.state.left};
+
     return (
-      <Modal {...this.props} title='Instructions' bsSize='large' animation={true}>
-        {this.renderDirections()}
-        {this.renderAbout()}
-      </Modal>
+      <div>
+        <div className="Home-backdrop" />
+        <div className="Home-body" ref="body" style={bodyStyle}>
+          {this.renderDirections()}
+          {this.renderAbout()}
+        </div>
+      </div>
     );
   },
   renderDirections() {
@@ -56,7 +81,7 @@ var Home = React.createClass({
   },
   renderAbout() {
     return (
-      <div className="Home-body">
+      <div className="About-body">
         <p>
         This simple expense-tracking app started out as an example app for a blog post on <a href="http://d3js.org/" target="_new">D3</a>+ 
         <a href="http://facebook.github.io/react/" target="_new">React</a>+ 

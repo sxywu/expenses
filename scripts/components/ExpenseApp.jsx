@@ -3,7 +3,6 @@ var cx = React.addons.classSet;
 var _ = require('lodash');
 var d3 = require('d3/d3');
 
-var ModalTrigger = require('react-bootstrap').ModalTrigger;
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var HomeComponent = require('./Home.jsx');
@@ -62,10 +61,8 @@ var ExpenseApp = React.createClass({
           {weekText}
           <div className={rightArrowClasses}
             onClick={this.onArrowClick.bind(this, 'right')} />
-          <ModalTrigger modal={<HomeComponent />}>
-            <div className="glyphicon glyphicon-question-sign" />
-          </ ModalTrigger>
         </h2>
+        <HomeComponent />
       </div>
     );
   },
