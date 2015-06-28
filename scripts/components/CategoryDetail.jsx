@@ -30,19 +30,19 @@ var CategoryDetail = React.createClass({
           {category.name}
           <br />
           ${category.total.toFixed(2)}
+          <span className="CategoryDetail-actions">
+            <a className="action" onClick={this.deleteCategory}>
+              Delete
+            </a>
+            <a className="action" onClick={this.closeDetail}>
+              Close
+            </a>
+          </span>
         </h4>
         <div className="CategoryDetail-body">
           <div className="table">
             {expenses}
           </div>
-        </div>
-        <div className="CategoryDetail-footer">
-          <a className="action" onClick={this.deleteCategory}>
-            Delete
-          </a>
-          <a className="action" onClick={this.closeDetail}>
-            Close
-          </a>
         </div>
       </div>
     );
