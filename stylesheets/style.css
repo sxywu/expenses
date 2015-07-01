@@ -140,7 +140,7 @@ body {
   font-size: 12px;
   padding: 0 20px;
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .Directions-body {
@@ -148,13 +148,18 @@ body {
 }
 
 .About-body {
-  width: 35%;
-  border: 1px solid #666;
-  border-radius: 3px;
+  width: 40%;
+}
+
+.About-body h3,
+.Directions-body h3 {
+  background-color: #0B486B;
+  color: #fff;
+  padding: 5px 10px;
 }
 
 .Directions-body img {
-  width: 90%;
+  width: 100%;
 }
 
 .About-body a {
