@@ -19,7 +19,8 @@ var ExpenseApp = React.createClass({
       categories: [],
       expenses: [],
       currentWeek: d3.time.week(new Date()),
-      week: d3.time.week(new Date())
+      week: d3.time.week(new Date()),
+      showModal: !localStorage.getItem('hideModal')
     }
   },
   componentDidMount() {
@@ -53,7 +54,7 @@ var ExpenseApp = React.createClass({
     var weekText = "Week of " + weekFormat(this.state.week);
     return (
       <div>
-        <PanelComponent data={this.state} />
+        <PanelComponent openModal={this.openModal} data={this.state} />
         <GraphComponent data={this.state} />
         <h2 className="Week-title">
           <div className="glyphicon glyphicon-arrow-left"
@@ -62,7 +63,7 @@ var ExpenseApp = React.createClass({
           <div className={rightArrowClasses}
             onClick={this.onArrowClick.bind(this, 'right')} />
         </h2>
-        <HomeComponent />
+        <HomeComponent closeModal={this.closeModal} data={this.state} />
       </div>
     );
   },
@@ -77,6 +78,13 @@ var ExpenseApp = React.createClass({
     }
     week = d3.time.week(week);
     this.getExpensesForWeek(week);
+  },
+  openModal() {
+    this.setState({showModal: true});
+  },
+  closeModal() {
+    localStorage.setItem('hideModal', true);
+    this.setState({showModal: false});
   }
 });
 

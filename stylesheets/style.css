@@ -73,6 +73,17 @@ body {
   overflow: auto;
 }
 
+.Panel-instructions {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .Home-header,
 .AddCategory-header,
 .AddExpense-header,
@@ -133,6 +144,10 @@ body {
   float: right;
   padding: 10px;
   cursor: pointer;
+}
+
+.Home-hide {
+  display: none;
 }
 
 .About-body,

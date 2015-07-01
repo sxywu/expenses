@@ -8,12 +8,15 @@ var Home = React.createClass({
     return {
       top: 0,
       left: 0,
-      displayModal: 'auto'
+      showModal: true
     }
   },
   componentDidMount() {
     this._onWindowResize();
     window.addEventListener('resize', this._onWindowResize);
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({showModal: nextProps.data.showModal});
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._onWindowResize);
@@ -26,16 +29,15 @@ var Home = React.createClass({
     var left = (window.innerWidth - width) / 2;
     this.setState({top, left});
   },
-  closeModal() {
-    this.setState({displayModal: 'none'});
-  },
   render() {
-    var homeStyle = {display: this.state.displayModal};
+    var homeClass = cx({
+      "Home-hide": !this.state.showModal
+    });
     var bodyStyle = {top: this.state.top, left: this.state.left};
 
     return (
-      <div style={homeStyle}>
-        <div className="Home-backdrop" onClick={this.closeModal} />
+      <div className={homeClass}>
+        <div className="Home-backdrop" onClick={this.props.closeModal} />
         <div className="Home-body" ref="body" style={bodyStyle}>
           {this.renderDirections()}
           {this.renderAbout()}

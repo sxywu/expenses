@@ -73,12 +73,18 @@ var ExpenseApp = React.createClass({
         <AddCategoryComponent />
       </div>
     );
+    var instructions = (
+      <div className="Panel-instructions" onClick={this.props.openModal}>
+        Instructions
+      </div>
+    );
 
     var bodyStyle = {"max-height": this.state.height};
     return (
       <div className="Panel" style={bodyStyle}>
         {summary}
         {add}
+        {instructions}
       </div>
     );
   }
