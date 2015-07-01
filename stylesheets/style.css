@@ -125,6 +125,8 @@ body {
   height: 80%;
   background-color: #fff;
   border-radius: 5px;
+  padding: 20px;
+  overflow: auto;
 }
 
 .Home-close {
@@ -133,19 +135,34 @@ body {
   cursor: pointer;
 }
 
+.About-body,
+.Directions-body {
+  font-size: 12px;
+  padding: 0 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.Directions-body {
+  width: 60%;
+}
+
+.About-body {
+  width: 35%;
+  border: 1px solid #666;
+  border-radius: 3px;
+}
+
+.Directions-body img {
+  width: 90%;
+}
+
 .About-body a {
   display: inline-block;
   background-color: #fff;
   padding: 0 3px;
   border-radius: 3px;
   margin: 1px;
-}
-
-.About-body,
-.Directions-body {
-  font-size: 12px;
-  padding: 0 20px 10px 20px;
-  margin: 0 0 10px 0;
 }
 
 .Home .glyphicon {
