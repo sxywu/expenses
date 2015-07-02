@@ -27,7 +27,7 @@ function addExpense(expense) {
     name: expense.name,
     amount: expense.amount,
     categories: [],
-    timestamp: new Date()
+    timestamp: expense.timestamp
   });
 }
 
@@ -36,6 +36,7 @@ function editExpense(edits) {
   if (!expense) return;
   expense.name = edits.name;
   expense.amount = edits.amount;
+  expense.timestamp = edits.timestamp;
 }
 
 function deleteExpense(expenseId) {
@@ -112,9 +113,9 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
       return true;
   };
 
-  ExpenseStore.emitChange();
   // lazily storing it in localStorage...
   localStorage.expenses = JSON.stringify(_expenses);
+  ExpenseStore.emitChange();
 });
 
 module.exports = ExpenseStore;

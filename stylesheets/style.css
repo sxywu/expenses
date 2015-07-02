@@ -133,7 +133,7 @@ body {
   font-size: 12px;
   position: fixed;
   width: 80%;
-  height: 80%;
+  max-height: 80%;
   background-color: #fff;
   border-radius: 5px;
   padding: 20px;
@@ -211,13 +211,19 @@ body {
   display: table-cell;
 }
 
-.AddExpense input,
-.AddExpense button,
-.AddCategory input,
-.AddCategory button {
+.AddExpense .width100,
+.AddCategory .width100 {
   display: block;
-  width: 100%;
   margin-bottom: 5px;
+  width: 100%;
+}
+
+.AddExpense .width30,
+.AddCategory .width30 {
+  display: inline-block;
+  margin-bottom: 5px;
+  margin-left: 1%;
+  width: 32%;
 }
 
 .Label {
