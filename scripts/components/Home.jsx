@@ -66,24 +66,16 @@ var Home = React.createClass({
     );
     return (
       <div className="Directions-body">
-        <h3>Add</h3>
+        <h3>Add, Drag, Click</h3>
+        <img src = "images/expense.gif" />
         <h5>
-        Add an expense or category from the left panel.
+          <ol>
+            <li>Add an expense or category from the left panel.</li>
+            <li>Drag an expense over a category to add it to that category.  An expense can belong to multiple categories.</li>
+            <li>Click on any expense or category to view it in detail.  While in detail view, take actions (delete, edit, close).</li>
+          </ol>
+        The graph shows a week of expenses at a time.
         </h5>
-        <img src="images/add2.gif" />
-        <h3>Drag</h3>
-        <h5>
-          Drag an expense over a category to add to the category, drag again to remove from the category.
-          An expense can belong to multiple categories.
-        </h5>
-        <img src="images/drag.gif" />
-        <h3>Click</h3>
-        <h5>
-          Click on any expense or category to view it in detail, click again to deselect.
-          While in detail view, take actions (delete, edit, close).
-          The graph shows a week of expenses at a time.
-        </h5>
-        <img src="images/click.gif" />
       </div>
     );
   },
@@ -98,7 +90,7 @@ var Home = React.createClass({
         The blog post itself is being slowly written, but in the meanwhile, you can find the <a href="https://github.com/sxywu/expenses" target="_new">source code here</a>.
         </h5>
         <h5>
-        A caveat: there's no backend implemented, so all of the data is stored locally on the client.
+        A caveat: there's no backend implemented, so all of the data is stored locally on the client.  This means that the data will not persist across browsers.
         </h5>
         <br />
         <h5>
