@@ -41,7 +41,7 @@ var ExpenseApp = React.createClass({
       .value();
     if (!selectionExists) {
       this.setState({selection: null});
-      _.define(() => ViewActionCreators.unselectNode());
+      _.defer(() => ViewActionCreators.unselectNode());
     }
   },
   componentWillUnmount() {
@@ -69,7 +69,13 @@ var ExpenseApp = React.createClass({
     }
     var add = (
       <div className="Panel-body-add">
+        <h4 className="AddExpense-header">
+          Add expense
+        </h4>
         <AddExpenseComponent />
+        <h4 className="AddCategory-header">
+          Add category
+        </h4>
         <AddCategoryComponent />
       </div>
     );

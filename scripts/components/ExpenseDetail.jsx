@@ -7,7 +7,7 @@ var AppCalculationUtils = require('../utils/AppCalculationUtils');
 var LabelComponent = require('./Label.jsx');
 var AddExpenseComponent = require('./AddExpense.jsx'); 
 
-var dateFormat = d3.time.format('%m/%d %I:%M%p');
+var dateFormat = d3.time.format('%m/%d');
 var ExpenseDetail = React.createClass({
   getInitialState() {
     return {
@@ -61,7 +61,17 @@ var ExpenseDetail = React.createClass({
   },
   renderEdit(expense) {
     return (
-      <AddExpenseComponent data={expense} onSubmit={this.editExpense} />
+      <div>
+        <h4 className="ExpenseDetail-header">
+          Edit expense
+          <span className="ExpenseDetail-actions">
+            <a className="action" onClick={this.closeDetail}>
+              Close
+            </a>
+          </span>
+        </h4>
+        <AddExpenseComponent data={expense} onSubmit={this.editExpense} />
+      </div>
     );
   },
   editExpense() {

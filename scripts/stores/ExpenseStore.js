@@ -27,7 +27,7 @@ function addExpense(expense) {
     name: expense.name,
     amount: expense.amount,
     categories: [],
-    timestamp: new Date()
+    timestamp: expense.timestamp
   });
 }
 
@@ -36,6 +36,7 @@ function editExpense(edits) {
   if (!expense) return;
   expense.name = edits.name;
   expense.amount = edits.amount;
+  expense.timestamp = edits.timestamp;
 }
 
 function deleteExpense(expenseId) {
