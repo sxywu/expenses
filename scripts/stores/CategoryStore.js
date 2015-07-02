@@ -59,9 +59,9 @@ CategoryStore.dispatchToken = AppDispatcher.register((action) => {
       return true;
   };
 
-  CategoryStore.emitChange();
   // lazily storing it in localStorage...
   localStorage.categories = JSON.stringify(_categories);
+  CategoryStore.emitChange();
 });
 
 module.exports = CategoryStore;

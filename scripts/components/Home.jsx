@@ -25,7 +25,7 @@ var Home = React.createClass({
     var element = this.refs.body.getDOMNode();
     var width = element.offsetWidth;
     var height = element.offsetHeight;
-    var top = (window.innerHeight - height) / 2;
+    var top = (window.innerHeight - height) / 4;
     var left = (window.innerWidth - width) / 2;
     this.setState({top, left});
   },
@@ -68,14 +68,9 @@ var Home = React.createClass({
       <div className="Directions-body">
         <h3>Add, Drag, Click</h3>
         <img src = "images/expense.gif" />
-        <h5>
-          <ol>
-            <li>Add an expense or category from the left panel.</li>
-            <li>Drag an expense over a category to add it to that category.  An expense can belong to multiple categories.</li>
-            <li>Click on any expense or category to view it in detail.  While in detail view, take actions (delete, edit, close).</li>
-          </ol>
-        The graph shows a week of expenses at a time.
-        </h5>
+        <h5>1.  Add an expense or category from the left panel.</h5>
+        <h5>2.  Drag an expense over a category to add it to that category.  An expense can belong to multiple categories.</h5>
+        <h5>3.  Click on any expense or category to view it in detail.  While in detail view, take actions (delete, edit, close).</h5>
       </div>
     );
   },

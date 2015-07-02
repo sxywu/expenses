@@ -3,6 +3,7 @@ var cx = React.addons.classSet;
 var _ = require('lodash');
 var d3 = require('d3/d3');
 
+var ViewActionCreators = require('../actions/ViewActionCreators');
 var CategoryStore = require('../stores/CategoryStore');
 var ExpenseStore = require('../stores/ExpenseStore');
 var HomeComponent = require('./Home.jsx');
@@ -27,6 +28,18 @@ var ExpenseApp = React.createClass({
     CategoryStore.addChangeListener(this.getExpensesForWeek);
     ExpenseStore.addChangeListener(this.getExpensesForWeek);
     this.getExpensesForWeek();
+
+    // also if it's the first time around, add some categories and expenses
+    if (!localStorage.notFirstTime) {
+      _.defer(() => ViewActionCreators.addCategory({name: 'Groceries'}));
+      _.defer(() => ViewActionCreators.addCategory({name: 'Gas'}));
+      _.defer(() => ViewActionCreators.addExpense({
+        name: "Safeway",
+        amount: 40,
+        timestamp: new Date()
+      }));
+      localStorage.setItem('notFirstTime', true);
+    }
   },
   componentWillUnMount() {
     CategoryStore.removeChangeListener(this.getExpensesForWeek);

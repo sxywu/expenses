@@ -113,9 +113,9 @@ ExpenseStore.dispatchToken = AppDispatcher.register((action) => {
       return true;
   };
 
-  ExpenseStore.emitChange();
   // lazily storing it in localStorage...
   localStorage.expenses = JSON.stringify(_expenses);
+  ExpenseStore.emitChange();
 });
 
 module.exports = ExpenseStore;
