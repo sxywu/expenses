@@ -30,7 +30,7 @@ var GraphComponent = React.createClass({
     }
   },
   componentDidMount() {
-    this.d3Wrapper = d3.select(this.getDOMNode());
+    this.d3Node = d3.select(this.getDOMNode());
 
     window.addEventListener('resize', _.debounce(this._onWindowResize, 200));
     GraphStore.addChangeListener(this._onChange);  
@@ -41,7 +41,7 @@ var GraphComponent = React.createClass({
     this._onChange(nextProps);
   },
   componentDidUpdate() {
-    this.d3Wrapper.call(GraphVisualization.update);
+    this.d3Node.call(GraphVisualization.update);
   },
   componentWillUnMount() {
     window.removeEventListener('resize', this._onWindowResize);

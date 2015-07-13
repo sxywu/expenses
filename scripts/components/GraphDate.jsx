@@ -5,21 +5,21 @@ var ViewActionCreators = require('../actions/ViewActionCreators');
 var GraphDateComponent = React.createClass({
   componentDidMount() {
     // wrap element in d3
-    this.d3Wrapper = d3.select(this.getDOMNode());
-    this.d3Wrapper.datum(this.props.data)
+    this.d3Node = d3.select(this.getDOMNode());
+    this.d3Node.datum(this.props.data)
       .call(GraphDate.enter)
       .call(GraphDate.update);
   },
   shouldComponentUpdate(nextProps) {
     if (nextProps.data.update) {
-      this.d3Wrapper.datum(nextProps.data)
+      this.d3Node.datum(nextProps.data)
         .call(GraphDate.update);
       return false;
     }
     return true;
   },
   componentDidUpdate() {
-    this.d3Wrapper.datum(this.props.data)
+    this.d3Node.datum(this.props.data)
         .call(GraphDate.update);
   },
   render() {
@@ -37,10 +37,10 @@ var GraphDateComponent = React.createClass({
     );
   },
   onMouseEnter() {
-    this.d3Wrapper.call(GraphDate.onMouseEnter);
+    this.d3Node.call(GraphDate.onMouseEnter);
   },
   onMouseLeave() {
-    this.d3Wrapper.call(GraphDate.onMouseLeave);
+    this.d3Node.call(GraphDate.onMouseLeave);
   }
 });
 
