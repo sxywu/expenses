@@ -51,7 +51,7 @@ var ExpenseApp = React.createClass({
       return _.isEqual(week, d3.time.week(expense.timestamp));
     });
     var categories = _.chain(expenses)
-      .pluck('categories')
+      .map('categories')
       .flatten().uniq()
       .map((categoryId) => CategoryStore.get(categoryId))
       .value();

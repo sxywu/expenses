@@ -17,7 +17,7 @@ AppCalculationUtils.calculateCategory = (category, expensesData) => {
   // to get the size of the category, get all the expenses
   // that are in the category, and add um their amounts
   var total = _.chain(expensesData)
-    .filter((expense) => _.contains(expense.categories, category.id))
+    .filter((expense) => _.includes(expense.categories, category.id))
     .reduce((memo, expense) => {
       return memo + expense.amount;
     }, 0).value();
@@ -82,7 +82,7 @@ AppCalculationUtils.highlightSelections = (selection, categories, expenses) => {
       category.selected = true;
       _.each(expenses, (expense) => {
         var exp = ExpenseStore.get(expense.id);
-        if (_.contains(exp.categories, selection.id)) {
+        if (_.includes(exp.categories, selection.id)) {
           expense.highlighted = true;
         }
       });
@@ -101,8 +101,8 @@ AppCalculationUtils.highlightSelections = (selection, categories, expenses) => {
 
 var categoryScale = d3.scale.linear().range([7.5, 60]);
 AppCalculationUtils.calculateSizes = (categories) => {
-  var min = _.min(categories, (category) => category.total).total;
-  var max = _.max(categories, (category) => category.total).total;
+  var min = d3.min(categories, (category) => category.total) || 0;
+  var max = d3.max(categories, (category) => category.total) || 1;
   max = Math.max(max, 100);
 
   categoryScale.domain([min, max]);

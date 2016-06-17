@@ -35,9 +35,9 @@ var ExpenseApp = React.createClass({
 
     // if selection not in expenses, send unselectNode
     var selectionExists = _.chain(nextProps.data.expenses)
-      .pluck('id')
-      .union(_.pluck(nextProps.data.categories, 'id'))
-      .contains(this.state.selection && this.state.selection.id)
+      .map('id')
+      .union(_.map(nextProps.data.categories, 'id'))
+      .includes(this.state.selection && this.state.selection.id)
       .value();
     if (!selectionExists) {
       this.setState({selection: null});

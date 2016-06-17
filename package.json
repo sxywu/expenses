@@ -4,8 +4,8 @@
   "dependencies": {
     "flux": "^2.0.1",
     "react": "^0.13.0",
-    "d3": "*",
-    "lodash": "*",
+    "d3": "^3.5.17",
+    "lodash": "^4.13.1",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0"
   },
@@ -17,7 +17,7 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "start": "watchify -o scripts/bundle.js -v -d .",
+    "start": "watchify scripts/main.js -o scripts/bundle.js -v -d",
     "build": "NODE_ENV=production browserify . | uglifyjs -cm > scripts/bundle.min.js",
     "test": "jest"
   },

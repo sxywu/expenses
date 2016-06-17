@@ -1,3 +1,4 @@
+var d3 = require('d3/d3');
 var React = require('react/addons');
 var LinkVisualization = require('../visualizations/Link');
 
