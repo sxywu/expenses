@@ -89,7 +89,7 @@ var Home = React.createClass({
         </h5>
         <br />
         <h5>
-        <a href="https://twitter.com/shirleyxywu" target="_new">Let me know what you think</a><br />
+        <a href="https://twitter.com/sxywu" target="_new">Let me know what you think</a><br />
         <a href="https://github.com/sxywu/expenses/issues" target="_new">Tell me if you find a bug</a><br />
         </h5>
       </div>
