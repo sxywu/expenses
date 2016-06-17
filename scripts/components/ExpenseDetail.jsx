@@ -1,3 +1,4 @@
+var d3 = require('d3/d3');
 var React = require('react/addons');
 var _ = require('lodash');
 var ViewActionCreators = require('../actions/ViewActionCreators');
