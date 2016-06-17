@@ -58,10 +58,10 @@ var AddExpense = React.createClass({
     this.setState({name});
   },
   onChangeAmount(e) {
-    var amount = Number(e.target.value);
-    if (!e.target.value) {
+    var amount = e.target.value;
+    if (!Number(e.target.value)) {
       amount = '';
-    } else if (_.isNaN(amount)) {
+    } else if (_.isNaN(Number(amount))) {
       amount = this.state.amount;
     }
     this.setState({amount});
