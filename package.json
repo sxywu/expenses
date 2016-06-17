@@ -4,8 +4,8 @@
   "dependencies": {
     "flux": "^2.0.1",
     "react": "^0.13.0",
-    "d3": "*",
-    "lodash": "*",
+    "d3": "^3.5.17",
+    "lodash": "^4.13.1",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0"
   },
