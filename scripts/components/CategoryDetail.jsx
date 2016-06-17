@@ -14,7 +14,7 @@ var CategoryDetail = React.createClass({
     category = AppCalculationUtils.calculateCategory(category, this.props.expenses);
     var expenses = _.chain(this.props.expenses)
       .filter((expense) => {
-        return _.contains(expense.categories, category.id);
+        return _.includes(expense.categories, category.id);
       }).map((expense) => {
         return (
           <div className="table-row">
